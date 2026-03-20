@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { discordPlugin } from "../../extensions/discord/src/channel.js";
-import { feishuPlugin } from "../../extensions/feishu/src/channel.js";
-import { telegramPlugin } from "../../extensions/telegram/src/channel.js";
+import { discordPlugin } from "../../native-plugins/discord/src/channel.js";
+import { feishuPlugin } from "../../native-plugins/feishu/src/channel.js";
+import { telegramPlugin } from "../../native-plugins/telegram/src/channel.js";
 import { resolveAgentWorkspaceDir } from "../agents/agent-scope.js";
 import type { OpenClawConfig } from "../config/config.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";

@@ -5,26 +5,26 @@ import { afterEach, beforeEach, describe, expect, expectTypeOf, it } from "vites
 import {
   listDiscordDirectoryGroupsFromConfig,
   listDiscordDirectoryPeersFromConfig,
-} from "../../../extensions/discord/src/directory-config.js";
-import type { DiscordProbe } from "../../../extensions/discord/src/probe.js";
-import type { DiscordTokenResolution } from "../../../extensions/discord/src/token.js";
-import type { IMessageProbe } from "../../../extensions/imessage/src/probe.js";
-import type { SignalProbe } from "../../../extensions/signal/src/probe.js";
+} from "../../../native-plugins/discord/src/directory-config.js";
+import type { DiscordProbe } from "../../../native-plugins/discord/src/probe.js";
+import type { DiscordTokenResolution } from "../../../native-plugins/discord/src/token.js";
+import type { IMessageProbe } from "../../../native-plugins/imessage/src/probe.js";
+import type { SignalProbe } from "../../../native-plugins/signal/src/probe.js";
 import {
   listSlackDirectoryGroupsFromConfig,
   listSlackDirectoryPeersFromConfig,
-} from "../../../extensions/slack/src/directory-config.js";
-import type { SlackProbe } from "../../../extensions/slack/src/probe.js";
+} from "../../../native-plugins/slack/src/directory-config.js";
+import type { SlackProbe } from "../../../native-plugins/slack/src/probe.js";
 import {
   listTelegramDirectoryGroupsFromConfig,
   listTelegramDirectoryPeersFromConfig,
-} from "../../../extensions/telegram/src/directory-config.js";
-import type { TelegramProbe } from "../../../extensions/telegram/src/probe.js";
-import type { TelegramTokenResolution } from "../../../extensions/telegram/src/token.js";
+} from "../../../native-plugins/telegram/src/directory-config.js";
+import type { TelegramProbe } from "../../../native-plugins/telegram/src/probe.js";
+import type { TelegramTokenResolution } from "../../../native-plugins/telegram/src/token.js";
 import {
   listWhatsAppDirectoryGroupsFromConfig,
   listWhatsAppDirectoryPeersFromConfig,
-} from "../../../extensions/whatsapp/src/directory-config.js";
+} from "../../../native-plugins/whatsapp/src/directory-config.js";
 import type { OpenClawConfig } from "../../config/config.js";
 import type { LineProbeResult } from "../../line/types.js";
 import { setActivePluginRegistry } from "../../plugins/runtime.js";
@@ -162,14 +162,14 @@ describe("channel plugin catalog", () => {
 
   it("preserves plugin ids when they differ from channel ids", () => {
     const stateDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-channel-catalog-state-"));
-    const pluginDir = path.join(stateDir, "extensions", "demo-channel-plugin");
+    const pluginDir = path.join(stateDir, "plugins", "demo-channel-plugin");
     fs.mkdirSync(pluginDir, { recursive: true });
     fs.writeFileSync(
       path.join(pluginDir, "package.json"),
       JSON.stringify({
         name: "@vendor/demo-channel-plugin",
         openclaw: {
-          extensions: ["./index.js"],
+          plugins: ["./index.js"],
           channel: {
             id: "demo-channel",
             label: "Demo Channel",
@@ -282,7 +282,7 @@ describe("channel plugin catalog", () => {
 
   it("includes bundled metadata-only channel entries even when the runtime entrypoint is omitted", () => {
     const packageRoot = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-bundled-catalog-"));
-    const bundledDir = path.join(packageRoot, "dist", "extensions", "whatsapp");
+    const bundledDir = path.join(packageRoot, "dist", "native-plugins", "whatsapp");
     fs.mkdirSync(bundledDir, { recursive: true });
     fs.writeFileSync(
       path.join(packageRoot, "package.json"),
@@ -294,7 +294,7 @@ describe("channel plugin catalog", () => {
       JSON.stringify({
         name: "@openclaw/whatsapp",
         openclaw: {
-          extensions: ["./index.js"],
+          plugins: ["./index.js"],
           channel: {
             id: "whatsapp",
             label: "WhatsApp",
@@ -320,7 +320,7 @@ describe("channel plugin catalog", () => {
     const entry = listChannelPluginCatalogEntries({
       env: {
         ...process.env,
-        OPENCLAW_BUNDLED_PLUGINS_DIR: path.join(packageRoot, "dist", "extensions"),
+        OPENCLAW_BUNDLED_PLUGINS_DIR: path.join(packageRoot, "dist", "native-plugins"),
       },
     }).find((item) => item.id === "whatsapp");
 

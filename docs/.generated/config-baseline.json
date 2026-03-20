@@ -57471,7 +57471,7 @@
         "storage"
       ],
       "label": "Plugin Install Path",
-      "help": "Resolved install directory (usually ~/.openclaw/extensions/<id>).",
+      "help": "Resolved install directory (usually ~/.openclaw/native-plugins/<id>).",
       "hasChildren": false
     },
     {

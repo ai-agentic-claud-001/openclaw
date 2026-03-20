@@ -17,10 +17,10 @@ import {
 } from "./self-hosted-provider-defaults.js";
 import { SGLANG_DEFAULT_BASE_URL, SGLANG_PROVIDER_LABEL } from "./sglang-defaults.js";
 import { VLLM_DEFAULT_BASE_URL, VLLM_PROVIDER_LABEL } from "./vllm-defaults.js";
-export { buildHuggingfaceProvider } from "../../extensions/huggingface/provider-catalog.js";
-export { buildKilocodeProviderWithDiscovery } from "../../extensions/kilocode/provider-catalog.js";
-export { buildVeniceProvider } from "../../extensions/venice/provider-catalog.js";
-export { buildVercelAiGatewayProvider } from "../../extensions/vercel-ai-gateway/provider-catalog.js";
+export { buildHuggingfaceProvider } from "../../native-plugins/huggingface/provider-catalog.js";
+export { buildKilocodeProviderWithDiscovery } from "../../native-plugins/kilocode/provider-catalog.js";
+export { buildVeniceProvider } from "../../native-plugins/venice/provider-catalog.js";
+export { buildVercelAiGatewayProvider } from "../../native-plugins/vercel-ai-gateway/provider-catalog.js";
 
 export { resolveOllamaApiBase } from "./ollama-models.js";
 

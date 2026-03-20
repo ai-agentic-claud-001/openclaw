@@ -538,7 +538,7 @@ export async function startGatewayServer(
       issue: matrixInstallPathIssue,
       pluginLabel: "Matrix",
       defaultInstallCommand: "openclaw plugins install @openclaw/matrix",
-      repoInstallCommand: "openclaw plugins install ./extensions/matrix",
+      repoInstallCommand: "openclaw plugins install ./native-plugins/matrix",
       formatCommand: formatCliCommand,
     });
     log.warn(

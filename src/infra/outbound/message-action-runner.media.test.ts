@@ -78,9 +78,9 @@ async function expectSandboxMediaRewrite(params: {
 
 type MessageActionRunnerModule = typeof import("./message-action-runner.js");
 type WebMediaModule = typeof import("../../media/web-media.js");
-type SlackChannelModule = typeof import("../../../extensions/slack/src/channel.js");
+type SlackChannelModule = typeof import("../../../native-plugins/slack/src/channel.js");
 type RuntimeIndexModule = typeof import("../../plugins/runtime/index.js");
-type SlackRuntimeModule = typeof import("../../../extensions/slack/src/runtime.js");
+type SlackRuntimeModule = typeof import("../../../native-plugins/slack/src/runtime.js");
 
 let runMessageAction: MessageActionRunnerModule["runMessageAction"];
 let loadWebMedia: WebMediaModule["loadWebMedia"];
@@ -97,9 +97,9 @@ describe("runMessageAction media behavior", () => {
   beforeAll(async () => {
     ({ runMessageAction } = await import("./message-action-runner.js"));
     ({ loadWebMedia } = await import("../../media/web-media.js"));
-    ({ slackPlugin } = await import("../../../extensions/slack/src/channel.js"));
+    ({ slackPlugin } = await import("../../../native-plugins/slack/src/channel.js"));
     ({ createPluginRuntime } = await import("../../plugins/runtime/index.js"));
-    ({ setSlackRuntime } = await import("../../../extensions/slack/src/runtime.js"));
+    ({ setSlackRuntime } = await import("../../../native-plugins/slack/src/runtime.js"));
   });
 
   beforeEach(() => {

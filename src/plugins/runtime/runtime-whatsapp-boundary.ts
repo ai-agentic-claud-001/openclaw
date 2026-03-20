@@ -19,8 +19,8 @@ import {
 
 const WHATSAPP_PLUGIN_ID = "whatsapp";
 
-type WhatsAppLightModule = typeof import("../../../extensions/whatsapp/light-runtime-api.js");
-type WhatsAppHeavyModule = typeof import("../../../extensions/whatsapp/runtime-api.js");
+type WhatsAppLightModule = typeof import("../../../native-plugins/whatsapp/light-runtime-api.js");
+type WhatsAppHeavyModule = typeof import("../../../native-plugins/whatsapp/runtime-api.js");
 
 type WhatsAppPluginRecord = {
   origin: string;

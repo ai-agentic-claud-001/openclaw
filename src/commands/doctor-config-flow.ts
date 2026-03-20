@@ -374,7 +374,7 @@ async function collectMatrixInstallPathWarnings(cfg: OpenClawConfig): Promise<st
     issue,
     pluginLabel: "Matrix",
     defaultInstallCommand: "openclaw plugins install @openclaw/matrix",
-    repoInstallCommand: "openclaw plugins install ./extensions/matrix",
+    repoInstallCommand: "openclaw plugins install ./native-plugins/matrix",
     formatCommand: formatCliCommand,
   }).map((entry) => `- ${entry}`);
 }

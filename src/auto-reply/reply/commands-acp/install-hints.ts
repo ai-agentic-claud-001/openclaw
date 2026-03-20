@@ -13,7 +13,7 @@ export function resolveAcpInstallCommandHint(cfg: OpenClawConfig): string {
   }
   const backendId = resolveConfiguredAcpBackendId(cfg).toLowerCase();
   if (backendId === "acpx") {
-    const localPath = path.resolve(process.cwd(), "extensions/acpx");
+    const localPath = path.resolve(process.cwd(), "native-plugins/acpx");
     if (existsSync(localPath)) {
       return `openclaw plugins install ${localPath}`;
     }

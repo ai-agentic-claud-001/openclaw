@@ -1,6 +1,6 @@
 import path from "node:path";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { markdownToSignalTextChunks } from "../../../extensions/signal/src/format.js";
+import { markdownToSignalTextChunks } from "../../../native-plugins/signal/src/format.js";
 import {
   signalOutbound,
   telegramOutbound,

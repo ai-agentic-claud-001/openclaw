@@ -441,7 +441,7 @@ describe("syncPluginsForUpdateChannel", () => {
           "feishu",
           {
             pluginId: "feishu",
-            localPath: "/app/extensions/feishu",
+            localPath: "/app/native-plugins/feishu",
             npmSpec: "@openclaw/feishu",
           },
         ],
@@ -452,12 +452,12 @@ describe("syncPluginsForUpdateChannel", () => {
       channel: "beta",
       config: {
         plugins: {
-          load: { paths: ["/app/extensions/feishu"] },
+          load: { paths: ["/app/native-plugins/feishu"] },
           installs: {
             feishu: {
               source: "path",
-              sourcePath: "/app/extensions/feishu",
-              installPath: "/app/extensions/feishu",
+              sourcePath: "/app/native-plugins/feishu",
+              installPath: "/app/native-plugins/feishu",
               spec: "@openclaw/feishu",
             },
           },
@@ -468,7 +468,7 @@ describe("syncPluginsForUpdateChannel", () => {
     expect(installPluginFromNpmSpecMock).not.toHaveBeenCalled();
     expect(result.changed).toBe(false);
     expect(result.summary.switchedToNpm).toEqual([]);
-    expect(result.config.plugins?.load?.paths).toEqual(["/app/extensions/feishu"]);
+    expect(result.config.plugins?.load?.paths).toEqual(["/app/native-plugins/feishu"]);
     expect(result.config.plugins?.installs?.feishu?.source).toBe("path");
   });
 
@@ -479,7 +479,7 @@ describe("syncPluginsForUpdateChannel", () => {
           "feishu",
           {
             pluginId: "feishu",
-            localPath: "/app/extensions/feishu",
+            localPath: "/app/native-plugins/feishu",
             npmSpec: "@openclaw/feishu",
           },
         ],
@@ -494,7 +494,7 @@ describe("syncPluginsForUpdateChannel", () => {
           installs: {
             feishu: {
               source: "path",
-              sourcePath: "/app/extensions/feishu",
+              sourcePath: "/app/native-plugins/feishu",
               installPath: "/tmp/old-feishu",
               spec: "@openclaw/feishu",
             },
@@ -504,11 +504,11 @@ describe("syncPluginsForUpdateChannel", () => {
     });
 
     expect(result.changed).toBe(true);
-    expect(result.config.plugins?.load?.paths).toEqual(["/app/extensions/feishu"]);
+    expect(result.config.plugins?.load?.paths).toEqual(["/app/native-plugins/feishu"]);
     expect(result.config.plugins?.installs?.feishu).toMatchObject({
       source: "path",
-      sourcePath: "/app/extensions/feishu",
-      installPath: "/app/extensions/feishu",
+      sourcePath: "/app/native-plugins/feishu",
+      installPath: "/app/native-plugins/feishu",
       spec: "@openclaw/feishu",
     });
     expect(installPluginFromNpmSpecMock).not.toHaveBeenCalled();

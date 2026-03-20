@@ -18,7 +18,7 @@
         "reason": "Rebuilds bundled config baselines through many channel schema subprocesses; keep out of the shared lane."
       },
       {
-        "file": "extensions/imessage/src/monitor.shutdown.unhandled-rejection.test.ts",
+        "file": "native-plugins/imessage/src/monitor.shutdown.unhandled-rejection.test.ts",
         "reason": "Touches process-level unhandledRejection listeners."
       }
     ],

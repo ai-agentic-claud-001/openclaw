@@ -59,7 +59,7 @@ function scanPluginSdkExtensionFacadeSmells(sourceFile, filePath) {
     ) {
       const specifier = node.moduleSpecifier.text;
       const resolvedPath = resolveSpecifier(specifier, filePath);
-      if (resolvedPath?.startsWith("extensions/")) {
+      if (resolvedPath?.startsWith("native-plugins/")) {
         pushEntry(entries, {
           category: "plugin-sdk-extension-facade",
           file: relativeFile,

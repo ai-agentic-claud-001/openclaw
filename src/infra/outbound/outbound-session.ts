@@ -1,23 +1,26 @@
-import { parseDiscordTarget } from "../../../extensions/discord/api.js";
-import { normalizeIMessageHandle, parseIMessageTarget } from "../../../extensions/imessage/api.js";
+import { parseDiscordTarget } from "../../../native-plugins/discord/api.js";
+import {
+  normalizeIMessageHandle,
+  parseIMessageTarget,
+} from "../../../native-plugins/imessage/api.js";
 import {
   looksLikeUuid,
   resolveSignalPeerId,
   resolveSignalRecipient,
   resolveSignalSender,
-} from "../../../extensions/signal/api.js";
+} from "../../../native-plugins/signal/api.js";
 import {
   createSlackWebClient,
   normalizeAllowListLower,
   parseSlackTarget,
   resolveSlackAccount,
-} from "../../../extensions/slack/api.js";
+} from "../../../native-plugins/slack/api.js";
 import {
   buildTelegramGroupPeerId,
   parseTelegramTarget,
   parseTelegramThreadId,
   resolveTelegramTargetChatType,
-} from "../../../extensions/telegram/api.js";
+} from "../../../native-plugins/telegram/api.js";
 import type { MsgContext } from "../../auto-reply/templating.js";
 import type { ChatType } from "../../channels/chat-type.js";
 import { getChannelPlugin } from "../../channels/plugins/index.js";

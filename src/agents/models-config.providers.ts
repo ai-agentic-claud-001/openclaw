@@ -1,8 +1,8 @@
 import {
   QIANFAN_BASE_URL,
   QIANFAN_DEFAULT_MODEL_ID,
-} from "../../extensions/qianfan/provider-catalog.js";
-import { XIAOMI_DEFAULT_MODEL_ID } from "../../extensions/xiaomi/provider-catalog.js";
+} from "../../native-plugins/qianfan/provider-catalog.js";
+import { XIAOMI_DEFAULT_MODEL_ID } from "../../native-plugins/xiaomi/provider-catalog.js";
 import type { OpenClawConfig } from "../config/config.js";
 import { coerceSecretRef, resolveSecretInputRef } from "../config/types.secrets.js";
 import { isRecord } from "../utils.js";
@@ -11,23 +11,23 @@ import { ensureAuthProfileStore, listProfilesForProvider } from "./auth-profiles
 import { discoverBedrockModels } from "./bedrock-discovery.js";
 import { normalizeGoogleModelId } from "./model-id-normalization.js";
 import { resolveOllamaApiBase } from "./models-config.providers.discovery.js";
-export { buildKimiCodingProvider } from "../../extensions/kimi-coding/provider-catalog.js";
-export { buildKilocodeProvider } from "../../extensions/kilocode/provider-catalog.js";
+export { buildKimiCodingProvider } from "../../native-plugins/kimi-coding/provider-catalog.js";
+export { buildKilocodeProvider } from "../../native-plugins/kilocode/provider-catalog.js";
 export {
   MODELSTUDIO_BASE_URL,
   MODELSTUDIO_DEFAULT_MODEL_ID,
   buildModelStudioProvider,
-} from "../../extensions/modelstudio/provider-catalog.js";
-export { buildNvidiaProvider } from "../../extensions/nvidia/provider-catalog.js";
+} from "../../native-plugins/modelstudio/provider-catalog.js";
+export { buildNvidiaProvider } from "../../native-plugins/nvidia/provider-catalog.js";
 export {
   QIANFAN_BASE_URL,
   QIANFAN_DEFAULT_MODEL_ID,
   buildQianfanProvider,
-} from "../../extensions/qianfan/provider-catalog.js";
+} from "../../native-plugins/qianfan/provider-catalog.js";
 export {
   XIAOMI_DEFAULT_MODEL_ID,
   buildXiaomiProvider,
-} from "../../extensions/xiaomi/provider-catalog.js";
+} from "../../native-plugins/xiaomi/provider-catalog.js";
 import {
   groupPluginDiscoveryProvidersByOrder,
   normalizePluginDiscoveryResult,

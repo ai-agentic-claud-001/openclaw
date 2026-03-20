@@ -10,11 +10,11 @@ const ANSI_ESCAPE_PATTERN = new RegExp(
 const GITHUB_ACTIONS_LOG_PREFIX_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z\s+/u;
 
 const COMPLETED_TEST_FILE_LINE_PATTERN =
-  /(?<file>(?:src|extensions|test|ui)\/\S+?\.(?:live\.test|e2e\.test|test)\.ts)\s+\(.*\)\s+(?<duration>\d+(?:\.\d+)?)(?<unit>ms|s)\s*$/;
+  /(?<file>(?:src|native-plugins|test|ui)\/\S+?\.(?:live\.test|e2e\.test|test)\.ts)\s+\(.*\)\s+(?<duration>\d+(?:\.\d+)?)(?<unit>ms|s)\s*$/;
 const MEMORY_TRACE_SUMMARY_PATTERN =
   /^\[test-parallel\]\[mem\] summary (?<lane>\S+) files=(?<files>\d+) peak=(?<peak>[0-9]+(?:\.[0-9]+)?(?:GiB|MiB|KiB)) totalDelta=(?<totalDelta>[+-]?[0-9]+(?:\.[0-9]+)?(?:GiB|MiB|KiB)) peakAt=(?<peakAt>\S+) top=(?<top>.*)$/u;
 const MEMORY_TRACE_TOP_ENTRY_PATTERN =
-  /^(?<file>(?:src|extensions|test|ui)\/\S+?\.(?:live\.test|e2e\.test|test)\.ts):(?<delta>[+-]?[0-9]+(?:\.[0-9]+)?(?:GiB|MiB|KiB))$/u;
+  /^(?<file>(?:src|native-plugins|test|ui)\/\S+?\.(?:live\.test|e2e\.test|test)\.ts):(?<delta>[+-]?[0-9]+(?:\.[0-9]+)?(?:GiB|MiB|KiB))$/u;
 
 const PS_COLUMNS = ["pid=", "ppid=", "rss=", "comm="];
 

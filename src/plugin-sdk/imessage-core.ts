@@ -17,5 +17,5 @@ export {
   parseChatTargetPrefixesOrThrow,
   resolveServicePrefixedAllowTarget,
   resolveServicePrefixedTarget,
-} from "../../extensions/imessage/api.js";
-export type { ParsedChatTarget } from "../../extensions/imessage/api.js";
+} from "../../native-plugins/imessage/api.js";
+export type { ParsedChatTarget } from "../../native-plugins/imessage/api.js";

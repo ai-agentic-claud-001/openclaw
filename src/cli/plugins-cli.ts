@@ -554,7 +554,7 @@ async function runPluginInstallCommand(params: {
 export function registerPluginsCli(program: Command) {
   const plugins = program
     .command("plugins")
-    .description("Manage OpenClaw plugins and extensions")
+    .description("Manage OpenClaw plugins and native plugins")
     .addHelpText(
       "after",
       () =>
@@ -933,7 +933,7 @@ export function registerPluginsCli(program: Command) {
     .action(async (id: string, opts: PluginUninstallOptions) => {
       const cfg = loadConfig();
       const report = buildPluginStatusReport({ config: cfg });
-      const extensionsDir = path.join(resolveStateDir(process.env, os.homedir), "extensions");
+      const pluginsDir = path.join(resolveStateDir(process.env, os.homedir), "plugins");
       const keepFiles = Boolean(opts.keepFiles || opts.keepConfig);
 
       if (opts.keepConfig) {
@@ -988,7 +988,7 @@ export function registerPluginsCli(program: Command) {
             pluginId,
             hasInstall,
             installRecord: install,
-            extensionsDir,
+            extensionsDir: pluginsDir,
           })
         : null;
       if (deleteTarget) {
@@ -1018,7 +1018,7 @@ export function registerPluginsCli(program: Command) {
         config: cfg,
         pluginId,
         deleteFiles: !keepFiles,
-        extensionsDir,
+        extensionsDir: pluginsDir,
       });
 
       if (!result.ok) {

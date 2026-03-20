@@ -5,14 +5,17 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import {
-  collectBundledExtensionManifestErrors,
-  type BundledExtension,
-  type ExtensionPackageJson as PackageJson,
-} from "./lib/bundled-extension-manifest.ts";
+  collectBundledNativePluginManifestErrors,
+  type BundledNativePlugin,
+  type NativePluginPackageJson as PackageJson,
+} from "./lib/bundled-native-plugin-manifest.ts";
 import { listPluginSdkDistArtifacts } from "./lib/plugin-sdk-entries.mjs";
 import { sparkleBuildFloorsFromShortVersion, type SparkleBuildFloors } from "./sparkle-build.ts";
 
-export { collectBundledExtensionManifestErrors } from "./lib/bundled-extension-manifest.ts";
+export {
+  collectBundledExtensionManifestErrors,
+  collectBundledNativePluginManifestErrors,
+} from "./lib/bundled-native-plugin-manifest.ts";
 
 type PackFile = { path: string };
 type PackResult = { files?: PackFile[]; filename?: string; unpackedSize?: number };
@@ -33,14 +36,14 @@ const appcastPath = resolve("appcast.xml");
 const laneBuildMin = 1_000_000_000;
 const laneFloorAdoptionDateKey = 20260227;
 
-function collectBundledExtensions(): BundledExtension[] {
-  const extensionsDir = resolve("extensions");
-  const entries = readdirSync(extensionsDir, { withFileTypes: true }).filter((entry) =>
+function collectBundledNativePlugins(): BundledNativePlugin[] {
+  const nativePluginsDir = resolve("native-plugins");
+  const entries = readdirSync(nativePluginsDir, { withFileTypes: true }).filter((entry) =>
     entry.isDirectory(),
   );
 
   return entries.flatMap((entry) => {
-    const packagePath = join(extensionsDir, entry.name, "package.json");
+    const packagePath = join(nativePluginsDir, entry.name, "package.json");
     try {
       return [
         {
@@ -54,11 +57,11 @@ function collectBundledExtensions(): BundledExtension[] {
   });
 }
 
-function checkBundledExtensionMetadata() {
-  const extensions = collectBundledExtensions();
-  const manifestErrors = collectBundledExtensionManifestErrors(extensions);
+function checkBundledNativePluginMetadata() {
+  const nativePlugins = collectBundledNativePlugins();
+  const manifestErrors = collectBundledNativePluginManifestErrors(nativePlugins);
   if (manifestErrors.length > 0) {
-    console.error("release-check: bundled extension manifest validation failed:");
+    console.error("release-check: bundled native plugin manifest validation failed:");
     for (const error of manifestErrors) {
       console.error(`  - ${error}`);
     }
@@ -77,7 +80,7 @@ function runPackDry(): PackResult[] {
 
 export function collectForbiddenPackPaths(paths: Iterable<string>): string[] {
   const isAllowedBundledPluginNodeModulesPath = (path: string) =>
-    /^dist\/extensions\/[^/]+\/node_modules\//.test(path);
+    /^dist\/native-plugins\/[^/]+\/node_modules\//.test(path);
   return [...paths]
     .filter(
       (path) =>
@@ -101,7 +104,7 @@ function formatPackUnpackedSizeBudgetError(params: {
 }): string {
   return [
     `${params.label} unpackedSize ${params.unpackedSize} bytes (${formatMiB(params.unpackedSize)}) exceeds budget ${npmPackUnpackedSizeBudgetBytes} bytes (${formatMiB(npmPackUnpackedSizeBudgetBytes)}).`,
-    "Investigate duplicate channel shims, copied extension trees, or other accidental pack bloat before release.",
+    "Investigate duplicate channel shims, copied native plugin trees, or other accidental pack bloat before release.",
   ].join(" ");
 }
 
@@ -288,7 +291,7 @@ async function checkPluginSdkExports() {
 async function main() {
   checkAppcastSparkleVersions();
   await checkPluginSdkExports();
-  checkBundledExtensionMetadata();
+  checkBundledNativePluginMetadata();
 
   const results = runPackDry();
   const files = results.flatMap((entry) => entry.files ?? []);

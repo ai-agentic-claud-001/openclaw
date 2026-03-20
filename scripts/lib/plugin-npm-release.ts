@@ -9,6 +9,7 @@ export type PluginPackageJson = {
   version?: string;
   private?: boolean;
   openclaw?: {
+    plugins?: string[];
     extensions?: string[];
     install?: {
       npmSpec?: string;
@@ -156,7 +157,7 @@ export function collectPublishablePluginPackageErrors(
   const errors: string[] = [];
   const packageName = packageJson.name?.trim() ?? "";
   const packageVersion = packageJson.version?.trim() ?? "";
-  const extensions = packageJson.openclaw?.extensions ?? [];
+  const plugins = packageJson.openclaw?.plugins ?? packageJson.openclaw?.extensions ?? [];
 
   if (!packageName.startsWith("@openclaw/")) {
     errors.push(
@@ -173,11 +174,11 @@ export function collectPublishablePluginPackageErrors(
       `package.json version must match YYYY.M.D or YYYY.M.D-beta.N; found "${packageVersion}".`,
     );
   }
-  if (!Array.isArray(extensions) || extensions.length === 0) {
-    errors.push("openclaw.extensions must contain at least one entry.");
+  if (!Array.isArray(plugins) || plugins.length === 0) {
+    errors.push("openclaw.plugins must contain at least one entry.");
   }
-  if (extensions.some((entry) => typeof entry !== "string" || !entry.trim())) {
-    errors.push("openclaw.extensions must contain only non-empty strings.");
+  if (plugins.some((entry) => typeof entry !== "string" || !entry.trim())) {
+    errors.push("openclaw.plugins must contain only non-empty strings.");
   }
 
   return errors;
@@ -186,8 +187,8 @@ export function collectPublishablePluginPackageErrors(
 export function collectPublishablePluginPackages(
   rootDir = resolve("."),
 ): PublishablePluginPackage[] {
-  const extensionsDir = join(rootDir, "extensions");
-  const dirs = readdirSync(extensionsDir, { withFileTypes: true }).filter((entry) =>
+  const nativePluginsDir = join(rootDir, "native-plugins");
+  const dirs = readdirSync(nativePluginsDir, { withFileTypes: true }).filter((entry) =>
     entry.isDirectory(),
   );
 
@@ -195,8 +196,8 @@ export function collectPublishablePluginPackages(
   const validationErrors: string[] = [];
 
   for (const dir of dirs) {
-    const packageDir = join("extensions", dir.name);
-    const absolutePackageDir = join(extensionsDir, dir.name);
+    const packageDir = join("native-plugins", dir.name);
+    const absolutePackageDir = join(nativePluginsDir, dir.name);
     const packageJsonPath = join(absolutePackageDir, "package.json");
     let packageJson: PluginPackageJson;
     try {
@@ -282,7 +283,7 @@ export function collectChangedExtensionIdsFromPaths(paths: readonly string[]): s
 
   for (const path of paths) {
     const normalized = path.trim().replaceAll("\\", "/");
-    const match = /^extensions\/([^/]+)\//.exec(normalized);
+    const match = /^native-plugins\/([^/]+)\//.exec(normalized);
     if (match?.[1]) {
       extensionIds.add(match[1]);
     }
@@ -308,7 +309,7 @@ export function collectChangedExtensionIdsFromGitRange(params: {
 
   const changedPaths = execFileSync(
     "git",
-    ["diff", "--name-only", "--diff-filter=ACMR", baseRef, headRef, "--", "extensions"],
+    ["diff", "--name-only", "--diff-filter=ACMR", baseRef, headRef, "--", "native-plugins"],
     {
       cwd: rootDir,
       encoding: "utf8",

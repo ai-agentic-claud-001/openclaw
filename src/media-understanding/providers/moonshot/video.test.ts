@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { describeMoonshotVideo } from "../../../../extensions/moonshot/media-understanding-provider.js";
+import { describeMoonshotVideo } from "../../../../native-plugins/moonshot/media-understanding-provider.js";
 import {
   createRequestCaptureJsonFetch,
   installPinnedHostnameTestHooks,

@@ -95,7 +95,7 @@ export const SUB_CLI_DESCRIPTORS = [
   },
   {
     name: "plugins",
-    description: "Manage OpenClaw plugins and extensions",
+    description: "Manage OpenClaw plugins and native plugins",
     hasSubcommands: true,
   },
   {

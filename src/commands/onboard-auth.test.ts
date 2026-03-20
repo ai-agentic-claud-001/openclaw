@@ -6,35 +6,38 @@ import { afterEach, describe, expect, it } from "vitest";
 import {
   applyMinimaxApiConfig,
   applyMinimaxApiProviderConfig,
-} from "../../extensions/minimax/onboard.js";
+} from "../../native-plugins/minimax/onboard.js";
 import {
   applyMistralConfig,
   applyMistralProviderConfig,
-} from "../../extensions/mistral/onboard.js";
+} from "../../native-plugins/mistral/onboard.js";
 import {
   applyOpencodeGoConfig,
   applyOpencodeGoProviderConfig,
-} from "../../extensions/opencode-go/onboard.js";
+} from "../../native-plugins/opencode-go/onboard.js";
 import {
   applyOpencodeZenConfig,
   applyOpencodeZenProviderConfig,
-} from "../../extensions/opencode/onboard.js";
+} from "../../native-plugins/opencode/onboard.js";
 import {
   applyOpenrouterConfig,
   applyOpenrouterProviderConfig,
-} from "../../extensions/openrouter/onboard.js";
+} from "../../native-plugins/openrouter/onboard.js";
 import {
   applySyntheticConfig,
   applySyntheticProviderConfig,
   SYNTHETIC_DEFAULT_MODEL_REF,
-} from "../../extensions/synthetic/onboard.js";
+} from "../../native-plugins/synthetic/onboard.js";
 import {
   applyXaiConfig,
   applyXaiProviderConfig,
   XAI_DEFAULT_MODEL_REF,
-} from "../../extensions/xai/onboard.js";
-import { applyXiaomiConfig, applyXiaomiProviderConfig } from "../../extensions/xiaomi/onboard.js";
-import { applyZaiConfig, applyZaiProviderConfig } from "../../extensions/zai/onboard.js";
+} from "../../native-plugins/xai/onboard.js";
+import {
+  applyXiaomiConfig,
+  applyXiaomiProviderConfig,
+} from "../../native-plugins/xiaomi/onboard.js";
+import { applyZaiConfig, applyZaiProviderConfig } from "../../native-plugins/zai/onboard.js";
 import { SYNTHETIC_DEFAULT_MODEL_ID } from "../agents/synthetic-models.js";
 import type { OpenClawConfig } from "../config/config.js";
 import {

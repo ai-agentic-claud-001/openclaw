@@ -14,7 +14,7 @@ import type { OpenClawPluginApi, ProviderPlugin } from "../types.js";
 type LoginOpenAICodexOAuth =
   (typeof import("openclaw/plugin-sdk/provider-auth-login"))["loginOpenAICodexOAuth"];
 type LoginQwenPortalOAuth =
-  (typeof import("../../../extensions/qwen-portal-auth/oauth.js"))["loginQwenPortalOAuth"];
+  (typeof import("../../../native-plugins/qwen-portal-auth/oauth.js"))["loginQwenPortalOAuth"];
 type GithubCopilotLoginCommand =
   (typeof import("openclaw/plugin-sdk/provider-auth-login"))["githubCopilotLoginCommand"];
 type CreateVpsAwareHandlers =
@@ -48,13 +48,13 @@ vi.mock("openclaw/plugin-sdk/agent-runtime", async (importOriginal) => {
   };
 });
 
-vi.mock("../../../extensions/qwen-portal-auth/oauth.js", () => ({
+vi.mock("../../../native-plugins/qwen-portal-auth/oauth.js", () => ({
   loginQwenPortalOAuth: loginQwenPortalOAuthMock,
 }));
 
-import githubCopilotPlugin from "../../../extensions/github-copilot/index.js";
-import openAIPlugin from "../../../extensions/openai/index.js";
-import qwenPortalPlugin from "../../../extensions/qwen-portal-auth/index.js";
+import githubCopilotPlugin from "../../../native-plugins/github-copilot/index.js";
+import openAIPlugin from "../../../native-plugins/openai/index.js";
+import qwenPortalPlugin from "../../../native-plugins/qwen-portal-auth/index.js";
 
 function registerProviders(...plugins: Array<{ register(api: OpenClawPluginApi): void }>) {
   const captured = createCapturedPluginRegistration();

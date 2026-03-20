@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { __testing as braveTesting } from "../../../extensions/brave/src/brave-web-search-provider.js";
-import { __testing as moonshotTesting } from "../../../extensions/moonshot/src/kimi-web-search-provider.js";
-import { __testing as perplexityTesting } from "../../../extensions/perplexity/web-search-provider.js";
-import { __testing as xaiTesting } from "../../../extensions/xai/src/grok-web-search-provider.js";
+import { __testing as braveTesting } from "../../../native-plugins/brave/src/brave-web-search-provider.js";
+import { __testing as moonshotTesting } from "../../../native-plugins/moonshot/src/kimi-web-search-provider.js";
+import { __testing as perplexityTesting } from "../../../native-plugins/perplexity/web-search-provider.js";
+import { __testing as xaiTesting } from "../../../native-plugins/xai/src/grok-web-search-provider.js";
 import {
   buildUnsupportedSearchFilterResponse,
   mergeScopedSearchConfig,

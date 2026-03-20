@@ -102,7 +102,7 @@ For local paths and archives, OpenClaw auto-detects:
   component layout)
 - Cursor-compatible bundles (`.cursor-plugin/plugin.json`)
 
-Compatible bundles install into the normal extensions root and participate in
+Compatible bundles install into the normal plugins root and participate in
 the same list/info/enable/disable flow. Today, bundle skills, Claude
 command-skills, Claude `settings.json` defaults, Cursor command-skills, and compatible Codex hook
 directories are supported; other detected bundle capabilities are shown in
@@ -130,7 +130,7 @@ the plugin allowlist, and linked `plugins.load.paths` entries when applicable.
 For active memory plugins, the memory slot resets to `memory-core`.
 
 By default, uninstall also removes the plugin install directory under the active
-state dir extensions root (`$OPENCLAW_STATE_DIR/extensions/<id>`). Use
+state dir plugins root (`$OPENCLAW_STATE_DIR/plugins/<id>`). Use
 `--keep-files` to keep files on disk.
 
 `--keep-config` is supported as a deprecated alias for `--keep-files`.

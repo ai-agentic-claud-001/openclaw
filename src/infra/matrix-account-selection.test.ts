@@ -5,7 +5,7 @@ import {
   requiresExplicitMatrixDefaultAccount,
   resolveConfiguredMatrixAccountIds,
   resolveMatrixDefaultOrOnlyAccountId,
-} from "../../extensions/matrix/runtime-api.js";
+} from "../../native-plugins/matrix/runtime-api.js";
 import type { OpenClawConfig } from "../config/config.js";
 
 describe("matrix account selection", () => {

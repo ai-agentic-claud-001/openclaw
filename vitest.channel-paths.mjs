@@ -1,10 +1,10 @@
 export const channelTestRoots = [
-  "extensions/telegram",
-  "extensions/discord",
-  "extensions/whatsapp",
-  "extensions/slack",
-  "extensions/signal",
-  "extensions/imessage",
+  "native-plugins/telegram",
+  "native-plugins/discord",
+  "native-plugins/whatsapp",
+  "native-plugins/slack",
+  "native-plugins/signal",
+  "native-plugins/imessage",
   "src/browser",
   "src/line",
 ];

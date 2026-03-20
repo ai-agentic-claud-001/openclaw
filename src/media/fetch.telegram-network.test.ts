@@ -21,8 +21,8 @@ vi.mock("undici", () => ({
   fetch: undiciMocks.fetch,
 }));
 
-let resolveTelegramTransport: typeof import("../../extensions/telegram/src/fetch.js").resolveTelegramTransport;
-let shouldRetryTelegramTransportFallback: typeof import("../../extensions/telegram/src/fetch.js").shouldRetryTelegramTransportFallback;
+let resolveTelegramTransport: typeof import("../../native-plugins/telegram/src/fetch.js").resolveTelegramTransport;
+let shouldRetryTelegramTransportFallback: typeof import("../../native-plugins/telegram/src/fetch.js").shouldRetryTelegramTransportFallback;
 let fetchRemoteMedia: typeof import("./fetch.js").fetchRemoteMedia;
 
 describe("fetchRemoteMedia telegram network policy", () => {
@@ -31,7 +31,7 @@ describe("fetchRemoteMedia telegram network policy", () => {
   beforeEach(async () => {
     vi.resetModules();
     ({ resolveTelegramTransport, shouldRetryTelegramTransportFallback } =
-      await import("../../extensions/telegram/src/fetch.js"));
+      await import("../../native-plugins/telegram/src/fetch.js"));
     ({ fetchRemoteMedia } = await import("./fetch.js"));
   });
 
@@ -99,7 +99,7 @@ describe("fetchRemoteMedia telegram network policy", () => {
   });
 
   it("keeps explicit proxy routing for file downloads", async () => {
-    const { makeProxyFetch } = await import("../../extensions/telegram/src/proxy.js");
+    const { makeProxyFetch } = await import("../../native-plugins/telegram/src/proxy.js");
     const lookupFn = vi.fn(async () => [
       { address: "149.154.167.220", family: 4 },
     ]) as unknown as LookupFn;

@@ -29,7 +29,7 @@ function listExtensionFiles(): {
   adapterEntrypoints: string[];
   inlineChannelEntrypoints: string[];
 } {
-  const extensionsRoot = path.join(repoRoot, "extensions");
+  const extensionsRoot = path.join(repoRoot, "native-plugins");
   const adapterEntrypoints: string[] = [];
   const inlineChannelEntrypoints: string[] = [];
 
@@ -40,7 +40,7 @@ function listExtensionFiles(): {
     const srcDir = path.join(extensionsRoot, entry.name, "src");
     const outboundPath = path.join(srcDir, "outbound.ts");
     if (existsSync(outboundPath)) {
-      adapterEntrypoints.push(toPosix(path.join("extensions", entry.name, "src/outbound.ts")));
+      adapterEntrypoints.push(toPosix(path.join("native-plugins", entry.name, "src/outbound.ts")));
     }
 
     const channelPath = path.join(srcDir, "channel.ts");
@@ -49,7 +49,9 @@ function listExtensionFiles(): {
     }
     const source = readFileSync(channelPath, "utf8");
     if (source.includes("outbound:")) {
-      inlineChannelEntrypoints.push(toPosix(path.join("extensions", entry.name, "src/channel.ts")));
+      inlineChannelEntrypoints.push(
+        toPosix(path.join("native-plugins", entry.name, "src/channel.ts")),
+      );
     }
   }
 
@@ -61,10 +63,10 @@ function listExtensionFiles(): {
 
 function listHighRiskRuntimeCfgFiles(): string[] {
   return [
-    "extensions/telegram/src/action-runtime.ts",
-    "extensions/discord/src/monitor/reply-delivery.ts",
-    "extensions/discord/src/monitor/thread-bindings.discord-api.ts",
-    "extensions/discord/src/monitor/thread-bindings.manager.ts",
+    "native-plugins/telegram/src/action-runtime.ts",
+    "native-plugins/discord/src/monitor/reply-delivery.ts",
+    "native-plugins/discord/src/monitor/thread-bindings.discord-api.ts",
+    "native-plugins/discord/src/monitor/thread-bindings.manager.ts",
   ];
 }
 

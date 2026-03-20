@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { mattermostPlugin } from "../../../extensions/mattermost/src/channel.js";
-import { slackPlugin } from "../../../extensions/slack/src/channel.js";
+import { mattermostPlugin } from "../../../native-plugins/mattermost/src/channel.js";
+import { slackPlugin } from "../../../native-plugins/slack/src/channel.js";
 import {
   discordOutbound,
   imessageOutbound,
@@ -32,34 +32,34 @@ const mocks = vi.hoisted(() => ({
   deliverOutboundPayloads: vi.fn(),
 }));
 
-vi.mock("../../../extensions/discord/src/send.js", () => ({
+vi.mock("../../../native-plugins/discord/src/send.js", () => ({
   sendMessageDiscord: mocks.sendMessageDiscord,
 }));
-vi.mock("../../../extensions/imessage/src/send.js", () => ({
+vi.mock("../../../native-plugins/imessage/src/send.js", () => ({
   sendMessageIMessage: mocks.sendMessageIMessage,
 }));
-vi.mock("../../../extensions/signal/src/send.js", () => ({
+vi.mock("../../../native-plugins/signal/src/send.js", () => ({
   sendMessageSignal: mocks.sendMessageSignal,
 }));
-vi.mock("../../../extensions/slack/src/send.js", () => ({
+vi.mock("../../../native-plugins/slack/src/send.js", () => ({
   sendMessageSlack: mocks.sendMessageSlack,
 }));
-vi.mock("../../../extensions/telegram/src/send.js", () => ({
+vi.mock("../../../native-plugins/telegram/src/send.js", () => ({
   sendMessageTelegram: mocks.sendMessageTelegram,
 }));
-vi.mock("../../../extensions/telegram/src/send.js", () => ({
+vi.mock("../../../native-plugins/telegram/src/send.js", () => ({
   sendMessageTelegram: mocks.sendMessageTelegram,
 }));
-vi.mock("../../../extensions/whatsapp/src/send.js", () => ({
+vi.mock("../../../native-plugins/whatsapp/src/send.js", () => ({
   sendMessageWhatsApp: mocks.sendMessageWhatsApp,
   sendPollWhatsApp: mocks.sendMessageWhatsApp,
 }));
-vi.mock("../../../extensions/discord/src/send.js", () => ({
+vi.mock("../../../native-plugins/discord/src/send.js", () => ({
   sendMessageDiscord: mocks.sendMessageDiscord,
   sendPollDiscord: mocks.sendMessageDiscord,
   sendWebhookMessageDiscord: vi.fn(),
 }));
-vi.mock("../../../extensions/mattermost/src/mattermost/send.js", () => ({
+vi.mock("../../../native-plugins/mattermost/src/mattermost/send.js", () => ({
   sendMessageMattermost: mocks.sendMessageMattermost,
 }));
 vi.mock("../../infra/outbound/deliver-runtime.js", async () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { transcribeOpenAiAudio } from "../../../../extensions/openai/media-understanding-provider.js";
+import { transcribeOpenAiAudio } from "../../../../native-plugins/openai/media-understanding-provider.js";
 import {
   createAuthCaptureJsonFetch,
   createRequestCaptureJsonFetch,

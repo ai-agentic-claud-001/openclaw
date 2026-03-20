@@ -4,8 +4,8 @@ const rootEntries = [
   "src/entry.ts!",
   "src/cli/daemon-cli.ts!",
   "src/infra/warning-filter.ts!",
-  "extensions/telegram/src/audit.ts!",
-  "extensions/telegram/src/token.ts!",
+  "native-plugins/telegram/src/audit.ts!",
+  "native-plugins/telegram/src/token.ts!",
   "src/line/accounts.ts!",
   "src/line/send.ts!",
   "src/line/template-messages.ts!",
@@ -64,12 +64,12 @@ const config = {
     "src/gateway/live-tool-probe-utils.ts",
     "src/gateway/server.auth.shared.ts",
     "src/shared/text/assistant-visible-text.ts",
-    "extensions/telegram/src/bot/reply-threading.ts",
-    "extensions/telegram/src/draft-chunking.ts",
-    "extensions/msteams/src/conversation-store-memory.ts",
-    "extensions/msteams/src/polls-store-memory.ts",
-    "extensions/voice-call/src/providers/index.ts",
-    "extensions/voice-call/src/providers/tts-openai.ts",
+    "native-plugins/telegram/src/bot/reply-threading.ts",
+    "native-plugins/telegram/src/draft-chunking.ts",
+    "native-plugins/msteams/src/conversation-store-memory.ts",
+    "native-plugins/msteams/src/polls-store-memory.ts",
+    "native-plugins/voice-call/src/providers/index.ts",
+    "native-plugins/voice-call/src/providers/tts-openai.ts",
   ],
   workspaces: {
     ".": {
@@ -89,7 +89,7 @@ const config = {
       entry: ["index.js!", "scripts/postinstall.js!"],
       project: ["index.js!", "scripts/**/*.js!"],
     },
-    "extensions/*": {
+    "native-plugins/*": {
       entry: ["index.ts!"],
       project: ["index.ts!", "src/**/*.ts!"],
       ignoreDependencies: ["openclaw"],

@@ -3,7 +3,7 @@ import { resolveRepoRoot, resolveSourceRoots } from "./ts-guard-utils.mjs";
 
 export function createPairingGuardContext(importMetaUrl) {
   const repoRoot = resolveRepoRoot(importMetaUrl);
-  const sourceRoots = resolveSourceRoots(repoRoot, ["src", "extensions"]);
+  const sourceRoots = resolveSourceRoots(repoRoot, ["src", "native-plugins"]);
   return {
     repoRoot,
     sourceRoots,

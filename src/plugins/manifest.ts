@@ -254,6 +254,7 @@ export type OpenClawPackageStartup = {
 };
 
 export type OpenClawPackageManifest = {
+  plugins?: string[];
   extensions?: string[];
   setupEntry?: string;
   channel?: PluginPackageChannel;
@@ -268,10 +269,12 @@ export const DEFAULT_PLUGIN_ENTRY_CANDIDATES = [
   "index.cjs",
 ] as const;
 
-export type PackageExtensionResolution =
+export type PackagePluginResolution =
   | { status: "ok"; entries: string[] }
   | { status: "missing"; entries: [] }
   | { status: "empty"; entries: [] };
+
+export type PackageExtensionResolution = PackagePluginResolution;
 
 export type ManifestKey = typeof MANIFEST_KEY;
 
@@ -290,10 +293,11 @@ export function getPackageManifestMetadata(
   return manifest[MANIFEST_KEY];
 }
 
-export function resolvePackageExtensionEntries(
+export function resolvePackagePluginEntries(
   manifest: PackageManifest | undefined,
-): PackageExtensionResolution {
-  const raw = getPackageManifestMetadata(manifest)?.extensions;
+): PackagePluginResolution {
+  const metadata = getPackageManifestMetadata(manifest);
+  const raw = Array.isArray(metadata?.plugins) ? metadata.plugins : metadata?.extensions;
   if (!Array.isArray(raw)) {
     return { status: "missing", entries: [] };
   }
@@ -305,3 +309,5 @@ export function resolvePackageExtensionEntries(
   }
   return { status: "ok", entries };
 }
+
+export const resolvePackageExtensionEntries = resolvePackagePluginEntries;

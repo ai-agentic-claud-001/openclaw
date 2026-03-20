@@ -517,7 +517,7 @@ openclaw config set plugins.entries.acpx.enabled true
 Local workspace install during development:
 
 ```bash
-openclaw plugins install ./extensions/acpx
+openclaw plugins install ./native-plugins/acpx
 ```
 
 Then verify backend health:
@@ -530,7 +530,7 @@ Then verify backend health:
 
 By default, the acpx plugin (published as `@openclaw/acpx`) uses the plugin-local pinned binary:
 
-1. Command defaults to `extensions/acpx/node_modules/.bin/acpx`.
+1. Command defaults to `native-plugins/acpx/node_modules/.bin/acpx`.
 2. Expected version defaults to the extension pin.
 3. Startup registers ACP backend immediately as not-ready.
 4. A background ensure job verifies `acpx --version`.

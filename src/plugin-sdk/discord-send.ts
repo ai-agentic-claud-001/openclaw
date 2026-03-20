@@ -1,4 +1,4 @@
-import type { DiscordSendResult } from "../../extensions/discord/api.js";
+import type { DiscordSendResult } from "../../native-plugins/discord/api.js";
 import { attachChannelToResult } from "./channel-send-result.js";
 
 type DiscordSendOptionInput = {

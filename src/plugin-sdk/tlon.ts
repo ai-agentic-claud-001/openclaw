@@ -1,5 +1,5 @@
 // Narrow plugin-sdk surface for the bundled tlon plugin.
-// Keep this list additive and scoped to symbols used under extensions/tlon.
+// Keep this list additive and scoped to symbols used under native-plugins/tlon.
 
 import { createOptionalChannelSetupSurface } from "./channel-setup.js";
 

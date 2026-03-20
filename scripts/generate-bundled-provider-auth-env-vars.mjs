@@ -40,18 +40,18 @@ function normalizeProviderAuthEnvVars(providerAuthEnvVars) {
 
 export function collectBundledProviderAuthEnvVars(params = {}) {
   const repoRoot = path.resolve(params.repoRoot ?? process.cwd());
-  const extensionsRoot = path.join(repoRoot, "extensions");
-  if (!fs.existsSync(extensionsRoot)) {
+  const nativePluginsRoot = path.join(repoRoot, "native-plugins");
+  if (!fs.existsSync(nativePluginsRoot)) {
     return {};
   }
 
   const entries = new Map();
-  for (const dirent of fs.readdirSync(extensionsRoot, { withFileTypes: true })) {
+  for (const dirent of fs.readdirSync(nativePluginsRoot, { withFileTypes: true })) {
     if (!dirent.isDirectory()) {
       continue;
     }
 
-    const manifestPath = path.join(extensionsRoot, dirent.name, "openclaw.plugin.json");
+    const manifestPath = path.join(nativePluginsRoot, dirent.name, "openclaw.plugin.json");
     if (!fs.existsSync(manifestPath)) {
       continue;
     }

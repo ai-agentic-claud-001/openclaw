@@ -24,7 +24,7 @@ afterEach(() => {
 describe("stageBundledPluginRuntime", () => {
   it("stages bundled dist plugins as runtime wrappers and links staged dist node_modules", () => {
     const repoRoot = makeRepoRoot("openclaw-stage-bundled-runtime-");
-    const distPluginDir = path.join(repoRoot, "dist", "extensions", "diffs");
+    const distPluginDir = path.join(repoRoot, "dist", "native-plugins", "diffs");
     fs.mkdirSync(path.join(repoRoot, "dist"), { recursive: true });
     fs.mkdirSync(distPluginDir, { recursive: true });
     fs.mkdirSync(path.join(distPluginDir, "node_modules", "@pierre", "diffs"), {
@@ -39,10 +39,10 @@ describe("stageBundledPluginRuntime", () => {
 
     stageBundledPluginRuntime({ repoRoot });
 
-    const runtimePluginDir = path.join(repoRoot, "dist-runtime", "extensions", "diffs");
+    const runtimePluginDir = path.join(repoRoot, "dist-runtime", "native-plugins", "diffs");
     expect(fs.existsSync(path.join(runtimePluginDir, "index.js"))).toBe(true);
     expect(fs.readFileSync(path.join(runtimePluginDir, "index.js"), "utf8")).toContain(
-      "../../../dist/extensions/diffs/index.js",
+      "../../../dist/native-plugins/diffs/index.js",
     );
     expect(fs.lstatSync(path.join(runtimePluginDir, "node_modules")).isSymbolicLink()).toBe(true);
     expect(fs.realpathSync(path.join(runtimePluginDir, "node_modules"))).toBe(
@@ -53,23 +53,29 @@ describe("stageBundledPluginRuntime", () => {
 
   it("writes wrappers that forward plugin entry imports into canonical dist files", async () => {
     const repoRoot = makeRepoRoot("openclaw-stage-bundled-runtime-chunks-");
-    fs.mkdirSync(path.join(repoRoot, "dist", "extensions", "diffs"), { recursive: true });
+    fs.mkdirSync(path.join(repoRoot, "dist", "native-plugins", "diffs"), { recursive: true });
     fs.writeFileSync(
       path.join(repoRoot, "dist", "chunk-abc.js"),
       "export const value = 1;\n",
       "utf8",
     );
     fs.writeFileSync(
-      path.join(repoRoot, "dist", "extensions", "diffs", "index.js"),
+      path.join(repoRoot, "dist", "native-plugins", "diffs", "index.js"),
       "export { value } from '../../chunk-abc.js';\n",
       "utf8",
     );
 
     stageBundledPluginRuntime({ repoRoot });
 
-    const runtimeEntryPath = path.join(repoRoot, "dist-runtime", "extensions", "diffs", "index.js");
+    const runtimeEntryPath = path.join(
+      repoRoot,
+      "dist-runtime",
+      "native-plugins",
+      "diffs",
+      "index.js",
+    );
     expect(fs.readFileSync(runtimeEntryPath, "utf8")).toContain(
-      "../../../dist/extensions/diffs/index.js",
+      "../../../dist/native-plugins/diffs/index.js",
     );
     expect(fs.existsSync(path.join(repoRoot, "dist-runtime", "chunk-abc.js"))).toBe(false);
 
@@ -79,7 +85,7 @@ describe("stageBundledPluginRuntime", () => {
 
   it("keeps plugin command registration on the canonical dist graph when loaded from dist-runtime", async () => {
     const repoRoot = makeRepoRoot("openclaw-stage-bundled-runtime-commands-");
-    const distPluginDir = path.join(repoRoot, "dist", "extensions", "demo");
+    const distPluginDir = path.join(repoRoot, "dist", "native-plugins", "demo");
     const distCommandsDir = path.join(repoRoot, "dist", "plugins");
     fs.mkdirSync(distPluginDir, { recursive: true });
     fs.mkdirSync(distCommandsDir, { recursive: true });
@@ -136,7 +142,13 @@ describe("stageBundledPluginRuntime", () => {
 
     stageBundledPluginRuntime({ repoRoot });
 
-    const runtimeEntryPath = path.join(repoRoot, "dist-runtime", "extensions", "demo", "index.js");
+    const runtimeEntryPath = path.join(
+      repoRoot,
+      "dist-runtime",
+      "native-plugins",
+      "demo",
+      "index.js",
+    );
     const canonicalCommandsPath = path.join(repoRoot, "dist", "plugins", "commands.js");
 
     expect(fs.existsSync(path.join(repoRoot, "dist-runtime", "plugins", "commands.js"))).toBe(
@@ -186,15 +198,11 @@ describe("stageBundledPluginRuntime", () => {
 
   it("copies package metadata files but symlinks other non-js plugin artifacts into the runtime overlay", () => {
     const repoRoot = makeRepoRoot("openclaw-stage-bundled-runtime-assets-");
-    const distPluginDir = path.join(repoRoot, "dist", "extensions", "diffs");
+    const distPluginDir = path.join(repoRoot, "dist", "native-plugins", "diffs");
     fs.mkdirSync(path.join(distPluginDir, "assets"), { recursive: true });
     fs.writeFileSync(
       path.join(distPluginDir, "package.json"),
-      JSON.stringify(
-        { name: "@openclaw/diffs", openclaw: { extensions: ["./index.js"] } },
-        null,
-        2,
-      ),
+      JSON.stringify({ name: "@openclaw/diffs", openclaw: { plugins: ["./index.js"] } }, null, 2),
       "utf8",
     );
     fs.writeFileSync(path.join(distPluginDir, "openclaw.plugin.json"), "{}\n", "utf8");
@@ -205,28 +213,28 @@ describe("stageBundledPluginRuntime", () => {
     const runtimePackagePath = path.join(
       repoRoot,
       "dist-runtime",
-      "extensions",
+      "native-plugins",
       "diffs",
       "package.json",
     );
     const runtimeManifestPath = path.join(
       repoRoot,
       "dist-runtime",
-      "extensions",
+      "native-plugins",
       "diffs",
       "openclaw.plugin.json",
     );
     const runtimeAssetPath = path.join(
       repoRoot,
       "dist-runtime",
-      "extensions",
+      "native-plugins",
       "diffs",
       "assets",
       "info.txt",
     );
 
     expect(fs.lstatSync(runtimePackagePath).isSymbolicLink()).toBe(false);
-    expect(fs.readFileSync(runtimePackagePath, "utf8")).toContain('"extensions": [');
+    expect(fs.readFileSync(runtimePackagePath, "utf8")).toContain('"plugins": [');
     expect(fs.lstatSync(runtimeManifestPath).isSymbolicLink()).toBe(false);
     expect(fs.readFileSync(runtimeManifestPath, "utf8")).toBe("{}\n");
     expect(fs.lstatSync(runtimeAssetPath).isSymbolicLink()).toBe(true);
@@ -235,8 +243,8 @@ describe("stageBundledPluginRuntime", () => {
 
   it("preserves package metadata needed for bundled plugin discovery from dist-runtime", () => {
     const repoRoot = makeRepoRoot("openclaw-stage-bundled-runtime-discovery-");
-    const distPluginDir = path.join(repoRoot, "dist", "extensions", "demo");
-    const runtimeExtensionsDir = path.join(repoRoot, "dist-runtime", "extensions");
+    const distPluginDir = path.join(repoRoot, "dist", "native-plugins", "demo");
+    const runtimeExtensionsDir = path.join(repoRoot, "dist-runtime", "native-plugins");
     fs.mkdirSync(distPluginDir, { recursive: true });
     fs.writeFileSync(
       path.join(distPluginDir, "package.json"),
@@ -244,7 +252,7 @@ describe("stageBundledPluginRuntime", () => {
         {
           name: "@openclaw/demo",
           openclaw: {
-            extensions: ["./main.js"],
+            plugins: ["./main.js"],
             setupEntry: "./setup.js",
             startup: {
               deferConfiguredChannelFullLoadUntilAfterListen: true,
@@ -310,10 +318,10 @@ describe("stageBundledPluginRuntime", () => {
 
   it("removes stale runtime plugin directories that are no longer in dist", () => {
     const repoRoot = makeRepoRoot("openclaw-stage-bundled-runtime-stale-");
-    const staleRuntimeDir = path.join(repoRoot, "dist-runtime", "extensions", "stale");
+    const staleRuntimeDir = path.join(repoRoot, "dist-runtime", "native-plugins", "stale");
     fs.mkdirSync(staleRuntimeDir, { recursive: true });
     fs.writeFileSync(path.join(staleRuntimeDir, "index.js"), "stale\n", "utf8");
-    fs.mkdirSync(path.join(repoRoot, "dist", "extensions"), { recursive: true });
+    fs.mkdirSync(path.join(repoRoot, "dist", "native-plugins"), { recursive: true });
 
     stageBundledPluginRuntime({ repoRoot });
 
@@ -322,7 +330,7 @@ describe("stageBundledPluginRuntime", () => {
 
   it("removes dist-runtime when the built bundled plugin tree is absent", () => {
     const repoRoot = makeRepoRoot("openclaw-stage-bundled-runtime-missing-");
-    const runtimeRoot = path.join(repoRoot, "dist-runtime", "extensions", "diffs");
+    const runtimeRoot = path.join(repoRoot, "dist-runtime", "native-plugins", "diffs");
     fs.mkdirSync(runtimeRoot, { recursive: true });
 
     stageBundledPluginRuntime({ repoRoot });

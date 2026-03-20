@@ -132,10 +132,10 @@ src/agents/
 Channel-specific message action runtimes now live in the plugin-owned extension
 directories instead of under `src/agents/tools`, for example:
 
-- `extensions/discord/src/actions/runtime*.ts`
-- `extensions/slack/src/action-runtime.ts`
-- `extensions/telegram/src/action-runtime.ts`
-- `extensions/whatsapp/src/action-runtime.ts`
+- `native-plugins/discord/src/actions/runtime*.ts`
+- `native-plugins/slack/src/action-runtime.ts`
+- `native-plugins/telegram/src/action-runtime.ts`
+- `native-plugins/whatsapp/src/action-runtime.ts`
 
 ## Core Integration Flow
 

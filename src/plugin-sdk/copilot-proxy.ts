@@ -1,5 +1,5 @@
 // Narrow plugin-sdk surface for the bundled copilot-proxy plugin.
-// Keep this list additive and scoped to symbols used under extensions/copilot-proxy.
+// Keep this list additive and scoped to symbols used under native-plugins/copilot-proxy.
 
 export { definePluginEntry } from "./core.js";
 export type {

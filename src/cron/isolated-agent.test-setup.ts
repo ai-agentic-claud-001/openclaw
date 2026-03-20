@@ -1,5 +1,5 @@
 import { vi } from "vitest";
-import { parseTelegramTarget } from "../../extensions/telegram/api.js";
+import { parseTelegramTarget } from "../../native-plugins/telegram/api.js";
 import { signalOutbound, telegramOutbound } from "../../test/channel-outbounds.js";
 import { loadModelCatalog } from "../agents/model-catalog.js";
 import { runEmbeddedPiAgent } from "../agents/pi-embedded.js";

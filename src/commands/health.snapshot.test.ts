@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { telegramPlugin } from "../../extensions/telegram/src/channel.js";
+import { telegramPlugin } from "../../native-plugins/telegram/src/channel.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import { createTestRegistry } from "../test-utils/channel-plugins.js";
 import type { HealthSummary } from "./health.js";
@@ -29,15 +29,16 @@ vi.mock("../config/sessions.js", () => ({
   updateLastRoute: vi.fn().mockResolvedValue(undefined),
 }));
 
-vi.mock("../../extensions/telegram/src/fetch.js", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("../../extensions/telegram/src/fetch.js")>();
+vi.mock("../../native-plugins/telegram/src/fetch.js", async (importOriginal) => {
+  const actual =
+    await importOriginal<typeof import("../../native-plugins/telegram/src/fetch.js")>();
   return {
     ...actual,
     resolveTelegramFetch: () => fetch,
   };
 });
 
-vi.mock("../../extensions/whatsapp/src/auth-store.js", () => ({
+vi.mock("../../native-plugins/whatsapp/src/auth-store.js", () => ({
   webAuthExists: vi.fn(async () => true),
   getWebAuthAgeMs: vi.fn(() => 1234),
   readWebSelfId: vi.fn(() => ({ e164: null, jid: null })),
@@ -110,12 +111,12 @@ async function runSuccessfulTelegramProbe(
 }
 
 let createPluginRuntime: typeof import("../plugins/runtime/index.js").createPluginRuntime;
-let setTelegramRuntime: typeof import("../../extensions/telegram/src/runtime.js").setTelegramRuntime;
+let setTelegramRuntime: typeof import("../../native-plugins/telegram/src/runtime.js").setTelegramRuntime;
 
 describe("getHealthSnapshot", () => {
   beforeAll(async () => {
     ({ createPluginRuntime } = await import("../plugins/runtime/index.js"));
-    ({ setTelegramRuntime } = await import("../../extensions/telegram/src/runtime.js"));
+    ({ setTelegramRuntime } = await import("../../native-plugins/telegram/src/runtime.js"));
   });
 
   beforeEach(() => {

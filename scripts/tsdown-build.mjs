@@ -11,16 +11,16 @@ const UNRESOLVED_IMPORT_RE = /\[UNRESOLVED_IMPORT\]/;
 const ANSI_ESCAPE_RE = new RegExp(String.raw`\u001B\[[0-9;]*m`, "g");
 
 function removeDistPluginNodeModulesSymlinks(rootDir) {
-  const extensionsDir = path.join(rootDir, "extensions");
-  if (!fs.existsSync(extensionsDir)) {
+  const nativePluginsDir = path.join(rootDir, "native-plugins");
+  if (!fs.existsSync(nativePluginsDir)) {
     return;
   }
 
-  for (const dirent of fs.readdirSync(extensionsDir, { withFileTypes: true })) {
+  for (const dirent of fs.readdirSync(nativePluginsDir, { withFileTypes: true })) {
     if (!dirent.isDirectory()) {
       continue;
     }
-    const nodeModulesPath = path.join(extensionsDir, dirent.name, "node_modules");
+    const nodeModulesPath = path.join(nativePluginsDir, dirent.name, "node_modules");
     try {
       if (fs.lstatSync(nodeModulesPath).isSymbolicLink()) {
         fs.rmSync(nodeModulesPath, { force: true, recursive: true });
@@ -49,7 +49,7 @@ function findFatalUnresolvedImport(lines) {
     }
 
     const normalizedLine = line.replace(ANSI_ESCAPE_RE, "");
-    if (!normalizedLine.includes("extensions/")) {
+    if (!normalizedLine.includes("native-plugins/")) {
       return normalizedLine;
     }
   }
@@ -87,7 +87,9 @@ const fatalUnresolvedImport =
   result.status === 0 ? findFatalUnresolvedImport(`${stdout}\n${stderr}`.split("\n")) : null;
 
 if (fatalUnresolvedImport) {
-  console.error(`Build emitted [UNRESOLVED_IMPORT] outside extensions: ${fatalUnresolvedImport}`);
+  console.error(
+    `Build emitted [UNRESOLVED_IMPORT] outside native-plugins: ${fatalUnresolvedImport}`,
+  );
   process.exit(1);
 }
 

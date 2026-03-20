@@ -1,107 +1,107 @@
 "channel: bluebubbles":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/bluebubbles/**"
+          - "native-plugins/bluebubbles/**"
           - "docs/channels/bluebubbles.md"
 "channel: discord":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/discord/**"
+          - "native-plugins/discord/**"
           - "docs/channels/discord.md"
 "channel: irc":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/irc/**"
+          - "native-plugins/irc/**"
           - "docs/channels/irc.md"
 "channel: feishu":
   - changed-files:
       - any-glob-to-any-file:
           - "src/feishu/**"
-          - "extensions/feishu/**"
+          - "native-plugins/feishu/**"
           - "docs/channels/feishu.md"
 "channel: googlechat":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/googlechat/**"
+          - "native-plugins/googlechat/**"
           - "docs/channels/googlechat.md"
 "channel: imessage":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/imessage/**"
+          - "native-plugins/imessage/**"
           - "docs/channels/imessage.md"
 "channel: line":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/line/**"
+          - "native-plugins/line/**"
           - "docs/channels/line.md"
 "channel: matrix":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/matrix/**"
+          - "native-plugins/matrix/**"
           - "docs/channels/matrix.md"
 "channel: mattermost":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/mattermost/**"
+          - "native-plugins/mattermost/**"
           - "docs/channels/mattermost.md"
 "channel: msteams":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/msteams/**"
+          - "native-plugins/msteams/**"
           - "docs/channels/msteams.md"
 "channel: nextcloud-talk":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/nextcloud-talk/**"
+          - "native-plugins/nextcloud-talk/**"
           - "docs/channels/nextcloud-talk.md"
 "channel: nostr":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/nostr/**"
+          - "native-plugins/nostr/**"
           - "docs/channels/nostr.md"
 "channel: signal":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/signal/**"
+          - "native-plugins/signal/**"
           - "docs/channels/signal.md"
 "channel: slack":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/slack/**"
+          - "native-plugins/slack/**"
           - "docs/channels/slack.md"
 "channel: telegram":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/telegram/**"
+          - "native-plugins/telegram/**"
           - "docs/channels/telegram.md"
 "channel: tlon":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/tlon/**"
+          - "native-plugins/tlon/**"
           - "docs/channels/tlon.md"
 "channel: twitch":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/twitch/**"
+          - "native-plugins/twitch/**"
           - "docs/channels/twitch.md"
 "channel: voice-call":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/voice-call/**"
+          - "native-plugins/voice-call/**"
 "channel: whatsapp-web":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/whatsapp/**"
+          - "native-plugins/whatsapp/**"
           - "docs/channels/whatsapp.md"
 "channel: zalo":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/zalo/**"
+          - "native-plugins/zalo/**"
           - "docs/channels/zalo.md"
 "channel: zalouser":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/zalouser/**"
+          - "native-plugins/zalouser/**"
           - "docs/channels/zalouser.md"
 
 "app: android":
@@ -193,135 +193,135 @@
           - "docs/cli/security.md"
           - "docs/gateway/security.md"
 
-"extensions: copilot-proxy":
+"native plugins: copilot-proxy":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/copilot-proxy/**"
-"extensions: diagnostics-otel":
+          - "native-plugins/copilot-proxy/**"
+"native plugins: diagnostics-otel":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/diagnostics-otel/**"
-"extensions: llm-task":
+          - "native-plugins/diagnostics-otel/**"
+"native plugins: llm-task":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/llm-task/**"
-"extensions: lobster":
+          - "native-plugins/llm-task/**"
+"native plugins: lobster":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/lobster/**"
-"extensions: memory-core":
+          - "native-plugins/lobster/**"
+"native plugins: memory-core":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/memory-core/**"
-"extensions: memory-lancedb":
+          - "native-plugins/memory-core/**"
+"native plugins: memory-lancedb":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/memory-lancedb/**"
-"extensions: open-prose":
+          - "native-plugins/memory-lancedb/**"
+"native plugins: open-prose":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/open-prose/**"
-"extensions: qwen-portal-auth":
+          - "native-plugins/open-prose/**"
+"native plugins: qwen-portal-auth":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/qwen-portal-auth/**"
-"extensions: device-pair":
+          - "native-plugins/qwen-portal-auth/**"
+"native plugins: device-pair":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/device-pair/**"
-"extensions: acpx":
+          - "native-plugins/device-pair/**"
+"native plugins: acpx":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/acpx/**"
-"extensions: byteplus":
+          - "native-plugins/acpx/**"
+"native plugins: byteplus":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/byteplus/**"
-"extensions: anthropic":
+          - "native-plugins/byteplus/**"
+"native plugins: anthropic":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/anthropic/**"
-"extensions: cloudflare-ai-gateway":
+          - "native-plugins/anthropic/**"
+"native plugins: cloudflare-ai-gateway":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/cloudflare-ai-gateway/**"
-"extensions: minimax-portal-auth":
+          - "native-plugins/cloudflare-ai-gateway/**"
+"native plugins: minimax-portal-auth":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/minimax-portal-auth/**"
-"extensions: huggingface":
+          - "native-plugins/minimax-portal-auth/**"
+"native plugins: huggingface":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/huggingface/**"
-"extensions: kilocode":
+          - "native-plugins/huggingface/**"
+"native plugins: kilocode":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/kilocode/**"
-"extensions: openai":
+          - "native-plugins/kilocode/**"
+"native plugins: openai":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/openai/**"
-"extensions: kimi-coding":
+          - "native-plugins/openai/**"
+"native plugins: kimi-coding":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/kimi-coding/**"
-"extensions: minimax":
+          - "native-plugins/kimi-coding/**"
+"native plugins: minimax":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/minimax/**"
-"extensions: modelstudio":
+          - "native-plugins/minimax/**"
+"native plugins: modelstudio":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/modelstudio/**"
-"extensions: moonshot":
+          - "native-plugins/modelstudio/**"
+"native plugins: moonshot":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/moonshot/**"
-"extensions: nvidia":
+          - "native-plugins/moonshot/**"
+"native plugins: nvidia":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/nvidia/**"
-"extensions: phone-control":
+          - "native-plugins/nvidia/**"
+"native plugins: phone-control":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/phone-control/**"
-"extensions: qianfan":
+          - "native-plugins/phone-control/**"
+"native plugins: qianfan":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/qianfan/**"
-"extensions: synthetic":
+          - "native-plugins/qianfan/**"
+"native plugins: synthetic":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/synthetic/**"
-"extensions: tavily":
+          - "native-plugins/synthetic/**"
+"native plugins: tavily":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/tavily/**"
-"extensions: talk-voice":
+          - "native-plugins/tavily/**"
+"native plugins: talk-voice":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/talk-voice/**"
-"extensions: together":
+          - "native-plugins/talk-voice/**"
+"native plugins: together":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/together/**"
-"extensions: venice":
+          - "native-plugins/together/**"
+"native plugins: venice":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/venice/**"
-"extensions: vercel-ai-gateway":
+          - "native-plugins/venice/**"
+"native plugins: vercel-ai-gateway":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/vercel-ai-gateway/**"
-"extensions: volcengine":
+          - "native-plugins/vercel-ai-gateway/**"
+"native plugins: volcengine":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/volcengine/**"
-"extensions: xiaomi":
+          - "native-plugins/volcengine/**"
+"native plugins: xiaomi":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/xiaomi/**"
-"extensions: fal":
+          - "native-plugins/xiaomi/**"
+"native plugins: fal":
   - changed-files:
       - any-glob-to-any-file:
-          - "extensions/fal/**"
+          - "native-plugins/fal/**"

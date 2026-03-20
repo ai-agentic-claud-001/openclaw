@@ -16,7 +16,7 @@ describe("web search provider boundary inventory", () => {
   it("ignores extension-owned registrations", async () => {
     const inventory = await collectWebSearchProviderBoundaryInventory();
 
-    expect(inventory.some((entry) => entry.file.startsWith("extensions/"))).toBe(false);
+    expect(inventory.some((entry) => entry.file.startsWith("native-plugins/"))).toBe(false);
   });
 
   it("produces stable sorted output", async () => {

@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - ".github/workflows/plugin-npm-release.yml"
-      - "extensions/**"
+      - "native-plugins/**"
       - "package.json"
       - "scripts/lib/plugin-npm-release.ts"
       - "scripts/plugin-npm-publish.sh"

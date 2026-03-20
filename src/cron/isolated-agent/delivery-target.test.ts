@@ -21,11 +21,11 @@ vi.mock("../../pairing/pairing-store.js", () => ({
   readChannelAllowFromStoreSync: vi.fn(() => []),
 }));
 
-vi.mock("../../../extensions/whatsapp/src/accounts.js", () => ({
+vi.mock("../../../native-plugins/whatsapp/src/accounts.js", () => ({
   resolveWhatsAppAccount: vi.fn(() => ({ allowFrom: [] })),
 }));
 
-import { resolveWhatsAppAccount } from "../../../extensions/whatsapp/src/accounts.js";
+import { resolveWhatsAppAccount } from "../../../native-plugins/whatsapp/src/accounts.js";
 import { loadSessionStore } from "../../config/sessions.js";
 import { resolveMessageChannelSelection } from "../../infra/outbound/channel-selection.js";
 import { maybeResolveIdLikeTarget } from "../../infra/outbound/target-resolver.js";

@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileExists, readJsonFile, resolveArchiveKind } from "../infra/archive.js";
@@ -34,7 +35,7 @@ import { CONFIG_DIR, resolveUserPath } from "../utils.js";
 import { detectBundleManifestFormat, loadBundleManifest } from "./bundle-manifest.js";
 import {
   loadPluginManifest,
-  resolvePackageExtensionEntries,
+  resolvePackagePluginEntries,
   type PackageManifest as PluginPackageManifest,
 } from "./manifest.js";
 
@@ -48,7 +49,10 @@ type PackageManifest = PluginPackageManifest & {
 };
 
 const MISSING_EXTENSIONS_ERROR =
-  'package.json missing openclaw.extensions; update the plugin package to include openclaw.extensions (for example ["./dist/index.js"]). See https://docs.openclaw.ai/help/troubleshooting#plugin-install-fails-with-missing-openclaw-extensions';
+  'package.json missing openclaw.plugins; update the plugin package to include openclaw.plugins (for example ["./dist/index.js"]). OpenClaw still accepts the legacy openclaw.extensions key, but new packages should publish openclaw.plugins. See https://docs.openclaw.ai/help/troubleshooting#plugin-install-fails-with-missing-openclaw-plugins';
+
+const PREFERRED_PLUGIN_INSTALL_DIRNAME = "plugins";
+const LEGACY_PLUGIN_INSTALL_DIRNAME = "extensions";
 
 export const PLUGIN_INSTALL_ERROR_CODE = {
   INVALID_NPM_SPEC: "invalid_npm_spec",
@@ -84,6 +88,49 @@ export type PluginNpmIntegrityDriftParams = {
 const defaultLogger: PluginInstallLogger = {};
 function safeFileName(input: string): string {
   return safeDirName(input);
+}
+
+export function resolvePreferredPluginInstallRoot(pluginsDir?: string): string {
+  return pluginsDir
+    ? resolveUserPath(pluginsDir)
+    : path.join(CONFIG_DIR, PREFERRED_PLUGIN_INSTALL_DIRNAME);
+}
+
+export function resolvePluginInstallRootCandidates(pluginsDir?: string): string[] {
+  if (pluginsDir) {
+    return [resolveUserPath(pluginsDir)];
+  }
+  return [
+    path.join(CONFIG_DIR, PREFERRED_PLUGIN_INSTALL_DIRNAME),
+    path.join(CONFIG_DIR, LEGACY_PLUGIN_INSTALL_DIRNAME),
+  ];
+}
+
+function resolvePluginInstallDirWithinRoot(pluginId: string, pluginsRoot: string): string {
+  const pluginIdError = validatePluginId(pluginId);
+  if (pluginIdError) {
+    throw new Error(pluginIdError);
+  }
+  const targetDirResult = resolveSafeInstallDir({
+    baseDir: pluginsRoot,
+    id: pluginId,
+    invalidNameMessage: "invalid plugin name: path traversal detected",
+    nameEncoder: encodePluginInstallDirName,
+  });
+  if (!targetDirResult.ok) {
+    throw new Error(targetDirResult.error);
+  }
+  return targetDirResult.path;
+}
+
+export function resolveExistingPluginInstallDir(pluginId: string, pluginsDir?: string): string {
+  for (const pluginsRoot of resolvePluginInstallRootCandidates(pluginsDir)) {
+    const candidate = resolvePluginInstallDirWithinRoot(pluginId, pluginsRoot);
+    if (existsSync(candidate)) {
+      return candidate;
+    }
+  }
+  return resolvePluginInstallDirWithinRoot(pluginId, resolvePreferredPluginInstallRoot(pluginsDir));
 }
 
 function encodePluginInstallDirName(pluginId: string): string {
@@ -158,7 +205,7 @@ function ensureOpenClawExtensions(params: { manifest: PackageManifest }):
       error: string;
       code: PluginInstallErrorCode;
     } {
-  const resolved = resolvePackageExtensionEntries(params.manifest);
+  const resolved = resolvePackagePluginEntries(params.manifest);
   if (resolved.status === "missing") {
     return {
       ok: false,
@@ -169,7 +216,7 @@ function ensureOpenClawExtensions(params: { manifest: PackageManifest }):
   if (resolved.status === "empty") {
     return {
       ok: false,
-      error: "package.json openclaw.extensions is empty",
+      error: "package.json openclaw.plugins is empty",
       code: PLUGIN_INSTALL_ERROR_CODE.EMPTY_OPENCLAW_EXTENSIONS,
     };
   }
@@ -268,14 +315,14 @@ async function installPluginDirectoryIntoExtensions(params: {
   afterCopy?: (installedDir: string) => Promise<void>;
   nameEncoder?: (pluginId: string) => string;
 }): Promise<InstallPluginResult> {
-  const extensionsDir = params.extensionsDir
-    ? resolveUserPath(params.extensionsDir)
-    : path.join(CONFIG_DIR, "extensions");
+  const targetPluginsRoot = path.dirname(
+    resolveExistingPluginInstallDir(params.pluginId, params.extensionsDir),
+  );
   const targetDirResult = await resolveCanonicalInstallTarget({
-    baseDir: extensionsDir,
+    baseDir: targetPluginsRoot,
     id: params.pluginId,
     invalidNameMessage: "invalid plugin name: path traversal detected",
-    boundaryLabel: "extensions directory",
+    boundaryLabel: "plugin install directory",
     nameEncoder: params.nameEncoder,
   });
   if (!targetDirResult.ok) {
@@ -326,23 +373,10 @@ async function installPluginDirectoryIntoExtensions(params: {
 }
 
 export function resolvePluginInstallDir(pluginId: string, extensionsDir?: string): string {
-  const extensionsBase = extensionsDir
-    ? resolveUserPath(extensionsDir)
-    : path.join(CONFIG_DIR, "extensions");
-  const pluginIdError = validatePluginId(pluginId);
-  if (pluginIdError) {
-    throw new Error(pluginIdError);
-  }
-  const targetDirResult = resolveSafeInstallDir({
-    baseDir: extensionsBase,
-    id: pluginId,
-    invalidNameMessage: "invalid plugin name: path traversal detected",
-    nameEncoder: encodePluginInstallDirName,
-  });
-  if (!targetDirResult.ok) {
-    throw new Error(targetDirResult.error);
-  }
-  return targetDirResult.path;
+  return resolvePluginInstallDirWithinRoot(
+    pluginId,
+    resolvePreferredPluginInstallRoot(extensionsDir),
+  );
 }
 
 async function installBundleFromSourceDir(
@@ -530,12 +564,14 @@ async function installPluginFromPackageDir(
   for (const entry of extensions) {
     const resolvedEntry = path.resolve(packageDir, entry);
     if (!isPathInside(packageDir, resolvedEntry)) {
-      logger.warn?.(`extension entry escapes plugin directory and will not be scanned: ${entry}`);
+      logger.warn?.(
+        `native plugin entry escapes plugin directory and will not be scanned: ${entry}`,
+      );
       continue;
     }
     if (extensionUsesSkippedScannerPath(entry)) {
       logger.warn?.(
-        `extension entry is in a hidden/node_modules path and will receive targeted scan coverage: ${entry}`,
+        `native plugin entry is in a hidden/node_modules path and will receive targeted scan coverage: ${entry}`,
       );
     }
     forcedScanEntries.push(resolvedEntry);
@@ -585,11 +621,11 @@ async function installPluginFromPackageDir(
       for (const entry of extensions) {
         const resolvedEntry = path.resolve(installedDir, entry);
         if (!isPathInside(installedDir, resolvedEntry)) {
-          logger.warn?.(`extension entry escapes plugin directory: ${entry}`);
+          logger.warn?.(`native plugin entry escapes plugin directory: ${entry}`);
           continue;
         }
         if (!(await fileExists(resolvedEntry))) {
-          logger.warn?.(`extension entry not found: ${entry}`);
+          logger.warn?.(`native plugin entry not found: ${entry}`);
         }
       }
     },
@@ -664,18 +700,15 @@ export async function installPluginFromFile(params: {
     return { ok: false, error: `file not found: ${filePath}` };
   }
 
-  const extensionsDir = params.extensionsDir
-    ? resolveUserPath(params.extensionsDir)
-    : path.join(CONFIG_DIR, "extensions");
-  await fs.mkdir(extensionsDir, { recursive: true });
-
   const base = path.basename(filePath, path.extname(filePath));
   const pluginId = base || "plugin";
   const pluginIdError = validatePluginId(pluginId);
   if (pluginIdError) {
     return { ok: false, error: pluginIdError };
   }
-  const targetFile = path.join(extensionsDir, `${safeFileName(pluginId)}${path.extname(filePath)}`);
+  const pluginsRoot = path.dirname(resolveExistingPluginInstallDir(pluginId, params.extensionsDir));
+  await fs.mkdir(pluginsRoot, { recursive: true });
+  const targetFile = path.join(pluginsRoot, `${safeFileName(pluginId)}${path.extname(filePath)}`);
 
   const availability = await ensureInstallTargetAvailable({
     mode,
@@ -693,7 +726,7 @@ export async function installPluginFromFile(params: {
   logger.info?.(`Installing to ${targetFile}…`);
   try {
     await writeFileFromPathWithinRoot({
-      rootDir: extensionsDir,
+      rootDir: pluginsRoot,
       relativePath: path.basename(targetFile),
       sourcePath: filePath,
     });

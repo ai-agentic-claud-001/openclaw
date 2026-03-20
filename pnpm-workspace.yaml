@@ -2,7 +2,7 @@ packages:
   - .
   - ui
   - packages/*
-  - extensions/*
+  - native-plugins/*
 
 onlyBuiltDependencies:
   - "@lydell/node-pty"

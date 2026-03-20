@@ -24,7 +24,7 @@ Use this skill for Parallels guest workflows and smoke interpretation. Do not lo
 - `prlctl exec` is fine for deterministic repo commands, but use the guest Terminal or `prlctl enter` when installer parity or shell-sensitive behavior matters.
 - On the fresh Tahoe snapshot, `brew` exists but `node` may be missing from PATH in noninteractive exec. Use `/opt/homebrew/bin/node` when needed.
 - Fresh host-served tgz installs should install as guest root with `HOME=/var/root`, then run onboarding as the desktop user via `prlctl exec --current-user`.
-- Root-installed tgz smoke can log plugin blocks for world-writable `extensions/*`; do not treat that as an onboarding or gateway failure unless plugin loading is the task.
+- Root-installed tgz smoke can log plugin blocks for world-writable `native-plugins/*`; do not treat that as an onboarding or gateway failure unless plugin loading is the task.
 
 ## Windows flow
 

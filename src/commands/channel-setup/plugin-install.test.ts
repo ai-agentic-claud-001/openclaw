@@ -82,7 +82,7 @@ const baseEntry: ChannelPluginCatalogEntry = {
   },
   install: {
     npmSpec: "@openclaw/zalo",
-    localPath: "extensions/zalo",
+    localPath: "native-plugins/zalo",
   },
 };
 
@@ -120,7 +120,7 @@ async function runInitialValueForChannel(channel: "dev" | "beta") {
 function expectPluginLoadedFromLocalPath(
   result: Awaited<ReturnType<typeof ensureChannelSetupPluginInstalled>>,
 ) {
-  const expectedPath = path.resolve(process.cwd(), "extensions/zalo");
+  const expectedPath = path.resolve(process.cwd(), "native-plugins/zalo");
   expect(result.installed).toBe(true);
   expect(result.cfg.plugins?.load?.paths).toContain(expectedPath);
 }
@@ -221,7 +221,7 @@ describe("ensureChannelSetupPluginInstalled", () => {
           "zalo",
           {
             pluginId: "zalo",
-            localPath: "/opt/openclaw/extensions/zalo",
+            localPath: "/opt/openclaw/native-plugins/zalo",
             npmSpec: "@openclaw/zalo",
           },
         ],
@@ -241,7 +241,7 @@ describe("ensureChannelSetupPluginInstalled", () => {
         options: expect.arrayContaining([
           expect.objectContaining({
             value: "local",
-            hint: "/opt/openclaw/extensions/zalo",
+            hint: "/opt/openclaw/native-plugins/zalo",
           }),
         ]),
       }),

@@ -44,8 +44,8 @@ Restart the Gateway afterwards.
 ### Option B: install from a local folder (dev, no copying)
 
 ```bash
-openclaw plugins install ./extensions/voice-call
-cd ./extensions/voice-call && pnpm install
+openclaw plugins install ./native-plugins/voice-call
+cd ./native-plugins/voice-call && pnpm install
 ```
 
 Restart the Gateway afterwards.

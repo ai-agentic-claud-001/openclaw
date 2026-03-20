@@ -1,5 +1,5 @@
 // Narrow plugin-sdk surface for the bundled nextcloud-talk plugin.
-// Keep this list additive and scoped to symbols used under extensions/nextcloud-talk.
+// Keep this list additive and scoped to symbols used under native-plugins/nextcloud-talk.
 
 export { logInboundDrop } from "../channels/logging.js";
 export { resolveMentionGatingWithBypass } from "../channels/mention-gating.js";

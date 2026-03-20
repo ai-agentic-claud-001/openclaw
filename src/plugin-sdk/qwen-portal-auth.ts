@@ -1,5 +1,5 @@
 // Narrow plugin-sdk surface for the bundled qwen-portal-auth plugin.
-// Keep this list additive and scoped to symbols used under extensions/qwen-portal-auth.
+// Keep this list additive and scoped to symbols used under native-plugins/qwen-portal-auth.
 
 export { definePluginEntry } from "./core.js";
 export { buildOauthProviderAuthResult } from "./provider-auth-result.js";

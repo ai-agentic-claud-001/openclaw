@@ -84,8 +84,8 @@ jobs:
             openclaw --version &&
             node -e "
               const Module = require(\"node:module\");
-              const matrixPackage = require(\"/app/extensions/matrix/package.json\");
-              const requireFromMatrix = Module.createRequire(\"/app/extensions/matrix/package.json\");
+              const matrixPackage = require(\"/app/native-plugins/matrix/package.json\");
+              const requireFromMatrix = Module.createRequire(\"/app/native-plugins/matrix/package.json\");
               const runtimeDeps = Object.keys(matrixPackage.dependencies ?? {});
               if (runtimeDeps.length === 0) {
                 throw new Error(
@@ -109,7 +109,7 @@ jobs:
               const matrixDiag = (parsed.diagnostics || []).filter(
                 (diag) =>
                   typeof diag.source === \"string\" &&
-                  diag.source.includes(\"/extensions/matrix\") &&
+                  diag.source.includes(\"/native-plugins/matrix\") &&
                   typeof diag.message === \"string\" &&
                   diag.message.includes(\"extension entry escapes package directory\"),
               );

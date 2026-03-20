@@ -216,7 +216,7 @@ describe("plugins cli", () => {
         installs: {
           alpha: {
             source: "marketplace",
-            installPath: "/tmp/openclaw-state/extensions/alpha",
+            installPath: "/tmp/openclaw-state/native-plugins/alpha",
           },
         },
       },
@@ -226,7 +226,7 @@ describe("plugins cli", () => {
     installPluginFromMarketplace.mockResolvedValue({
       ok: true,
       pluginId: "alpha",
-      targetDir: "/tmp/openclaw-state/extensions/alpha",
+      targetDir: "/tmp/openclaw-state/native-plugins/alpha",
       version: "1.2.3",
       marketplaceName: "Claude",
       marketplaceSource: "local/repo",
@@ -262,8 +262,8 @@ describe("plugins cli", () => {
         installs: {
           alpha: {
             source: "path",
-            sourcePath: "/tmp/openclaw-state/extensions/alpha",
-            installPath: "/tmp/openclaw-state/extensions/alpha",
+            sourcePath: "/tmp/openclaw-state/native-plugins/alpha",
+            installPath: "/tmp/openclaw-state/native-plugins/alpha",
           },
         },
       },
@@ -289,8 +289,8 @@ describe("plugins cli", () => {
         installs: {
           alpha: {
             source: "path",
-            sourcePath: "/tmp/openclaw-state/extensions/alpha",
-            installPath: "/tmp/openclaw-state/extensions/alpha",
+            sourcePath: "/tmp/openclaw-state/native-plugins/alpha",
+            installPath: "/tmp/openclaw-state/native-plugins/alpha",
           },
         },
       },

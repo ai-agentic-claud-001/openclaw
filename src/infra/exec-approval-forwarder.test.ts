@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { discordPlugin } from "../../extensions/discord/src/channel.js";
-import { telegramPlugin } from "../../extensions/telegram/src/channel.js";
+import { discordPlugin } from "../../native-plugins/discord/src/channel.js";
+import { telegramPlugin } from "../../native-plugins/telegram/src/channel.js";
 import type { OpenClawConfig } from "../config/config.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import { createTestRegistry } from "../test-utils/channel-plugins.js";

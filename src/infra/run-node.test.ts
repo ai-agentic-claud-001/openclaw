@@ -28,7 +28,7 @@ function createExitedProcess(code: number | null, signal: string | null = null) 
 async function writeRuntimePostBuildScaffold(tmp: string): Promise<void> {
   const pluginSdkAliasPath = path.join(tmp, "src", "plugin-sdk", "root-alias.cjs");
   await fs.mkdir(path.dirname(pluginSdkAliasPath), { recursive: true });
-  await fs.mkdir(path.join(tmp, "extensions"), { recursive: true });
+  await fs.mkdir(path.join(tmp, "native-plugins"), { recursive: true });
   await fs.writeFile(pluginSdkAliasPath, "module.exports = {};\n", "utf-8");
   const baselineTime = new Date("2026-03-13T09:00:00.000Z");
   await fs.utimes(pluginSdkAliasPath, baselineTime, baselineTime);
@@ -99,8 +99,13 @@ describe("run-node script", () => {
 
   it("copies bundled plugin metadata after rebuilding from a clean dist", async () => {
     await withTempDir(async (tmp) => {
-      const extensionManifestPath = path.join(tmp, "extensions", "demo", "openclaw.plugin.json");
-      const extensionPackagePath = path.join(tmp, "extensions", "demo", "package.json");
+      const extensionManifestPath = path.join(
+        tmp,
+        "native-plugins",
+        "demo",
+        "openclaw.plugin.json",
+      );
+      const extensionPackagePath = path.join(tmp, "native-plugins", "demo", "package.json");
 
       await writeRuntimePostBuildScaffold(tmp);
       await fs.mkdir(path.dirname(extensionManifestPath), { recursive: true });
@@ -114,9 +119,7 @@ describe("run-node script", () => {
         JSON.stringify(
           {
             name: "demo",
-            openclaw: {
-              extensions: ["./src/index.ts", "./nested/entry.mts"],
-            },
+            openclaw: { plugins: ["./src/index.ts", "./nested/entry.mts"] },
           },
           null,
           2,
@@ -154,13 +157,16 @@ describe("run-node script", () => {
       ).resolves.toContain("module.exports = {};");
       await expect(
         fs
-          .readFile(path.join(tmp, "dist", "extensions", "demo", "openclaw.plugin.json"), "utf-8")
+          .readFile(
+            path.join(tmp, "dist", "native-plugins", "demo", "openclaw.plugin.json"),
+            "utf-8",
+          )
           .then((raw) => JSON.parse(raw)),
       ).resolves.toMatchObject({ id: "demo" });
       await expect(
-        fs.readFile(path.join(tmp, "dist", "extensions", "demo", "package.json"), "utf-8"),
+        fs.readFile(path.join(tmp, "dist", "native-plugins", "demo", "package.json"), "utf-8"),
       ).resolves.toContain(
-        '"extensions": [\n      "./src/index.js",\n      "./nested/entry.js"\n    ]',
+        '"plugins": [\n      "./src/index.js",\n      "./nested/entry.js"\n    ]',
       );
     });
   });
@@ -250,7 +256,7 @@ describe("run-node script", () => {
 
   it("rebuilds when extension sources are newer than the build stamp", async () => {
     await withTempDir(async (tmp) => {
-      const extensionPath = path.join(tmp, "extensions", "demo", "src", "index.ts");
+      const extensionPath = path.join(tmp, "native-plugins", "demo", "src", "index.ts");
       const distEntryPath = path.join(tmp, "dist", "entry.js");
       const buildStampPath = path.join(tmp, "dist", ".buildstamp");
       const tsconfigPath = path.join(tmp, "tsconfig.json");
@@ -302,9 +308,9 @@ describe("run-node script", () => {
 
   it("skips rebuilding when extension package metadata is newer than the build stamp", async () => {
     await withTempDir(async (tmp) => {
-      const manifestPath = path.join(tmp, "extensions", "demo", "openclaw.plugin.json");
-      const packagePath = path.join(tmp, "extensions", "demo", "package.json");
-      const distPackagePath = path.join(tmp, "dist", "extensions", "demo", "package.json");
+      const manifestPath = path.join(tmp, "native-plugins", "demo", "openclaw.plugin.json");
+      const packagePath = path.join(tmp, "native-plugins", "demo", "package.json");
+      const distPackagePath = path.join(tmp, "dist", "native-plugins", "demo", "package.json");
       const distEntryPath = path.join(tmp, "dist", "entry.js");
       const buildStampPath = path.join(tmp, "dist", ".buildstamp");
       const tsconfigPath = path.join(tmp, "tsconfig.json");
@@ -318,7 +324,7 @@ describe("run-node script", () => {
       await fs.writeFile(manifestPath, '{"id":"demo","configSchema":{"type":"object"}}\n', "utf-8");
       await fs.writeFile(
         packagePath,
-        '{"name":"demo","openclaw":{"extensions":["./index.ts"]}}\n',
+        '{"name":"demo","openclaw":{"plugins":["./index.ts"]}}\n',
         "utf-8",
       );
       await fs.writeFile(tsconfigPath, "{}\n", "utf-8");
@@ -327,7 +333,7 @@ describe("run-node script", () => {
       await fs.writeFile(distEntryPath, "console.log('built');\n", "utf-8");
       await fs.writeFile(
         distPackagePath,
-        '{"name":"demo","openclaw":{"extensions":["./stale.js"]}}\n',
+        '{"name":"demo","openclaw":{"plugins":["./stale.js"]}}\n',
         "utf-8",
       );
       await fs.writeFile(buildStampPath, '{"head":"abc123"}\n', "utf-8");
@@ -372,7 +378,7 @@ describe("run-node script", () => {
   it("skips rebuilding for dirty non-source files under extensions", async () => {
     await withTempDir(async (tmp) => {
       const srcPath = path.join(tmp, "src", "index.ts");
-      const readmePath = path.join(tmp, "extensions", "demo", "README.md");
+      const readmePath = path.join(tmp, "native-plugins", "demo", "README.md");
       const distEntryPath = path.join(tmp, "dist", "entry.js");
       const buildStampPath = path.join(tmp, "dist", ".buildstamp");
       const tsconfigPath = path.join(tmp, "tsconfig.json");
@@ -409,7 +415,7 @@ describe("run-node script", () => {
           return { status: 0, stdout: "abc123\n" };
         }
         if (cmd === "git" && args[0] === "status") {
-          return { status: 0, stdout: " M extensions/demo/README.md\n" };
+          return { status: 0, stdout: " M native-plugins/demo/README.md\n" };
         }
         return { status: 1, stdout: "" };
       };
@@ -435,8 +441,14 @@ describe("run-node script", () => {
   it("skips rebuilding for dirty extension manifests that only affect runtime reload", async () => {
     await withTempDir(async (tmp) => {
       const srcPath = path.join(tmp, "src", "index.ts");
-      const manifestPath = path.join(tmp, "extensions", "demo", "openclaw.plugin.json");
-      const distManifestPath = path.join(tmp, "dist", "extensions", "demo", "openclaw.plugin.json");
+      const manifestPath = path.join(tmp, "native-plugins", "demo", "openclaw.plugin.json");
+      const distManifestPath = path.join(
+        tmp,
+        "dist",
+        "native-plugins",
+        "demo",
+        "openclaw.plugin.json",
+      );
       const distEntryPath = path.join(tmp, "dist", "entry.js");
       const buildStampPath = path.join(tmp, "dist", ".buildstamp");
       const tsconfigPath = path.join(tmp, "tsconfig.json");
@@ -479,7 +491,7 @@ describe("run-node script", () => {
           return { status: 0, stdout: "abc123\n" };
         }
         if (cmd === "git" && args[0] === "status") {
-          return { status: 0, stdout: " M extensions/demo/openclaw.plugin.json\n" };
+          return { status: 0, stdout: " M native-plugins/demo/openclaw.plugin.json\n" };
         }
         return { status: 1, stdout: "" };
       };
@@ -510,8 +522,14 @@ describe("run-node script", () => {
   it("repairs missing bundled plugin metadata without rerunning tsdown", async () => {
     await withTempDir(async (tmp) => {
       const srcPath = path.join(tmp, "src", "index.ts");
-      const manifestPath = path.join(tmp, "extensions", "demo", "openclaw.plugin.json");
-      const distManifestPath = path.join(tmp, "dist", "extensions", "demo", "openclaw.plugin.json");
+      const manifestPath = path.join(tmp, "native-plugins", "demo", "openclaw.plugin.json");
+      const distManifestPath = path.join(
+        tmp,
+        "dist",
+        "native-plugins",
+        "demo",
+        "openclaw.plugin.json",
+      );
       const distEntryPath = path.join(tmp, "dist", "entry.js");
       const buildStampPath = path.join(tmp, "dist", ".buildstamp");
       const tsconfigPath = path.join(tmp, "tsconfig.json");
@@ -579,9 +597,15 @@ describe("run-node script", () => {
   it("removes stale bundled plugin metadata when the source manifest is gone", async () => {
     await withTempDir(async (tmp) => {
       const srcPath = path.join(tmp, "src", "index.ts");
-      const extensionDir = path.join(tmp, "extensions", "demo");
-      const distManifestPath = path.join(tmp, "dist", "extensions", "demo", "openclaw.plugin.json");
-      const distPackagePath = path.join(tmp, "dist", "extensions", "demo", "package.json");
+      const extensionDir = path.join(tmp, "native-plugins", "demo");
+      const distManifestPath = path.join(
+        tmp,
+        "dist",
+        "native-plugins",
+        "demo",
+        "openclaw.plugin.json",
+      );
+      const distPackagePath = path.join(tmp, "dist", "native-plugins", "demo", "package.json");
       const distEntryPath = path.join(tmp, "dist", "entry.js");
       const buildStampPath = path.join(tmp, "dist", ".buildstamp");
       const tsconfigPath = path.join(tmp, "tsconfig.json");
@@ -651,7 +675,7 @@ describe("run-node script", () => {
   it("skips rebuilding when only non-source extension files are newer than the build stamp", async () => {
     await withTempDir(async (tmp) => {
       const srcPath = path.join(tmp, "src", "index.ts");
-      const readmePath = path.join(tmp, "extensions", "demo", "README.md");
+      const readmePath = path.join(tmp, "native-plugins", "demo", "README.md");
       const distEntryPath = path.join(tmp, "dist", "entry.js");
       const buildStampPath = path.join(tmp, "dist", ".buildstamp");
       const tsconfigPath = path.join(tmp, "tsconfig.json");

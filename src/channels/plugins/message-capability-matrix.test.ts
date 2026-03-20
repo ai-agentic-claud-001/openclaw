@@ -5,7 +5,7 @@ import type { ChannelMessageActionAdapter, ChannelPlugin } from "./types.js";
 const telegramDescribeMessageToolMock = vi.fn();
 const discordDescribeMessageToolMock = vi.fn();
 
-vi.mock("../../../extensions/telegram/src/runtime.js", () => ({
+vi.mock("../../../native-plugins/telegram/src/runtime.js", () => ({
   getTelegramRuntime: () => ({
     channel: {
       telegram: {
@@ -17,7 +17,7 @@ vi.mock("../../../extensions/telegram/src/runtime.js", () => ({
   }),
 }));
 
-vi.mock("../../../extensions/discord/src/runtime.js", () => ({
+vi.mock("../../../native-plugins/discord/src/runtime.js", () => ({
   getDiscordRuntime: () => ({
     channel: {
       discord: {
@@ -29,13 +29,13 @@ vi.mock("../../../extensions/discord/src/runtime.js", () => ({
   }),
 }));
 
-const { slackPlugin } = await import("../../../extensions/slack/src/channel.js");
-const { telegramPlugin } = await import("../../../extensions/telegram/src/channel.js");
-const { discordPlugin } = await import("../../../extensions/discord/src/channel.js");
-const { mattermostPlugin } = await import("../../../extensions/mattermost/src/channel.js");
-const { feishuPlugin } = await import("../../../extensions/feishu/src/channel.js");
-const { msteamsPlugin } = await import("../../../extensions/msteams/src/channel.js");
-const { zaloPlugin } = await import("../../../extensions/zalo/src/channel.js");
+const { slackPlugin } = await import("../../../native-plugins/slack/src/channel.js");
+const { telegramPlugin } = await import("../../../native-plugins/telegram/src/channel.js");
+const { discordPlugin } = await import("../../../native-plugins/discord/src/channel.js");
+const { mattermostPlugin } = await import("../../../native-plugins/mattermost/src/channel.js");
+const { feishuPlugin } = await import("../../../native-plugins/feishu/src/channel.js");
+const { msteamsPlugin } = await import("../../../native-plugins/msteams/src/channel.js");
+const { zaloPlugin } = await import("../../../native-plugins/zalo/src/channel.js");
 
 describe("channel action capability matrix", () => {
   afterEach(() => {

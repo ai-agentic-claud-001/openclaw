@@ -81,10 +81,10 @@ function nodeBuildConfig(config: UserConfig): UserConfig {
 }
 
 function listBundledPluginBuildEntries(): Record<string, string> {
-  const extensionsRoot = path.join(process.cwd(), "extensions");
+  const nativePluginsRoot = path.join(process.cwd(), "native-plugins");
   const entries: Record<string, string> = {};
 
-  for (const dirent of fs.readdirSync(extensionsRoot, { withFileTypes: true })) {
+  for (const dirent of fs.readdirSync(nativePluginsRoot, { withFileTypes: true })) {
     if (!dirent.isDirectory()) {
       continue;
     }
@@ -92,7 +92,7 @@ function listBundledPluginBuildEntries(): Record<string, string> {
       continue;
     }
 
-    const pluginDir = path.join(extensionsRoot, dirent.name);
+    const pluginDir = path.join(nativePluginsRoot, dirent.name);
     const manifestPath = path.join(pluginDir, "openclaw.plugin.json");
     if (!fs.existsSync(manifestPath)) {
       continue;
@@ -103,10 +103,13 @@ function listBundledPluginBuildEntries(): Record<string, string> {
     if (fs.existsSync(packageJsonPath)) {
       try {
         const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8")) as {
-          openclaw?: { extensions?: unknown; setupEntry?: unknown };
+          openclaw?: { plugins?: unknown; extensions?: unknown; setupEntry?: unknown };
         };
-        packageEntries = Array.isArray(packageJson.openclaw?.extensions)
-          ? packageJson.openclaw.extensions.filter(
+        const rawEntries = Array.isArray(packageJson.openclaw?.plugins)
+          ? packageJson.openclaw.plugins
+          : packageJson.openclaw?.extensions;
+        packageEntries = Array.isArray(rawEntries)
+          ? rawEntries.filter(
               (entry): entry is string => typeof entry === "string" && entry.trim().length > 0,
             )
           : [];
@@ -126,8 +129,8 @@ function listBundledPluginBuildEntries(): Record<string, string> {
     const sourceEntries = packageEntries.length > 0 ? packageEntries : ["./index.ts"];
     for (const entry of sourceEntries) {
       const normalizedEntry = entry.replace(/^\.\//, "");
-      const entryKey = `extensions/${dirent.name}/${normalizedEntry.replace(/\.[^.]+$/u, "")}`;
-      entries[entryKey] = path.join("extensions", dirent.name, normalizedEntry);
+      const entryKey = `native-plugins/${dirent.name}/${normalizedEntry.replace(/\.[^.]+$/u, "")}`;
+      entries[entryKey] = path.join("native-plugins", dirent.name, normalizedEntry);
     }
   }
 
@@ -170,8 +173,8 @@ function buildCoreDistEntries(): Record<string, string> {
     // Ensure this module is bundled as an entry so legacy CLI shims can resolve its exports.
     "cli/daemon-cli": "src/cli/daemon-cli.ts",
     "infra/warning-filter": "src/infra/warning-filter.ts",
-    "telegram/audit": "extensions/telegram/src/audit.ts",
-    "telegram/token": "extensions/telegram/src/token.ts",
+    "telegram/audit": "native-plugins/telegram/src/audit.ts",
+    "telegram/token": "native-plugins/telegram/src/token.ts",
     "line/accounts": "src/line/accounts.ts",
     "line/send": "src/line/send.ts",
     "line/template-messages": "src/line/template-messages.ts",

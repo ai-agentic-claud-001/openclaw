@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { telegramPlugin } from "../../../extensions/telegram/src/channel.js";
+import { telegramPlugin } from "../../../native-plugins/telegram/src/channel.js";
 import type { OpenClawConfig } from "../../config/config.js";
 import type { SessionBindingRecord } from "../../infra/outbound/session-binding-service.js";
 import { setActivePluginRegistry } from "../../plugins/runtime.js";
@@ -28,8 +28,8 @@ const hoisted = vi.hoisted(() => {
 
 vi.mock("../../plugins/runtime/index.js", async () => {
   const discordThreadBindings = await vi.importActual<
-    typeof import("../../../extensions/discord/src/monitor/thread-bindings.js")
-  >("../../../extensions/discord/src/monitor/thread-bindings.js");
+    typeof import("../../../native-plugins/discord/src/monitor/thread-bindings.js")
+  >("../../../native-plugins/discord/src/monitor/thread-bindings.js");
   return {
     createPluginRuntime: () => ({
       channel: {

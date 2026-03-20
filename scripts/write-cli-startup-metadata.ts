@@ -19,7 +19,7 @@ const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(scriptDir, "..");
 const distDir = path.join(rootDir, "dist");
 const outputPath = path.join(distDir, "cli-startup-metadata.json");
-const extensionsDir = path.join(rootDir, "extensions");
+const nativePluginsDir = path.join(rootDir, "native-plugins");
 const CORE_CHANNEL_ORDER = [
   "telegram",
   "whatsapp",
@@ -31,19 +31,19 @@ const CORE_CHANNEL_ORDER = [
   "imessage",
 ] as const;
 
-type ExtensionChannelEntry = {
+type NativePluginChannelEntry = {
   id: string;
   order: number;
   label: string;
 };
 
 function readBundledChannelCatalogIds(): string[] {
-  const entries: ExtensionChannelEntry[] = [];
-  for (const dirEntry of readdirSync(extensionsDir, { withFileTypes: true })) {
+  const entries: NativePluginChannelEntry[] = [];
+  for (const dirEntry of readdirSync(nativePluginsDir, { withFileTypes: true })) {
     if (!dirEntry.isDirectory()) {
       continue;
     }
-    const packageJsonPath = path.join(extensionsDir, dirEntry.name, "package.json");
+    const packageJsonPath = path.join(nativePluginsDir, dirEntry.name, "package.json");
     try {
       const raw = readFileSync(packageJsonPath, "utf8");
       const parsed = JSON.parse(raw) as {
@@ -67,7 +67,7 @@ function readBundledChannelCatalogIds(): string[] {
         label: typeof labelRaw === "string" ? labelRaw : id.trim(),
       });
     } catch {
-      // Ignore malformed or missing extension package manifests.
+      // Ignore malformed or missing native plugin package manifests.
     }
   }
   return entries

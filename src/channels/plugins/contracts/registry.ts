@@ -5,14 +5,14 @@ import { expect, vi } from "vitest";
 import {
   __testing as discordThreadBindingTesting,
   createThreadBindingManager as createDiscordThreadBindingManager,
-} from "../../../../extensions/discord/runtime-api.js";
-import { createFeishuThreadBindingManager } from "../../../../extensions/feishu/api.js";
+} from "../../../../native-plugins/discord/runtime-api.js";
+import { createFeishuThreadBindingManager } from "../../../../native-plugins/feishu/api.js";
 import {
   createMatrixThreadBindingManager,
   resetMatrixThreadBindingsForTests,
-} from "../../../../extensions/matrix/api.js";
-import { setMatrixRuntime } from "../../../../extensions/matrix/index.js";
-import { createTelegramThreadBindingManager } from "../../../../extensions/telegram/runtime-api.js";
+} from "../../../../native-plugins/matrix/api.js";
+import { setMatrixRuntime } from "../../../../native-plugins/matrix/index.js";
+import { createTelegramThreadBindingManager } from "../../../../native-plugins/telegram/runtime-api.js";
 import type { OpenClawConfig } from "../../../config/config.js";
 import {
   getSessionBindingService,
@@ -223,10 +223,10 @@ bundledChannelRuntimeSetters.setLineRuntime({
   },
 } as never);
 
-vi.mock("../../../../extensions/matrix/runtime-api.js", async () => {
+vi.mock("../../../../native-plugins/matrix/runtime-api.js", async () => {
   const actual = await vi.importActual<
-    typeof import("../../../../extensions/matrix/runtime-api.js")
-  >("../../../../extensions/matrix/runtime-api.js");
+    typeof import("../../../../native-plugins/matrix/runtime-api.js")
+  >("../../../../native-plugins/matrix/runtime-api.js");
   return {
     ...actual,
     sendMessageMatrix: sendMessageMatrixMock,

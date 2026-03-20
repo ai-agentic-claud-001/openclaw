@@ -7,7 +7,7 @@ import {
   applyKilocodeConfig,
   KILOCODE_BASE_URL,
   KILOCODE_DEFAULT_MODEL_REF,
-} from "../../extensions/kilocode/onboard.js";
+} from "../../native-plugins/kilocode/onboard.js";
 import { resolveApiKeyForProvider, resolveEnvApiKey } from "../agents/model-auth.js";
 import type { OpenClawConfig } from "../config/config.js";
 import { resolveAgentModelPrimaryValue } from "../config/model-input.js";

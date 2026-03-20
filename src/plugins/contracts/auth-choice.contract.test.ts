@@ -27,9 +27,9 @@ const resolveProviderPluginChoiceMock = vi.hoisted(() => vi.fn<ResolveProviderPl
 const runProviderModelSelectedHookMock = vi.hoisted(() =>
   vi.fn<RunProviderModelSelectedHook>(async () => {}),
 );
-import qwenPortalPlugin from "../../../extensions/qwen-portal-auth/index.js";
+import qwenPortalPlugin from "../../../native-plugins/qwen-portal-auth/index.js";
 
-vi.mock("../../../extensions/qwen-portal-auth/oauth.js", () => ({
+vi.mock("../../../native-plugins/qwen-portal-auth/oauth.js", () => ({
   loginQwenPortalOAuth: loginQwenPortalOAuthMock,
 }));
 vi.mock("../../providers/github-copilot-auth.js", () => ({

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { matrixPlugin } from "../../extensions/matrix/src/channel.js";
+import { matrixPlugin } from "../../native-plugins/matrix/src/channel.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import { createTestRegistry } from "../test-utils/channel-plugins.js";
 import { agentsBindCommand } from "./agents.js";

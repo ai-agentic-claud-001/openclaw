@@ -17,11 +17,14 @@ export type {
   ChannelConfiguredBindingConversationRef,
   ChannelConfiguredBindingMatch,
 } from "../channels/plugins/types.adapters.js";
-export type { InspectedTelegramAccount } from "../../extensions/telegram/api.js";
-export type { ResolvedTelegramAccount } from "../../extensions/telegram/api.js";
-export type { TelegramProbe } from "../../extensions/telegram/runtime-api.js";
-export type { TelegramButtonStyle, TelegramInlineButtons } from "../../extensions/telegram/api.js";
-export type { StickerMetadata } from "../../extensions/telegram/api.js";
+export type { InspectedTelegramAccount } from "../../native-plugins/telegram/api.js";
+export type { ResolvedTelegramAccount } from "../../native-plugins/telegram/api.js";
+export type { TelegramProbe } from "../../native-plugins/telegram/runtime-api.js";
+export type {
+  TelegramButtonStyle,
+  TelegramInlineButtons,
+} from "../../native-plugins/telegram/api.js";
+export type { StickerMetadata } from "../../native-plugins/telegram/api.js";
 
 export { emptyPluginConfigSchema } from "../plugins/config-schema.js";
 export { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.js";
@@ -51,11 +54,11 @@ export {
 export {
   listTelegramDirectoryGroupsFromConfig,
   listTelegramDirectoryPeersFromConfig,
-} from "../../extensions/telegram/api.js";
+} from "../../native-plugins/telegram/api.js";
 export {
   resolveTelegramGroupRequireMention,
   resolveTelegramGroupToolPolicy,
-} from "../../extensions/telegram/api.js";
+} from "../../native-plugins/telegram/api.js";
 export { TelegramConfigSchema } from "../config/zod-schema.providers-core.js";
 
 export { buildTokenChannelStatusSummary } from "./status-helpers.js";
@@ -65,26 +68,26 @@ export {
   listTelegramAccountIds,
   resolveDefaultTelegramAccountId,
   resolveTelegramPollActionGateState,
-} from "../../extensions/telegram/api.js";
-export { inspectTelegramAccount } from "../../extensions/telegram/api.js";
+} from "../../native-plugins/telegram/api.js";
+export { inspectTelegramAccount } from "../../native-plugins/telegram/api.js";
 export {
   looksLikeTelegramTargetId,
   normalizeTelegramMessagingTarget,
-} from "../../extensions/telegram/api.js";
+} from "../../native-plugins/telegram/api.js";
 export {
   parseTelegramReplyToMessageId,
   parseTelegramThreadId,
-} from "../../extensions/telegram/api.js";
+} from "../../native-plugins/telegram/api.js";
 export {
   isNumericTelegramUserId,
   normalizeTelegramAllowFromEntry,
-} from "../../extensions/telegram/api.js";
-export { fetchTelegramChatId } from "../../extensions/telegram/api.js";
+} from "../../native-plugins/telegram/api.js";
+export { fetchTelegramChatId } from "../../native-plugins/telegram/api.js";
 export {
   resolveTelegramInlineButtonsScope,
   resolveTelegramTargetChatType,
-} from "../../extensions/telegram/api.js";
-export { resolveTelegramReactionLevel } from "../../extensions/telegram/api.js";
+} from "../../native-plugins/telegram/api.js";
+export { resolveTelegramReactionLevel } from "../../native-plugins/telegram/api.js";
 export {
   auditTelegramGroupMembership,
   collectTelegramUnmentionedGroupIds,
@@ -103,16 +106,16 @@ export {
   sendStickerTelegram,
   sendTypingTelegram,
   unpinMessageTelegram,
-} from "../../extensions/telegram/runtime-api.js";
-export { getCacheStats, searchStickers } from "../../extensions/telegram/api.js";
-export { resolveTelegramToken } from "../../extensions/telegram/runtime-api.js";
-export { telegramMessageActions } from "../../extensions/telegram/runtime-api.js";
+} from "../../native-plugins/telegram/runtime-api.js";
+export { getCacheStats, searchStickers } from "../../native-plugins/telegram/api.js";
+export { resolveTelegramToken } from "../../native-plugins/telegram/runtime-api.js";
+export { telegramMessageActions } from "../../native-plugins/telegram/runtime-api.js";
 export {
   setTelegramThreadBindingIdleTimeoutBySessionKey,
   setTelegramThreadBindingMaxAgeBySessionKey,
-} from "../../extensions/telegram/runtime-api.js";
-export { collectTelegramStatusIssues } from "../../extensions/telegram/api.js";
-export { sendTelegramPayloadMessages } from "../../extensions/telegram/api.js";
+} from "../../native-plugins/telegram/runtime-api.js";
+export { collectTelegramStatusIssues } from "../../native-plugins/telegram/api.js";
+export { sendTelegramPayloadMessages } from "../../native-plugins/telegram/api.js";
 export {
   buildBrowseProvidersButton,
   buildModelsKeyboard,
@@ -120,8 +123,8 @@ export {
   calculateTotalPages,
   getModelsPageSize,
   type ProviderInfo,
-} from "../../extensions/telegram/api.js";
+} from "../../native-plugins/telegram/api.js";
 export {
   isTelegramExecApprovalApprover,
   isTelegramExecApprovalClientEnabled,
-} from "../../extensions/telegram/api.js";
+} from "../../native-plugins/telegram/api.js";

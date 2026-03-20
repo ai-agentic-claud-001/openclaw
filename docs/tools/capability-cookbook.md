@@ -78,7 +78,7 @@ For a new capability, expect to touch these areas:
 - `src/plugins/runtime/index.ts`
 - `src/plugin-sdk/<capability>.ts`
 - `src/plugin-sdk/<capability>-runtime.ts`
-- one or more `extensions/<vendor>/...`
+- one or more `native-plugins/<vendor>/...`
 - config/docs/tests
 
 ## Example: image generation

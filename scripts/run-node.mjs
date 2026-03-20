@@ -9,11 +9,11 @@ import { runRuntimePostBuild } from "./runtime-postbuild.mjs";
 const buildScript = "scripts/tsdown-build.mjs";
 const compilerArgs = [buildScript, "--no-clean"];
 
-const runNodeSourceRoots = ["src", "extensions"];
+const runNodeSourceRoots = ["src", "native-plugins"];
 const runNodeConfigFiles = ["tsconfig.json", "package.json", "tsdown.config.ts"];
 export const runNodeWatchedPaths = [...runNodeSourceRoots, ...runNodeConfigFiles];
-const extensionSourceFilePattern = /\.(?:[cm]?[jt]sx?)$/;
-const extensionRestartMetadataFiles = new Set(["openclaw.plugin.json", "package.json"]);
+const nativePluginSourceFilePattern = /\.(?:[cm]?[jt]sx?)$/;
+const nativePluginRestartMetadataFiles = new Set(["openclaw.plugin.json", "package.json"]);
 
 const normalizePath = (filePath) => String(filePath ?? "").replaceAll("\\", "/");
 
@@ -28,7 +28,7 @@ const isIgnoredSourcePath = (relativePath) => {
 
 const isBuildRelevantSourcePath = (relativePath) => {
   const normalizedPath = normalizePath(relativePath);
-  return extensionSourceFilePattern.test(normalizedPath) && !isIgnoredSourcePath(normalizedPath);
+  return nativePluginSourceFilePattern.test(normalizedPath) && !isIgnoredSourcePath(normalizedPath);
 };
 
 export const isBuildRelevantRunNodePath = (repoPath) => {
@@ -39,15 +39,15 @@ export const isBuildRelevantRunNodePath = (repoPath) => {
   if (normalizedPath.startsWith("src/")) {
     return !isIgnoredSourcePath(normalizedPath.slice("src/".length));
   }
-  if (normalizedPath.startsWith("extensions/")) {
-    return isBuildRelevantSourcePath(normalizedPath.slice("extensions/".length));
+  if (normalizedPath.startsWith("native-plugins/")) {
+    return isBuildRelevantSourcePath(normalizedPath.slice("native-plugins/".length));
   }
   return false;
 };
 
-const isRestartRelevantExtensionPath = (relativePath) => {
+const isRestartRelevantNativePluginPath = (relativePath) => {
   const normalizedPath = normalizePath(relativePath);
-  if (extensionRestartMetadataFiles.has(path.posix.basename(normalizedPath))) {
+  if (nativePluginRestartMetadataFiles.has(path.posix.basename(normalizedPath))) {
     return true;
   }
   return isBuildRelevantSourcePath(normalizedPath);
@@ -61,8 +61,8 @@ export const isRestartRelevantRunNodePath = (repoPath) => {
   if (normalizedPath.startsWith("src/")) {
     return !isIgnoredSourcePath(normalizedPath.slice("src/".length));
   }
-  if (normalizedPath.startsWith("extensions/")) {
-    return isRestartRelevantExtensionPath(normalizedPath.slice("extensions/".length));
+  if (normalizedPath.startsWith("native-plugins/")) {
+    return isRestartRelevantNativePluginPath(normalizedPath.slice("native-plugins/".length));
   }
   return false;
 };

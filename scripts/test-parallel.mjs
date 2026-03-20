@@ -95,7 +95,9 @@ const useVmForks =
     (isCI || testProfile !== "low"));
 const disableIsolation = process.env.OPENCLAW_TEST_NO_ISOLATE === "1";
 const includeGatewaySuite = process.env.OPENCLAW_TEST_INCLUDE_GATEWAY === "1";
-const includeExtensionsSuite = process.env.OPENCLAW_TEST_INCLUDE_EXTENSIONS === "1";
+const includeNativePluginsSuite =
+  process.env.OPENCLAW_TEST_INCLUDE_NATIVE_PLUGINS === "1" ||
+  process.env.OPENCLAW_TEST_INCLUDE_EXTENSIONS === "1";
 // Even on low-memory hosts, keep the isolated lane split so files like
 // git-commit.test.ts still get the worker/process isolation they require.
 const shouldSplitUnitRuns = testProfile !== "serial";
@@ -251,7 +253,7 @@ const walkTestFiles = (rootDir) => {
 const allKnownTestFiles = [
   ...new Set([
     ...walkTestFiles("src"),
-    ...walkTestFiles("extensions"),
+    ...walkTestFiles("native-plugins"),
     ...walkTestFiles("test"),
     ...walkTestFiles(path.join("ui", "src", "ui")),
   ]),
@@ -267,8 +269,8 @@ const inferTarget = (fileFilter) => {
   if (channelTestPrefixes.some((prefix) => fileFilter.startsWith(prefix))) {
     return { owner: "channels", isolated };
   }
-  if (fileFilter.startsWith("extensions/")) {
-    return { owner: "extensions", isolated };
+  if (fileFilter.startsWith("native-plugins/")) {
+    return { owner: "native-plugins", isolated };
   }
   if (fileFilter.startsWith("src/gateway/")) {
     return { owner: "gateway", isolated };
@@ -465,15 +467,15 @@ const baseRuns = [
           ],
         },
       ]),
-  ...(includeExtensionsSuite
+  ...(includeNativePluginsSuite
     ? [
         {
-          name: "extensions",
+          name: "native-plugins",
           args: [
             "vitest",
             "run",
             "--config",
-            "vitest.extensions.config.ts",
+            "vitest.native-plugins.config.ts",
             ...(useVmForks ? ["--pool=vmForks"] : []),
           ],
         },
@@ -551,14 +553,14 @@ const createTargetedEntry = (owner, isolated, filters) => {
       args: ["vitest", "run", "--config", "vitest.unit.config.ts", "--pool=threads", ...filters],
     };
   }
-  if (owner === "extensions") {
+  if (owner === "native-plugins") {
     return {
       name,
       args: [
         "vitest",
         "run",
         "--config",
-        "vitest.extensions.config.ts",
+        "vitest.native-plugins.config.ts",
         ...(forceForks ? ["--pool=forks"] : useVmForks ? ["--pool=vmForks"] : []),
         ...filters,
       ],
@@ -700,28 +702,28 @@ const defaultWorkerBudget =
     ? {
         unit: 2,
         unitIsolated: 1,
-        extensions: 4,
+        nativePlugins: 4,
         gateway: 1,
       }
     : isMacMiniProfile
       ? {
           unit: 3,
           unitIsolated: 1,
-          extensions: 1,
+          nativePlugins: 1,
           gateway: 1,
         }
       : testProfile === "serial"
         ? {
             unit: 1,
             unitIsolated: 1,
-            extensions: 1,
+            nativePlugins: 1,
             gateway: 1,
           }
         : testProfile === "max"
           ? {
               unit: localWorkers,
               unitIsolated: Math.min(4, localWorkers),
-              extensions: Math.max(1, Math.min(6, Math.floor(localWorkers / 2))),
+              nativePlugins: Math.max(1, Math.min(6, Math.floor(localWorkers / 2))),
               gateway: Math.max(1, Math.min(2, Math.floor(localWorkers / 4))),
             }
           : highMemLocalHost
@@ -731,7 +733,7 @@ const defaultWorkerBudget =
                 // worker fan-out than the old "max it out" local default.
                 unit: Math.max(4, Math.min(10, Math.floor((localWorkers * 5) / 8))),
                 unitIsolated: Math.max(1, Math.min(2, Math.floor(localWorkers / 6) || 1)),
-                extensions: Math.max(1, Math.min(4, Math.floor(localWorkers / 4))),
+                nativePlugins: Math.max(1, Math.min(4, Math.floor(localWorkers / 4))),
                 gateway: Math.max(2, Math.min(6, Math.floor(localWorkers / 2))),
               }
             : lowMemLocalHost
@@ -739,14 +741,14 @@ const defaultWorkerBudget =
                   // Sub-64 GiB local hosts are prone to OOM with large vmFork runs.
                   unit: 2,
                   unitIsolated: 1,
-                  extensions: 4,
+                  nativePlugins: 4,
                   gateway: 1,
                 }
               : {
                   // 64-95 GiB local hosts: conservative split with some parallel headroom.
                   unit: Math.max(2, Math.min(8, Math.floor(localWorkers / 2))),
                   unitIsolated: 1,
-                  extensions: Math.max(1, Math.min(4, Math.floor(localWorkers / 4))),
+                  nativePlugins: Math.max(1, Math.min(4, Math.floor(localWorkers / 4))),
                   gateway: 1,
                 };
 
@@ -771,8 +773,8 @@ const maxWorkersForRun = (name) => {
   if (name === "unit-isolated" || name.startsWith("unit-heavy-")) {
     return defaultWorkerBudget.unitIsolated;
   }
-  if (name === "extensions") {
-    return defaultWorkerBudget.extensions;
+  if (name === "native-plugins") {
+    return defaultWorkerBudget.nativePlugins;
   }
   if (name === "gateway") {
     return defaultWorkerBudget.gateway;
@@ -840,10 +842,10 @@ const runOnce = (entry, extraArgs = []) =>
   new Promise((resolve) => {
     const startedAt = Date.now();
     const maxWorkers = maxWorkersForRun(entry.name);
-    // vmForks with a single worker has shown cross-file leakage in extension suites.
+    // vmForks with a single worker has shown cross-file leakage in native plugin suites.
     // Fall back to process forks when we intentionally clamp that lane to one worker.
     const entryArgs =
-      entry.name === "extensions" && maxWorkers === 1 && entry.args.includes("--pool=vmForks")
+      entry.name === "native-plugins" && maxWorkers === 1 && entry.args.includes("--pool=vmForks")
         ? entry.args.map((arg) => (arg === "--pool=vmForks" ? "--pool=forks" : arg))
         : entry.args;
     const explicitEntryFilters = getExplicitEntryFilters(entryArgs);

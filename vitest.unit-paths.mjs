@@ -13,7 +13,7 @@ export const unitTestIncludePatterns = [
 
 export const unitTestAdditionalExcludePatterns = [
   "src/gateway/**",
-  "extensions/**",
+  "native-plugins/**",
   "src/browser/**",
   "src/line/**",
   "src/agents/**",

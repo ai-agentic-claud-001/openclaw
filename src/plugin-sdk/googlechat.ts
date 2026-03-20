@@ -1,5 +1,5 @@
 // Narrow plugin-sdk surface for the bundled googlechat plugin.
-// Keep this list additive and scoped to symbols used under extensions/googlechat.
+// Keep this list additive and scoped to symbols used under native-plugins/googlechat.
 
 import { resolveChannelGroupRequireMention } from "./channel-policy.js";
 import { createOptionalChannelSetupSurface } from "./channel-setup.js";

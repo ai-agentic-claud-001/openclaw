@@ -73,7 +73,7 @@ OpenClaw prefers native OpenClaw plugin/package layouts before bundle handling.
 Practical effect:
 
 - `openclaw.plugin.json` wins over bundle detection
-- package installs with valid `package.json` + `openclaw.extensions` use the
+- package installs with valid `package.json` + `openclaw.plugins` use the
   native install path
 - if a directory contains both native and bundle metadata, OpenClaw treats it
   as native first

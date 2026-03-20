@@ -3556,7 +3556,7 @@ module.exports = {
   it("uses transpiled Jiti loads for source TypeScript plugin entries", () => {
     expect(__testing.shouldPreferNativeJiti("/repo/dist/plugins/runtime/index.js")).toBe(true);
     expect(
-      __testing.shouldPreferNativeJiti("/repo/extensions/discord/src/channel.runtime.ts"),
+      __testing.shouldPreferNativeJiti("/repo/native-plugins/discord/src/channel.runtime.ts"),
     ).toBe(false);
   });
 

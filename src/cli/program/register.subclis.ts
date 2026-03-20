@@ -236,7 +236,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "plugins",
-    description: "Manage OpenClaw plugins and extensions",
+    description: "Manage OpenClaw plugins and native plugins",
     hasSubcommands: true,
     register: async (program) => {
       const mod = await import("../plugins-cli.js");

@@ -4,8 +4,8 @@ import net from "node:net";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { createOpenShellSandboxBackendFactory } from "../extensions/openshell/src/backend.js";
-import { resolveOpenShellPluginConfig } from "../extensions/openshell/src/config.js";
+import { createOpenShellSandboxBackendFactory } from "../native-plugins/openshell/src/backend.js";
+import { resolveOpenShellPluginConfig } from "../native-plugins/openshell/src/config.js";
 import { createSandboxTestContext } from "../src/agents/sandbox/test-fixtures.js";
 
 const OPENCLAW_OPENSHELL_E2E = process.env.OPENCLAW_E2E_OPENSHELL === "1";

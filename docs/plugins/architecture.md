@@ -948,14 +948,14 @@ authoring plugins:
   channel helper barrels.
 - Bundled extension internals remain private. External plugins should use only
   `openclaw/plugin-sdk/*` subpaths. OpenClaw core/test code may use the repo
-  public entry points under `extensions/<id>/index.js`, `api.js`, `runtime-api.js`,
+  public entry points under `native-plugins/<id>/index.js`, `api.js`, `runtime-api.js`,
   `setup-entry.js`, and narrowly scoped files such as `login-qr-api.js`. Never
-  import `extensions/<id>/src/*` from core or from another extension.
+  import `native-plugins/<id>/src/*` from core or from another extension.
 - Repo entry point split:
-  `extensions/<id>/api.js` is the helper/types barrel,
-  `extensions/<id>/runtime-api.js` is the runtime-only barrel,
-  `extensions/<id>/index.js` is the bundled plugin entry,
-  and `extensions/<id>/setup-entry.js` is the setup plugin entry.
+  `native-plugins/<id>/api.js` is the helper/types barrel,
+  `native-plugins/<id>/runtime-api.js` is the runtime-only barrel,
+  `native-plugins/<id>/index.js` is the bundled plugin entry,
+  and `native-plugins/<id>/setup-entry.js` is the setup plugin entry.
 - `openclaw/plugin-sdk/telegram` for Telegram channel plugin types and shared channel-facing helpers. Built-in Telegram implementation internals stay private to the bundled extension.
 - `openclaw/plugin-sdk/discord` for Discord channel plugin types and shared channel-facing helpers. Built-in Discord implementation internals stay private to the bundled extension.
 - `openclaw/plugin-sdk/slack` for Slack channel plugin types and shared channel-facing helpers. Built-in Slack implementation internals stay private to the bundled extension.
@@ -1105,13 +1105,13 @@ path" instead of crashing or misreporting the account as not configured.
 
 ## Package packs
 
-A plugin directory may include a `package.json` with `openclaw.extensions`:
+A plugin directory may include a `package.json` with `openclaw.plugins`:
 
 ```json
 {
   "name": "my-pack",
   "openclaw": {
-    "extensions": ["./src/safety.ts", "./src/tools.ts"],
+    "plugins": ["./src/safety.ts", "./src/tools.ts"],
     "setupEntry": "./src/setup-entry.ts"
   }
 }
@@ -1123,7 +1123,7 @@ becomes `name/<fileBase>`.
 If your plugin imports npm deps, install them in that directory so
 `node_modules` is available (`npm install` / `pnpm install`).
 
-Security guardrail: every `openclaw.extensions` entry must stay inside the plugin
+Security guardrail: every `openclaw.plugins` entry must stay inside the plugin
 directory after symlink resolution. Entries that escape the package directory are
 rejected.
 
@@ -1160,7 +1160,7 @@ Example:
 {
   "name": "@scope/my-channel",
   "openclaw": {
-    "extensions": ["./index.ts"],
+    "plugins": ["./index.ts"],
     "setupEntry": "./setup-entry.ts",
     "startup": {
       "deferConfiguredChannelFullLoadUntilAfterListen": true
@@ -1180,7 +1180,7 @@ Example:
 {
   "name": "@openclaw/nextcloud-talk",
   "openclaw": {
-    "extensions": ["./index.ts"],
+    "plugins": ["./index.ts"],
     "channel": {
       "id": "nextcloud-talk",
       "label": "Nextcloud Talk",
@@ -1193,7 +1193,7 @@ Example:
     },
     "install": {
       "npmSpec": "@openclaw/nextcloud-talk",
-      "localPath": "extensions/nextcloud-talk",
+      "localPath": "native-plugins/nextcloud-talk",
       "defaultChoice": "npm"
     }
   }

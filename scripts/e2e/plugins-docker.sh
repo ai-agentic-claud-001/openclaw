@@ -37,7 +37,7 @@ write_fixture_plugin() {
 {
   "name": "@openclaw/$id",
   "version": "$version",
-  "openclaw": { "extensions": ["./index.js"] }
+  "openclaw": { "plugins": ["./index.js"] }
 }
 JSON
   cat > "$dir/index.js" <<JS
@@ -68,9 +68,9 @@ fs.writeFileSync(file, `${JSON.stringify(parsed, null, 2)}\n`);
 NODE
 }
 
-mkdir -p "$HOME/.openclaw/extensions/demo-plugin"
+mkdir -p "$HOME/.openclaw/plugins/demo-plugin"
 
-cat > "$HOME/.openclaw/extensions/demo-plugin/index.js" <<'JS'
+cat > "$HOME/.openclaw/plugins/demo-plugin/index.js" <<'JS'
 module.exports = {
   id: "demo-plugin",
   name: "Demo Plugin",
@@ -83,7 +83,7 @@ module.exports = {
   },
 };
 JS
-cat > "$HOME/.openclaw/extensions/demo-plugin/openclaw.plugin.json" <<'JSON'
+cat > "$HOME/.openclaw/plugins/demo-plugin/openclaw.plugin.json" <<'JSON'
 {
   "id": "demo-plugin",
   "configSchema": {
@@ -131,7 +131,7 @@ cat > "$pack_dir/package/package.json" <<'JSON'
 {
   "name": "@openclaw/demo-plugin-tgz",
   "version": "0.0.1",
-  "openclaw": { "extensions": ["./index.js"] }
+  "openclaw": { "plugins": ["./index.js"] }
 }
 JSON
 cat > "$pack_dir/package/index.js" <<'JS'
@@ -178,7 +178,7 @@ cat > "$dir_plugin/package.json" <<'JSON'
 {
   "name": "@openclaw/demo-plugin-dir",
   "version": "0.0.1",
-  "openclaw": { "extensions": ["./index.js"] }
+  "openclaw": { "plugins": ["./index.js"] }
 }
 JSON
 cat > "$dir_plugin/index.js" <<'JS'
@@ -225,7 +225,7 @@ cat > "$file_pack_dir/package/package.json" <<'JSON'
 {
   "name": "@openclaw/demo-plugin-file",
   "version": "0.0.1",
-  "openclaw": { "extensions": ["./index.js"] }
+  "openclaw": { "plugins": ["./index.js"] }
 }
 JSON
 cat > "$file_pack_dir/package/index.js" <<'JS'

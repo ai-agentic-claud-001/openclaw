@@ -1,5 +1,5 @@
 // Narrow plugin-sdk surface for the bundled nostr plugin.
-// Keep this list additive and scoped to symbols used under extensions/nostr.
+// Keep this list additive and scoped to symbols used under native-plugins/nostr.
 
 import { createOptionalChannelSetupSurface } from "./channel-setup.js";
 

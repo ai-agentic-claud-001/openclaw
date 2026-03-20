@@ -23,30 +23,30 @@ describe("bundled plugin runtime dependencies", () => {
   }
 
   it("keeps bundled Feishu runtime deps plugin-local instead of mirroring them into the root package", () => {
-    expectPluginOwnsRuntimeDep("extensions/feishu/package.json", "@larksuiteoapi/node-sdk");
+    expectPluginOwnsRuntimeDep("native-plugins/feishu/package.json", "@larksuiteoapi/node-sdk");
   });
 
   it("keeps memory-lancedb runtime deps plugin-local so packaged installs fetch them on demand", () => {
-    expectPluginOwnsRuntimeDep("extensions/memory-lancedb/package.json", "@lancedb/lancedb");
+    expectPluginOwnsRuntimeDep("native-plugins/memory-lancedb/package.json", "@lancedb/lancedb");
   });
 
   it("keeps bundled Discord runtime deps plugin-local instead of mirroring them into the root package", () => {
-    expectPluginOwnsRuntimeDep("extensions/discord/package.json", "@buape/carbon");
+    expectPluginOwnsRuntimeDep("native-plugins/discord/package.json", "@buape/carbon");
   });
 
   it("keeps bundled Slack runtime deps plugin-local instead of mirroring them into the root package", () => {
-    expectPluginOwnsRuntimeDep("extensions/slack/package.json", "@slack/bolt");
+    expectPluginOwnsRuntimeDep("native-plugins/slack/package.json", "@slack/bolt");
   });
 
   it("keeps bundled Telegram runtime deps plugin-local instead of mirroring them into the root package", () => {
-    expectPluginOwnsRuntimeDep("extensions/telegram/package.json", "grammy");
+    expectPluginOwnsRuntimeDep("native-plugins/telegram/package.json", "grammy");
   });
 
   it("keeps WhatsApp runtime deps plugin-local so packaged installs fetch them on demand", () => {
-    expectPluginOwnsRuntimeDep("extensions/whatsapp/package.json", "@whiskeysockets/baileys");
+    expectPluginOwnsRuntimeDep("native-plugins/whatsapp/package.json", "@whiskeysockets/baileys");
   });
 
   it("keeps bundled proxy-agent deps plugin-local instead of mirroring them into the root package", () => {
-    expectPluginOwnsRuntimeDep("extensions/discord/package.json", "https-proxy-agent");
+    expectPluginOwnsRuntimeDep("native-plugins/discord/package.json", "https-proxy-agent");
   });
 });

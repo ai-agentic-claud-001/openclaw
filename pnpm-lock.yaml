@@ -232,33 +232,33 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0(@opentelemetry/api@1.9.0)(@types/node@25.5.0)(@vitest/browser-playwright@4.1.0)(jsdom@29.0.0(@noble/hashes@2.0.1))(vite@8.0.0(@types/node@25.5.0)(esbuild@0.27.3)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2))
 
-  extensions/acpx:
+  native-plugins/acpx:
     dependencies:
       acpx:
         specifier: 0.3.0
         version: 0.3.0(zod@4.3.6)
 
-  extensions/amazon-bedrock: {}
+  native-plugins/amazon-bedrock: {}
 
-  extensions/anthropic: {}
+  native-plugins/anthropic: {}
 
-  extensions/bluebubbles:
+  native-plugins/bluebubbles:
     dependencies:
       zod:
         specifier: ^4.3.6
         version: 4.3.6
 
-  extensions/brave: {}
+  native-plugins/brave: {}
 
-  extensions/byteplus: {}
+  native-plugins/byteplus: {}
 
-  extensions/chutes: {}
+  native-plugins/chutes: {}
 
-  extensions/cloudflare-ai-gateway: {}
+  native-plugins/cloudflare-ai-gateway: {}
 
-  extensions/copilot-proxy: {}
+  native-plugins/copilot-proxy: {}
 
-  extensions/diagnostics-otel:
+  native-plugins/diagnostics-otel:
     dependencies:
       '@opentelemetry/api':
         specifier: ^1.9.0
@@ -294,7 +294,7 @@ importers:
         specifier: ^1.40.0
         version: 1.40.0
 
-  extensions/diffs:
+  native-plugins/diffs:
     dependencies:
       '@pierre/diffs':
         specifier: 1.1.1
@@ -306,7 +306,7 @@ importers:
         specifier: 1.58.2
         version: 1.58.2
 
-  extensions/discord:
+  native-plugins/discord:
     dependencies:
       '@buape/carbon':
         specifier: 0.0.0-beta-20260317045421
@@ -324,11 +324,11 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1
 
-  extensions/elevenlabs: {}
+  native-plugins/elevenlabs: {}
 
-  extensions/fal: {}
+  native-plugins/fal: {}
 
-  extensions/feishu:
+  native-plugins/feishu:
     dependencies:
       '@larksuiteoapi/node-sdk':
         specifier: ^1.59.0
@@ -343,13 +343,13 @@ importers:
         specifier: ^4.3.6
         version: 4.3.6
 
-  extensions/firecrawl: {}
+  native-plugins/firecrawl: {}
 
-  extensions/github-copilot: {}
+  native-plugins/github-copilot: {}
 
-  extensions/google: {}
+  native-plugins/google: {}
 
-  extensions/googlechat:
+  native-plugins/googlechat:
     dependencies:
       google-auth-library:
         specifier: ^10.6.2
@@ -358,23 +358,23 @@ importers:
         specifier: '>=2026.3.11'
         version: 2026.3.13(@napi-rs/canvas@0.1.95)(@types/express@5.0.6)(audio-decode@2.2.3)(jimp@1.6.0)(node-llama-cpp@3.16.2(typescript@5.9.3))
 
-  extensions/huggingface: {}
+  native-plugins/huggingface: {}
 
-  extensions/imessage: {}
+  native-plugins/imessage: {}
 
-  extensions/irc:
+  native-plugins/irc:
     dependencies:
       zod:
         specifier: ^4.3.6
         version: 4.3.6
 
-  extensions/kilocode: {}
+  native-plugins/kilocode: {}
 
-  extensions/kimi-coding: {}
+  native-plugins/kimi-coding: {}
 
-  extensions/line: {}
+  native-plugins/line: {}
 
-  extensions/llm-task:
+  native-plugins/llm-task:
     dependencies:
       '@sinclair/typebox':
         specifier: 0.34.48
@@ -383,13 +383,13 @@ importers:
         specifier: ^8.18.0
         version: 8.18.0
 
-  extensions/lobster:
+  native-plugins/lobster:
     dependencies:
       '@sinclair/typebox':
         specifier: 0.34.48
         version: 0.34.48
 
-  extensions/matrix:
+  native-plugins/matrix:
     dependencies:
       '@matrix-org/matrix-sdk-crypto-nodejs':
         specifier: ^0.4.0
@@ -414,7 +414,7 @@ importers:
         specifier: workspace:*
         version: link:../..
 
-  extensions/mattermost:
+  native-plugins/mattermost:
     dependencies:
       ws:
         specifier: ^8.19.0
@@ -423,13 +423,13 @@ importers:
         specifier: ^4.3.6
         version: 4.3.6
 
-  extensions/memory-core:
+  native-plugins/memory-core:
     dependencies:
       openclaw:
         specifier: '>=2026.3.11'
         version: 2026.3.13(@napi-rs/canvas@0.1.95)(@types/express@5.0.6)(audio-decode@2.2.3)(jimp@1.6.0)(node-llama-cpp@3.16.2(typescript@5.9.3))
 
-  extensions/memory-lancedb:
+  native-plugins/memory-lancedb:
     dependencies:
       '@lancedb/lancedb':
         specifier: ^0.27.0
@@ -441,17 +441,17 @@ importers:
         specifier: ^6.32.0
         version: 6.32.0(ws@8.19.0)(zod@4.3.6)
 
-  extensions/microsoft: {}
+  native-plugins/microsoft: {}
 
-  extensions/minimax: {}
+  native-plugins/minimax: {}
 
-  extensions/mistral: {}
+  native-plugins/mistral: {}
 
-  extensions/modelstudio: {}
+  native-plugins/modelstudio: {}
 
-  extensions/moonshot: {}
+  native-plugins/moonshot: {}
 
-  extensions/msteams:
+  native-plugins/msteams:
     dependencies:
       '@microsoft/agents-hosting':
         specifier: ^1.3.1
@@ -463,13 +463,13 @@ importers:
         specifier: ^11.1.0
         version: 11.1.0
 
-  extensions/nextcloud-talk:
+  native-plugins/nextcloud-talk:
     dependencies:
       zod:
         specifier: ^4.3.6
         version: 4.3.6
 
-  extensions/nostr:
+  native-plugins/nostr:
     dependencies:
       nostr-tools:
         specifier: ^2.23.3
@@ -478,31 +478,31 @@ importers:
         specifier: ^4.3.6
         version: 4.3.6
 
-  extensions/nvidia: {}
+  native-plugins/nvidia: {}
 
-  extensions/ollama: {}
+  native-plugins/ollama: {}
 
-  extensions/open-prose: {}
+  native-plugins/open-prose: {}
 
-  extensions/openai: {}
+  native-plugins/openai: {}
 
-  extensions/opencode: {}
+  native-plugins/opencode: {}
 
-  extensions/opencode-go: {}
+  native-plugins/opencode-go: {}
 
-  extensions/openrouter: {}
+  native-plugins/openrouter: {}
 
-  extensions/openshell: {}
+  native-plugins/openshell: {}
 
-  extensions/perplexity: {}
+  native-plugins/perplexity: {}
 
-  extensions/qianfan: {}
+  native-plugins/qianfan: {}
 
-  extensions/sglang: {}
+  native-plugins/sglang: {}
 
-  extensions/signal: {}
+  native-plugins/signal: {}
 
-  extensions/slack:
+  native-plugins/slack:
     dependencies:
       '@slack/bolt':
         specifier: ^4.6.0
@@ -511,17 +511,17 @@ importers:
         specifier: ^7.15.0
         version: 7.15.0
 
-  extensions/synology-chat:
+  native-plugins/synology-chat:
     dependencies:
       zod:
         specifier: ^4.3.6
         version: 4.3.6
 
-  extensions/synthetic: {}
+  native-plugins/synthetic: {}
 
-  extensions/tavily: {}
+  native-plugins/tavily: {}
 
-  extensions/telegram:
+  native-plugins/telegram:
     dependencies:
       '@grammyjs/runner':
         specifier: ^2.0.3
@@ -533,7 +533,7 @@ importers:
         specifier: ^1.41.1
         version: 1.41.1
 
-  extensions/tlon:
+  native-plugins/tlon:
     dependencies:
       '@aws-sdk/client-s3':
         specifier: 3.1000.0
@@ -551,9 +551,9 @@ importers:
         specifier: ^4.3.6
         version: 4.3.6
 
-  extensions/together: {}
+  native-plugins/together: {}
 
-  extensions/twitch:
+  native-plugins/twitch:
     dependencies:
       '@twurple/api':
         specifier: ^8.0.3
@@ -568,13 +568,13 @@ importers:
         specifier: ^4.3.6
         version: 4.3.6
 
-  extensions/venice: {}
+  native-plugins/venice: {}
 
-  extensions/vercel-ai-gateway: {}
+  native-plugins/vercel-ai-gateway: {}
 
-  extensions/vllm: {}
+  native-plugins/vllm: {}
 
-  extensions/voice-call:
+  native-plugins/voice-call:
     dependencies:
       '@sinclair/typebox':
         specifier: 0.34.48
@@ -589,21 +589,21 @@ importers:
         specifier: ^4.3.6
         version: 4.3.6
 
-  extensions/volcengine: {}
+  native-plugins/volcengine: {}
 
-  extensions/whatsapp:
+  native-plugins/whatsapp:
     dependencies:
       '@whiskeysockets/baileys':
         specifier: 7.0.0-rc.9
         version: 7.0.0-rc.9(audio-decode@2.2.3)(jimp@1.6.0)(sharp@0.34.5)
 
-  extensions/xai: {}
+  native-plugins/xai: {}
 
-  extensions/xiaomi: {}
+  native-plugins/xiaomi: {}
 
-  extensions/zai: {}
+  native-plugins/zai: {}
 
-  extensions/zalo:
+  native-plugins/zalo:
     dependencies:
       undici:
         specifier: 7.24.4
@@ -612,7 +612,7 @@ importers:
         specifier: ^4.3.6
         version: 4.3.6
 
-  extensions/zalouser:
+  native-plugins/zalouser:
     dependencies:
       '@sinclair/typebox':
         specifier: 0.34.48

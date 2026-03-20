@@ -78,13 +78,13 @@ jobs:
 
           node scripts/ci-changed-scope.mjs --base "$BASE" --head HEAD
 
-  changed-extensions:
+  changed-native-plugins:
     needs: [docs-scope, changed-scope]
     if: needs.docs-scope.outputs.docs_only != 'true' && needs.changed-scope.outputs.run_node == 'true'
     runs-on: blacksmith-16vcpu-ubuntu-2404
     outputs:
-      has_changed_extensions: ${{ steps.changed.outputs.has_changed_extensions }}
-      changed_extensions_matrix: ${{ steps.changed.outputs.changed_extensions_matrix }}
+      has_changed_native_plugins: ${{ steps.changed.outputs.has_changed_native_plugins }}
+      changed_native_plugins_matrix: ${{ steps.changed.outputs.changed_native_plugins_matrix }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -93,7 +93,7 @@ jobs:
           fetch-tags: false
           submodules: false
 
-      - name: Ensure changed-extensions base commit
+      - name: Ensure changed-native-plugins base commit
         uses: ./.github/actions/ensure-base-commit
         with:
           base-sha: ${{ github.event_name == 'push' && github.event.before || github.event.pull_request.base.sha }}
@@ -106,20 +106,20 @@ jobs:
           install-deps: "false"
           use-sticky-disk: "false"
 
-      - name: Detect changed extensions
+      - name: Detect changed native plugins
         id: changed
         env:
           BASE_SHA: ${{ github.event_name == 'push' && github.event.before || github.event.pull_request.base.sha }}
         run: |
           node --input-type=module <<'EOF'
           import { appendFileSync } from "node:fs";
-          import { listChangedExtensionIds } from "./scripts/test-extension.mjs";
+          import { listChangedNativePluginIds } from "./scripts/test-native-plugin.mjs";
 
-          const extensionIds = listChangedExtensionIds({ base: process.env.BASE_SHA, head: "HEAD" });
-          const matrix = JSON.stringify({ include: extensionIds.map((extension) => ({ extension })) });
+          const nativePluginIds = listChangedNativePluginIds({ base: process.env.BASE_SHA, head: "HEAD" });
+          const matrix = JSON.stringify({ include: nativePluginIds.map((nativePlugin) => ({ nativePlugin })) });
 
-          appendFileSync(process.env.GITHUB_OUTPUT, `has_changed_extensions=${extensionIds.length > 0}\n`, "utf8");
-          appendFileSync(process.env.GITHUB_OUTPUT, `changed_extensions_matrix=${matrix}\n`, "utf8");
+          appendFileSync(process.env.GITHUB_OUTPUT, `has_changed_native_plugins=${nativePluginIds.length > 0}\n`, "utf8");
+          appendFileSync(process.env.GITHUB_OUTPUT, `changed_native_plugins_matrix=${matrix}\n`, "utf8");
           EOF
 
   # Build dist once for Node-relevant changes and share it with downstream jobs.
@@ -201,8 +201,8 @@ jobs:
             shard_count: 2
             command: pnpm canvas:a2ui:bundle && pnpm test
           - runtime: node
-            task: extensions
-            command: pnpm test:extensions
+            task: native-plugins
+            command: pnpm test:native-plugins
           - runtime: node
             task: channels
             command: pnpm test:channels
@@ -263,14 +263,14 @@ jobs:
         if: github.event_name != 'pull_request' || (matrix.runtime != 'bun' && matrix.task != 'compat-node22')
         run: ${{ matrix.command }}
 
-  extension-fast:
-    name: "extension-fast"
-    needs: [docs-scope, changed-scope, changed-extensions]
-    if: needs.docs-scope.outputs.docs_only != 'true' && needs.changed-scope.outputs.run_node == 'true' && needs.changed-extensions.outputs.has_changed_extensions == 'true'
+  native-plugin-fast:
+    name: "native-plugin-fast"
+    needs: [docs-scope, changed-scope, changed-native-plugins]
+    if: needs.docs-scope.outputs.docs_only != 'true' && needs.changed-scope.outputs.run_node == 'true' && needs.changed-native-plugins.outputs.has_changed_native_plugins == 'true'
     runs-on: blacksmith-16vcpu-ubuntu-2404
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.changed-extensions.outputs.changed_extensions_matrix) }}
+      matrix: ${{ fromJson(needs.changed-native-plugins.outputs.changed_native_plugins_matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -283,10 +283,10 @@ jobs:
           install-bun: "false"
           use-sticky-disk: "false"
 
-      - name: Run changed extension tests
+      - name: Run changed native plugin tests
         env:
-          OPENCLAW_CHANGED_EXTENSION: ${{ matrix.extension }}
-        run: pnpm test:extension "$OPENCLAW_CHANGED_EXTENSION"
+          OPENCLAW_CHANGED_NATIVE_PLUGIN: ${{ matrix.nativePlugin }}
+        run: pnpm test:native-plugin "$OPENCLAW_CHANGED_NATIVE_PLUGIN"
 
   # Types, lint, and format check.
   check:
@@ -315,8 +315,8 @@ jobs:
       - name: Enforce safe external URL opening policy
         run: pnpm lint:ui:no-raw-window-open
 
-  plugin-extension-boundary:
-    name: "plugin-extension-boundary"
+  plugin-native-plugin-boundary:
+    name: "plugin-native-plugin-boundary"
     needs: [docs-scope, changed-scope]
     if: needs.docs-scope.outputs.docs_only != 'true' && needs.changed-scope.outputs.run_node == 'true'
     runs-on: blacksmith-16vcpu-ubuntu-2404
@@ -332,8 +332,8 @@ jobs:
           install-bun: "false"
           use-sticky-disk: "false"
 
-      - name: Run plugin extension boundary guard
-        run: pnpm run lint:plugins:no-extension-imports
+      - name: Run plugin native plugin boundary guard
+        run: pnpm run lint:plugins:no-native-plugin-imports
 
   web-search-provider-boundary:
     name: "web-search-provider-boundary"
@@ -355,8 +355,8 @@ jobs:
       - name: Run web search provider boundary guard
         run: pnpm run lint:web-search-provider-boundaries
 
-  extension-src-outside-plugin-sdk-boundary:
-    name: "extension-src-outside-plugin-sdk-boundary"
+  native-plugin-src-outside-plugin-sdk-boundary:
+    name: "native-plugin-src-outside-plugin-sdk-boundary"
     needs: [docs-scope, changed-scope]
     if: needs.docs-scope.outputs.docs_only != 'true' && needs.changed-scope.outputs.run_node == 'true'
     runs-on: blacksmith-16vcpu-ubuntu-2404
@@ -372,11 +372,11 @@ jobs:
           install-bun: "false"
           use-sticky-disk: "false"
 
-      - name: Run extension src boundary guard
-        run: pnpm run lint:extensions:no-src-outside-plugin-sdk
+      - name: Run native plugin src boundary guard
+        run: pnpm run lint:native-plugins:no-src-outside-plugin-sdk
 
-  extension-plugin-sdk-internal-boundary:
-    name: "extension-plugin-sdk-internal-boundary"
+  native-plugin-plugin-sdk-internal-boundary:
+    name: "native-plugin-plugin-sdk-internal-boundary"
     needs: [docs-scope, changed-scope]
     if: needs.docs-scope.outputs.docs_only != 'true' && needs.changed-scope.outputs.run_node == 'true'
     runs-on: blacksmith-16vcpu-ubuntu-2404
@@ -392,8 +392,8 @@ jobs:
           install-bun: "false"
           use-sticky-disk: "false"
 
-      - name: Run extension plugin-sdk-internal guard
-        run: pnpm run lint:extensions:no-plugin-sdk-internal
+      - name: Run native plugin plugin-sdk-internal guard
+        run: pnpm run lint:native-plugins:no-plugin-sdk-internal
 
   build-smoke:
     name: "build-smoke"

@@ -50,7 +50,7 @@ describe("collectBundledExtensionManifestErrors", () => {
         },
       ]),
     ).toEqual([
-      "bundled extension 'broken' manifest invalid | openclaw.install.npmSpec must be a non-empty string",
+      "bundled native plugin 'broken' manifest invalid | openclaw.install.npmSpec must be a non-empty string",
     ]);
   });
 });
@@ -60,11 +60,11 @@ describe("collectForbiddenPackPaths", () => {
     expect(
       collectForbiddenPackPaths([
         "dist/index.js",
-        "dist/extensions/discord/node_modules/@buape/carbon/index.js",
-        "extensions/tlon/node_modules/.bin/tlon",
+        "dist/native-plugins/discord/node_modules/@buape/carbon/index.js",
+        "native-plugins/tlon/node_modules/.bin/tlon",
         "node_modules/.bin/openclaw",
       ]),
-    ).toEqual(["extensions/tlon/node_modules/.bin/tlon", "node_modules/.bin/openclaw"]);
+    ).toEqual(["native-plugins/tlon/node_modules/.bin/tlon", "node_modules/.bin/openclaw"]);
   });
 });
 
@@ -79,7 +79,7 @@ describe("collectPackUnpackedSizeErrors", () => {
     expect(
       collectPackUnpackedSizeErrors([makePackResult("openclaw-2026.3.12.tgz", 224_002_564)]),
     ).toEqual([
-      "openclaw-2026.3.12.tgz unpackedSize 224002564 bytes (213.6 MiB) exceeds budget 167772160 bytes (160.0 MiB). Investigate duplicate channel shims, copied extension trees, or other accidental pack bloat before release.",
+      "openclaw-2026.3.12.tgz unpackedSize 224002564 bytes (213.6 MiB) exceeds budget 167772160 bytes (160.0 MiB). Investigate duplicate channel shims, copied native plugin trees, or other accidental pack bloat before release.",
     ]);
   });
 

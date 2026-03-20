@@ -25,7 +25,7 @@ import { clearPluginInteractiveHandlers } from "./interactive.js";
 import { loadPluginManifestRegistry } from "./manifest-registry.js";
 import { isPathInside, safeStatSync } from "./path-safety.js";
 import { createPluginRegistry, type PluginRecord, type PluginRegistry } from "./registry.js";
-import { resolvePluginCacheInputs } from "./roots.js";
+import { resolvePluginCacheInputs, resolvePluginSourceRootCandidates } from "./roots.js";
 import { setActivePluginRegistry } from "./runtime.js";
 import type { CreatePluginRuntimeOptions } from "./runtime/index.js";
 import type { PluginRuntime } from "./runtime/types.js";
@@ -218,6 +218,10 @@ function buildCacheKey(params: {
     loadPaths: params.plugins.loadPaths,
     env: params.env,
   });
+  const autoRoots = resolvePluginSourceRootCandidates({
+    workspaceDir: params.workspaceDir,
+    env: params.env,
+  });
   const installs = Object.fromEntries(
     Object.entries(params.installs ?? {}).map(([pluginId, install]) => [
       pluginId,
@@ -238,11 +242,13 @@ function buildCacheKey(params: {
   const setupOnlyKey = params.includeSetupOnlyChannelPlugins === true ? "setup-only" : "runtime";
   const startupChannelMode =
     params.preferSetupRuntimeForChannelPlugins === true ? "prefer-setup" : "full";
-  return `${roots.workspace ?? ""}::${roots.global ?? ""}::${roots.stock ?? ""}::${JSON.stringify({
-    ...params.plugins,
-    installs,
-    loadPaths,
-  })}::${scopeKey}::${setupOnlyKey}::${startupChannelMode}::${params.runtimeSubagentMode ?? "default"}`;
+  return `${JSON.stringify(autoRoots.workspace)}::${JSON.stringify(autoRoots.global)}::${roots.stock ?? ""}::${JSON.stringify(
+    {
+      ...params.plugins,
+      installs,
+      loadPaths,
+    },
+  )}::${scopeKey}::${setupOnlyKey}::${startupChannelMode}::${params.runtimeSubagentMode ?? "default"}`;
 }
 
 function normalizeScopedPluginIds(ids?: string[]): string[] | undefined {

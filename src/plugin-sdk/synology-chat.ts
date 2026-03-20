@@ -1,5 +1,5 @@
 // Narrow plugin-sdk surface for the bundled synology-chat plugin.
-// Keep this list additive and scoped to symbols used under extensions/synology-chat.
+// Keep this list additive and scoped to symbols used under native-plugins/synology-chat.
 
 export { setAccountEnabledInConfigSection } from "../channels/plugins/config-helpers.js";
 export { buildChannelConfigSchema } from "../channels/plugins/config-schema.js";
@@ -20,4 +20,4 @@ export { createFixedWindowRateLimiter } from "./webhook-memory-guards.js";
 export {
   synologyChatSetupAdapter,
   synologyChatSetupWizard,
-} from "../../extensions/synology-chat/setup-api.js";
+} from "../../native-plugins/synology-chat/setup-api.js";

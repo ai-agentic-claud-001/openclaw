@@ -11,7 +11,7 @@ import {
 } from "./lib/ts-guard-utils.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const scanRoots = resolveSourceRoots(repoRoot, ["src", "extensions", "scripts", "test"]);
+const scanRoots = resolveSourceRoots(repoRoot, ["src", "native-plugins", "scripts", "test"]);
 
 function readPackageExports() {
   const packageJson = JSON.parse(readFileSync(path.join(repoRoot, "package.json"), "utf8"));

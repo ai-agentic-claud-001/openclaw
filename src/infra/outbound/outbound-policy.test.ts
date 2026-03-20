@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { discordPlugin } from "../../../extensions/discord/src/channel.js";
+import { discordPlugin } from "../../../native-plugins/discord/src/channel.js";
 import type { OpenClawConfig } from "../../config/config.js";
 import { setActivePluginRegistry } from "../../plugins/runtime.js";
 import { createTestRegistry } from "../../test-utils/channel-plugins.js";

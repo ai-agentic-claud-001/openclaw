@@ -35,7 +35,7 @@ openclaw plugins install @openclaw/nostr
 Use a local checkout (dev workflows):
 
 ```bash
-openclaw plugins install --link <path-to-openclaw>/extensions/nostr
+openclaw plugins install --link <path-to-openclaw>/native-plugins/nostr
 ```
 
 Restart the Gateway after installing or enabling plugins.

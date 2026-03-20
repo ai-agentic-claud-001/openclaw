@@ -44,17 +44,17 @@ describe("watch-node script", () => {
       { ignoreInitial: boolean; ignored: (watchPath: string) => boolean },
     ];
     expect(watchPaths).toEqual(runNodeWatchedPaths);
-    expect(watchPaths).toContain("extensions");
+    expect(watchPaths).toContain("native-plugins");
     expect(watchPaths).toContain("tsdown.config.ts");
     expect(watchOptions.ignoreInitial).toBe(true);
     expect(watchOptions.ignored("src/infra/watch-node.test.ts")).toBe(true);
     expect(watchOptions.ignored("src/infra/watch-node.test.tsx")).toBe(true);
     expect(watchOptions.ignored("src/infra/watch-node-test-helpers.ts")).toBe(true);
-    expect(watchOptions.ignored("extensions/voice-call/README.md")).toBe(true);
-    expect(watchOptions.ignored("extensions/voice-call/openclaw.plugin.json")).toBe(false);
-    expect(watchOptions.ignored("extensions/voice-call/package.json")).toBe(false);
-    expect(watchOptions.ignored("extensions/voice-call/index.ts")).toBe(false);
-    expect(watchOptions.ignored("extensions/voice-call/src/runtime.ts")).toBe(false);
+    expect(watchOptions.ignored("native-plugins/voice-call/README.md")).toBe(true);
+    expect(watchOptions.ignored("native-plugins/voice-call/openclaw.plugin.json")).toBe(false);
+    expect(watchOptions.ignored("native-plugins/voice-call/package.json")).toBe(false);
+    expect(watchOptions.ignored("native-plugins/voice-call/index.ts")).toBe(false);
+    expect(watchOptions.ignored("native-plugins/voice-call/src/runtime.ts")).toBe(false);
     expect(watchOptions.ignored("src/infra/watch-node.ts")).toBe(false);
     expect(watchOptions.ignored("tsconfig.json")).toBe(false);
 
@@ -173,17 +173,17 @@ describe("watch-node script", () => {
     expect(spawn).toHaveBeenCalledTimes(1);
     expect(childA.kill).not.toHaveBeenCalled();
 
-    watcher.emit("change", "extensions/voice-call/README.md");
+    watcher.emit("change", "native-plugins/voice-call/README.md");
     await new Promise((resolve) => setImmediate(resolve));
     expect(spawn).toHaveBeenCalledTimes(1);
     expect(childA.kill).not.toHaveBeenCalled();
 
-    watcher.emit("change", "extensions/voice-call/openclaw.plugin.json");
+    watcher.emit("change", "native-plugins/voice-call/openclaw.plugin.json");
     await new Promise((resolve) => setImmediate(resolve));
     expect(childA.kill).toHaveBeenCalledWith("SIGTERM");
     expect(spawn).toHaveBeenCalledTimes(2);
 
-    watcher.emit("change", "extensions/voice-call/package.json");
+    watcher.emit("change", "native-plugins/voice-call/package.json");
     await new Promise((resolve) => setImmediate(resolve));
     expect(childB.kill).toHaveBeenCalledWith("SIGTERM");
     expect(spawn).toHaveBeenCalledTimes(3);

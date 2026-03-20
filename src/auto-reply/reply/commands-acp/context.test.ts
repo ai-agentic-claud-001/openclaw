@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import {
   __testing as feishuThreadBindingTesting,
   createFeishuThreadBindingManager,
-} from "../../../../extensions/feishu/src/thread-bindings.js";
+} from "../../../../native-plugins/feishu/src/thread-bindings.js";
 import type { OpenClawConfig } from "../../../config/config.js";
 import {
   __testing as sessionBindingTesting,

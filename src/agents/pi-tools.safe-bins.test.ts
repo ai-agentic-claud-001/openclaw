@@ -12,7 +12,7 @@ const bundledPluginsDirSnapshot = captureEnv(["OPENCLAW_BUNDLED_PLUGINS_DIR"]);
 beforeAll(() => {
   process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = path.join(
     os.tmpdir(),
-    "openclaw-test-no-bundled-extensions",
+    "openclaw-test-no-bundled-native-plugins",
   );
 });
 

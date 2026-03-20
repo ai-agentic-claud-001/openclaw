@@ -1,5 +1,5 @@
 // Narrow plugin-sdk surface for the bundled device-pair plugin.
-// Keep this list additive and scoped to symbols used under extensions/device-pair.
+// Keep this list additive and scoped to symbols used under native-plugins/device-pair.
 
 export { definePluginEntry } from "./core.js";
 export { approveDevicePairing, listDevicePairing } from "../infra/device-pairing.js";

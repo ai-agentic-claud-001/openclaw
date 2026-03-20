@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { mistralMediaUnderstandingProvider } from "../../../../extensions/mistral/media-understanding-provider.js";
+import { mistralMediaUnderstandingProvider } from "../../../../native-plugins/mistral/media-understanding-provider.js";
 import {
   createRequestCaptureJsonFetch,
   installPinnedHostnameTestHooks,

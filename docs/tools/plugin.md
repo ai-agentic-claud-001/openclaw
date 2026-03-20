@@ -177,19 +177,19 @@ OpenClaw scans, in order:
 
 2. Workspace extensions
 
-- `<workspace>/.openclaw/extensions/*.ts`
-- `<workspace>/.openclaw/extensions/*/index.ts`
+- `<workspace>/.openclaw/plugins/*.ts`
+- `<workspace>/.openclaw/plugins/*/index.ts`
 
 3. Global extensions
 
-- `~/.openclaw/extensions/*.ts`
-- `~/.openclaw/extensions/*/index.ts`
+- `~/.openclaw/plugins/*.ts`
+- `~/.openclaw/plugins/*/index.ts`
 
 4. Bundled extensions (shipped with OpenClaw; mixed default-on/default-off)
 
-- `<openclaw>/dist/extensions/*` in packaged installs
-- `<workspace>/dist-runtime/extensions/*` in local built checkouts
-- `<workspace>/extensions/*` in source/Vitest workflows
+- `<openclaw>/dist/native-plugins/*` in packaged installs
+- `<workspace>/dist-runtime/native-plugins/*` in local built checkouts
+- `<workspace>/native-plugins/*` in source/Vitest workflows
 
 Many bundled provider plugins are enabled by default so model catalogs/runtime
 hooks stay available without extra setup. Others still require explicit
@@ -198,10 +198,10 @@ enablement via `plugins.entries.<id>.enabled` or
 
 Bundled plugin runtime dependencies are owned by each plugin package. Packaged
 builds stage opted-in bundled dependencies under
-`dist/extensions/<id>/node_modules` instead of requiring mirrored copies in the
+`dist/native-plugins/<id>/node_modules` instead of requiring mirrored copies in the
 root package. Very large official plugins can ship as metadata-only bundled
 entries and install their runtime package on demand. npm artifacts ship the
-built `dist/extensions/*` tree; source `extensions/*` directories stay in source
+built `dist/native-plugins/*` tree; source `native-plugins/*` directories stay in source
 checkouts only.
 
 Installed plugins are enabled by default, but can be disabled the same way.
@@ -279,11 +279,11 @@ openclaw plugins doctor                # issue-focused diagnostics
 ```bash
 openclaw plugins list
 openclaw plugins inspect <id>
-openclaw plugins install <path>                 # copy a local file/dir into ~/.openclaw/extensions/<id>
-openclaw plugins install ./extensions/voice-call # relative path ok
+openclaw plugins install <path>                 # copy a local file/dir into ~/.openclaw/plugins/<id>
+openclaw plugins install ./native-plugins/voice-call # relative path ok
 openclaw plugins install ./plugin.tgz           # install from a local tarball
 openclaw plugins install ./plugin.zip           # install from a local zip
-openclaw plugins install -l ./extensions/voice-call # link (no copy) for dev
+openclaw plugins install -l ./native-plugins/voice-call # link (no copy) for dev
 openclaw plugins install @openclaw/voice-call   # install from npm
 openclaw plugins install @openclaw/voice-call --pin # store exact resolved name@version
 openclaw plugins update <id-or-npm-spec>
@@ -329,7 +329,7 @@ See [Plugin manifest](/plugins/manifest) for the manifest file format.
 - [Plugin architecture and internals](/plugins/architecture) -- capability model,
   ownership model, contracts, load pipeline, runtime helpers, and developer API
   reference
-- [Building extensions](/plugins/building-extensions)
+- [Building native plugins](/plugins/building-native-plugins)
 - [Plugin bundles](/plugins/bundles)
 - [Plugin manifest](/plugins/manifest)
 - [Plugin agent tools](/plugins/agent-tools)

@@ -1075,7 +1075,7 @@
               {
                 "group": "Extensions",
                 "pages": [
-                  "plugins/building-extensions",
+                  "plugins/building-native-plugins",
                   "plugins/architecture",
                   "plugins/community",
                   "plugins/bundles",

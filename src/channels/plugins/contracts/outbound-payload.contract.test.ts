@@ -1,11 +1,11 @@
 import { describe, vi } from "vitest";
-import { discordOutbound } from "../../../../extensions/discord/src/outbound-adapter.js";
-import { whatsappOutbound } from "../../../../extensions/whatsapp/src/outbound-adapter.js";
-import { zaloPlugin } from "../../../../extensions/zalo/src/channel.js";
-import { sendMessageZalo } from "../../../../extensions/zalo/src/send.js";
-import { zalouserPlugin } from "../../../../extensions/zalouser/src/channel.js";
-import { setZalouserRuntime } from "../../../../extensions/zalouser/src/runtime.js";
-import { sendMessageZalouser } from "../../../../extensions/zalouser/src/send.js";
+import { discordOutbound } from "../../../../native-plugins/discord/src/outbound-adapter.js";
+import { whatsappOutbound } from "../../../../native-plugins/whatsapp/src/outbound-adapter.js";
+import { zaloPlugin } from "../../../../native-plugins/zalo/src/channel.js";
+import { sendMessageZalo } from "../../../../native-plugins/zalo/src/send.js";
+import { zalouserPlugin } from "../../../../native-plugins/zalouser/src/channel.js";
+import { setZalouserRuntime } from "../../../../native-plugins/zalouser/src/runtime.js";
+import { sendMessageZalouser } from "../../../../native-plugins/zalouser/src/send.js";
 import { slackOutbound } from "../../../../test/channel-outbounds.js";
 import type { ReplyPayload } from "../../../auto-reply/types.js";
 import { createDirectTextMediaOutbound } from "../outbound/direct-text-media.js";
@@ -14,14 +14,14 @@ import {
   primeChannelOutboundSendMock,
 } from "./suites.js";
 
-vi.mock("../../../../extensions/zalo/src/send.js", () => ({
+vi.mock("../../../../native-plugins/zalo/src/send.js", () => ({
   sendMessageZalo: vi.fn().mockResolvedValue({ ok: true, messageId: "zl-1" }),
 }));
 
 // This suite only validates payload adaptation. Keep zalouser's runtime-only
 // ZCA import graph mocked so local contract runs don't depend on native socket
 // deps being resolved through the extension runtime seam.
-vi.mock("../../../../extensions/zalouser/src/accounts.js", () => ({
+vi.mock("../../../../native-plugins/zalouser/src/accounts.js", () => ({
   listZalouserAccountIds: vi.fn(() => ["default"]),
   resolveDefaultZalouserAccountId: vi.fn(() => "default"),
   resolveZalouserAccountSync: vi.fn(() => ({
@@ -36,7 +36,7 @@ vi.mock("../../../../extensions/zalouser/src/accounts.js", () => ({
   checkZcaAuthenticated: vi.fn(async () => false),
 }));
 
-vi.mock("../../../../extensions/zalouser/src/zalo-js.js", () => ({
+vi.mock("../../../../native-plugins/zalouser/src/zalo-js.js", () => ({
   checkZaloAuthenticated: vi.fn(async () => false),
   getZaloUserInfo: vi.fn(async () => null),
   listZaloFriendsMatching: vi.fn(async () => []),
@@ -59,7 +59,7 @@ vi.mock("../../../../extensions/zalouser/src/zalo-js.js", () => ({
   })),
 }));
 
-vi.mock("../../../../extensions/zalouser/src/send.js", () => ({
+vi.mock("../../../../native-plugins/zalouser/src/send.js", () => ({
   sendMessageZalouser: vi.fn().mockResolvedValue({ ok: true, messageId: "zlu-1" }),
   sendReactionZalouser: vi.fn().mockResolvedValue({ ok: true }),
 }));

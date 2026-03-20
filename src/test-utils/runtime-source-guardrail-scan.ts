@@ -79,10 +79,14 @@ function tryListTrackedRuntimeSourceFiles(repoRoot: string): string[] | null {
   }
 
   try {
-    const stdout = execFileSync("git", ["-C", repoRoot, "ls-files", "--", "src", "extensions"], {
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "ignore"],
-    });
+    const stdout = execFileSync(
+      "git",
+      ["-C", repoRoot, "ls-files", "--", "src", "native-plugins"],
+      {
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+      },
+    );
     const files = stdout
       .split(/\r?\n/u)
       .filter(Boolean)
@@ -107,7 +111,7 @@ export async function loadRuntimeSourceFilesForGuardrails(
         trackedFiles ??
         (
           await listRuntimeSourceFiles(repoRoot, {
-            roots: ["src", "extensions"],
+            roots: ["src", "native-plugins"],
             extensions: [".ts", ".tsx"],
           })
         ).filter((absolutePath) => {

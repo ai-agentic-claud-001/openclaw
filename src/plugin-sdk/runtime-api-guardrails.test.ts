@@ -7,7 +7,7 @@ import { describe, expect, it } from "vitest";
 const ROOT_DIR = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 const RUNTIME_API_EXPORT_GUARDS: Record<string, readonly string[]> = {
-  "extensions/discord/runtime-api.ts": [
+  "native-plugins/discord/runtime-api.ts": [
     'export * from "./src/audit.js";',
     'export * from "./src/actions/runtime.js";',
     'export * from "./src/actions/runtime.moderation-shared.js";',
@@ -26,7 +26,7 @@ const RUNTIME_API_EXPORT_GUARDS: Record<string, readonly string[]> = {
     'export * from "./src/resolve-users.js";',
     'export * from "./src/send.js";',
   ],
-  "extensions/imessage/runtime-api.ts": [
+  "native-plugins/imessage/runtime-api.ts": [
     'export { DEFAULT_ACCOUNT_ID, PAIRING_APPROVED_MESSAGE, buildChannelConfigSchema, collectStatusIssuesFromLastError, formatTrimmedAllowFromEntries, getChatChannelMeta, looksLikeIMessageTargetId, normalizeIMessageMessagingTarget, resolveChannelMediaMaxBytes, resolveIMessageConfigAllowFrom, resolveIMessageConfigDefaultTo, IMessageConfigSchema, type ChannelPlugin, type IMessageAccountConfig } from "openclaw/plugin-sdk/imessage";',
     'export { resolveIMessageGroupRequireMention, resolveIMessageGroupToolPolicy } from "./src/group-policy.js";',
     'export { monitorIMessageProvider } from "./src/monitor.js";',
@@ -34,23 +34,23 @@ const RUNTIME_API_EXPORT_GUARDS: Record<string, readonly string[]> = {
     'export { probeIMessage } from "./src/probe.js";',
     'export { sendMessageIMessage } from "./src/send.js";',
   ],
-  "extensions/googlechat/runtime-api.ts": ['export * from "openclaw/plugin-sdk/googlechat";'],
-  "extensions/matrix/runtime-api.ts": [
+  "native-plugins/googlechat/runtime-api.ts": ['export * from "openclaw/plugin-sdk/googlechat";'],
+  "native-plugins/matrix/runtime-api.ts": [
     'export * from "./src/auth-precedence.js";',
     'export * from "./helper-api.js";',
   ],
-  "extensions/nextcloud-talk/runtime-api.ts": [
+  "native-plugins/nextcloud-talk/runtime-api.ts": [
     'export * from "openclaw/plugin-sdk/nextcloud-talk";',
   ],
-  "extensions/signal/runtime-api.ts": ['export * from "./src/runtime-api.js";'],
-  "extensions/slack/runtime-api.ts": [
+  "native-plugins/signal/runtime-api.ts": ['export * from "./src/runtime-api.js";'],
+  "native-plugins/slack/runtime-api.ts": [
     'export * from "./src/action-runtime.js";',
     'export * from "./src/directory-live.js";',
     'export * from "./src/index.js";',
     'export * from "./src/resolve-channels.js";',
     'export * from "./src/resolve-users.js";',
   ],
-  "extensions/telegram/runtime-api.ts": [
+  "native-plugins/telegram/runtime-api.ts": [
     'export type { ChannelMessageActionAdapter, ChannelPlugin, OpenClawConfig, OpenClawPluginApi, PluginRuntime, TelegramAccountConfig, TelegramActionConfig, TelegramNetworkConfig } from "openclaw/plugin-sdk/telegram";',
     'export type { OpenClawPluginService, OpenClawPluginServiceContext, PluginLogger } from "openclaw/plugin-sdk/core";',
     'export type { AcpRuntime, AcpRuntimeCapabilities, AcpRuntimeDoctorReport, AcpRuntimeEnsureInput, AcpRuntimeEvent, AcpRuntimeHandle, AcpRuntimeStatus, AcpRuntimeTurnInput, AcpRuntimeErrorCode, AcpSessionUpdateTag } from "openclaw/plugin-sdk/acp-runtime";',
@@ -66,7 +66,7 @@ const RUNTIME_API_EXPORT_GUARDS: Record<string, readonly string[]> = {
     'export { createTelegramThreadBindingManager, getTelegramThreadBindingManager, setTelegramThreadBindingIdleTimeoutBySessionKey, setTelegramThreadBindingMaxAgeBySessionKey } from "./src/thread-bindings.js";',
     'export { resolveTelegramToken } from "./src/token.js";',
   ],
-  "extensions/whatsapp/runtime-api.ts": [
+  "native-plugins/whatsapp/runtime-api.ts": [
     'export * from "./src/active-listener.js";',
     'export * from "./src/action-runtime.js";',
     'export * from "./src/agent-tools-login.js";',

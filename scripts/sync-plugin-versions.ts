@@ -46,8 +46,8 @@ export function syncPluginVersions(rootDir = resolve(".")) {
     throw new Error("Root package.json missing version.");
   }
 
-  const extensionsDir = join(rootDir, "extensions");
-  const dirs = readdirSync(extensionsDir, { withFileTypes: true }).filter((entry) =>
+  const nativePluginsDir = join(rootDir, "native-plugins");
+  const dirs = readdirSync(nativePluginsDir, { withFileTypes: true }).filter((entry) =>
     entry.isDirectory(),
   );
 
@@ -57,7 +57,7 @@ export function syncPluginVersions(rootDir = resolve(".")) {
   const strippedWorkspaceDevDeps: string[] = [];
 
   for (const dir of dirs) {
-    const packagePath = join(extensionsDir, dir.name, "package.json");
+    const packagePath = join(nativePluginsDir, dir.name, "package.json");
     let pkg: PackageJson;
     try {
       pkg = JSON.parse(readFileSync(packagePath, "utf8")) as PackageJson;
@@ -70,7 +70,7 @@ export function syncPluginVersions(rootDir = resolve(".")) {
       continue;
     }
 
-    const changelogPath = join(extensionsDir, dir.name, "CHANGELOG.md");
+    const changelogPath = join(nativePluginsDir, dir.name, "CHANGELOG.md");
     if (ensureChangelogEntry(changelogPath, targetVersion)) {
       changelogged.push(pkg.name);
     }

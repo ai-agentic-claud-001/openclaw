@@ -12,11 +12,11 @@ const workspacePackagePaths = ["ui/package.json"];
 const compareStrings = (left, right) => left.localeCompare(right);
 
 async function collectWorkspacePackagePaths() {
-  const extensionsRoot = path.join(repoRoot, "extensions");
-  const entries = await fs.readdir(extensionsRoot, { withFileTypes: true });
+  const nativePluginsRoot = path.join(repoRoot, "native-plugins");
+  const entries = await fs.readdir(nativePluginsRoot, { withFileTypes: true });
   for (const entry of entries) {
     if (entry.isDirectory()) {
-      workspacePackagePaths.push(path.join("extensions", entry.name, "package.json"));
+      workspacePackagePaths.push(path.join("native-plugins", entry.name, "package.json"));
     }
   }
 }
@@ -80,7 +80,7 @@ function normalizePluginSdkFamily(resolvedPath) {
 }
 
 function resolveOptionalClusterFromPath(resolvedPath) {
-  if (resolvedPath.startsWith("extensions/")) {
+  if (resolvedPath.startsWith("native-plugins/")) {
     const cluster = resolvedPath.split("/")[1];
     return optionalBundledClusterSet.has(cluster) ? cluster : null;
   }
@@ -331,8 +331,8 @@ function packageClusterMeta(relativePackagePath) {
     cluster,
     packageName: null,
     packagePath: relativePackagePath,
-    reachability: relativePackagePath.startsWith("extensions/")
-      ? "extension-workspace"
+    reachability: relativePackagePath.startsWith("native-plugins/")
+      ? "native-plugin-workspace"
       : "workspace",
   };
 }
@@ -378,7 +378,7 @@ async function buildMissingPackages() {
   const pluginSdkReachability = new Map();
   for (const filePath of pluginSdkEntrySources) {
     const source = await fs.readFile(filePath, "utf8");
-    const matches = [...source.matchAll(/from\s+"(\.\.\/\.\.\/extensions\/([^/]+)\/[^"]+)"/g)];
+    const matches = [...source.matchAll(/from\s+"(\.\.\/\.\.\/native-plugins\/([^/]+)\/[^"]+)"/g)];
     for (const match of matches) {
       const cluster = match[2];
       const bucket = pluginSdkReachability.get(cluster) ?? new Set();

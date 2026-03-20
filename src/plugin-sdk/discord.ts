@@ -6,14 +6,14 @@ export type {
 export type { OpenClawConfig } from "../config/config.js";
 export type { DiscordAccountConfig, DiscordActionConfig } from "../config/types.js";
 export type { DiscordConfig, DiscordPluralKitConfig } from "../config/types.discord.js";
-export type { InspectedDiscordAccount } from "../../extensions/discord/api.js";
-export type { ResolvedDiscordAccount } from "../../extensions/discord/api.js";
-export type { DiscordSendComponents, DiscordSendEmbeds } from "../../extensions/discord/api.js";
+export type { InspectedDiscordAccount } from "../../native-plugins/discord/api.js";
+export type { ResolvedDiscordAccount } from "../../native-plugins/discord/api.js";
+export type { DiscordSendComponents, DiscordSendEmbeds } from "../../native-plugins/discord/api.js";
 export type {
   ThreadBindingManager,
   ThreadBindingRecord,
   ThreadBindingTargetKind,
-} from "../../extensions/discord/runtime-api.js";
+} from "../../native-plugins/discord/runtime-api.js";
 export type {
   ChannelConfiguredBindingProvider,
   ChannelConfiguredBindingConversationRef,
@@ -51,11 +51,11 @@ export {
 export {
   listDiscordDirectoryGroupsFromConfig,
   listDiscordDirectoryPeersFromConfig,
-} from "../../extensions/discord/api.js";
+} from "../../native-plugins/discord/api.js";
 export {
   resolveDiscordGroupRequireMention,
   resolveDiscordGroupToolPolicy,
-} from "../../extensions/discord/api.js";
+} from "../../native-plugins/discord/api.js";
 export { DiscordConfigSchema } from "../config/zod-schema.providers-core.js";
 
 export {
@@ -67,20 +67,20 @@ export {
   createDiscordActionGate,
   listDiscordAccountIds,
   resolveDefaultDiscordAccountId,
-} from "../../extensions/discord/api.js";
-export { inspectDiscordAccount } from "../../extensions/discord/api.js";
+} from "../../native-plugins/discord/api.js";
+export { inspectDiscordAccount } from "../../native-plugins/discord/api.js";
 export {
   looksLikeDiscordTargetId,
   normalizeDiscordMessagingTarget,
   normalizeDiscordOutboundTarget,
-} from "../../extensions/discord/api.js";
-export { collectDiscordAuditChannelIds } from "../../extensions/discord/runtime-api.js";
-export { collectDiscordStatusIssues } from "../../extensions/discord/api.js";
+} from "../../native-plugins/discord/api.js";
+export { collectDiscordAuditChannelIds } from "../../native-plugins/discord/runtime-api.js";
+export { collectDiscordStatusIssues } from "../../native-plugins/discord/api.js";
 export {
   DISCORD_DEFAULT_INBOUND_WORKER_TIMEOUT_MS,
   DISCORD_DEFAULT_LISTENER_TIMEOUT_MS,
-} from "../../extensions/discord/runtime-api.js";
-export { normalizeExplicitDiscordSessionKey } from "../../extensions/discord/session-key-api.js";
+} from "../../native-plugins/discord/runtime-api.js";
+export { normalizeExplicitDiscordSessionKey } from "../../native-plugins/discord/session-key-api.js";
 export {
   autoBindSpawnedDiscordSubagent,
   getThreadBindingManager,
@@ -92,11 +92,11 @@ export {
   setThreadBindingIdleTimeoutBySessionKey,
   setThreadBindingMaxAgeBySessionKey,
   unbindThreadBindingsBySessionKey,
-} from "../../extensions/discord/runtime-api.js";
-export { getGateway } from "../../extensions/discord/runtime-api.js";
-export { getPresence } from "../../extensions/discord/runtime-api.js";
-export { readDiscordComponentSpec } from "../../extensions/discord/api.js";
-export { resolveDiscordChannelId } from "../../extensions/discord/api.js";
+} from "../../native-plugins/discord/runtime-api.js";
+export { getGateway } from "../../native-plugins/discord/runtime-api.js";
+export { getPresence } from "../../native-plugins/discord/runtime-api.js";
+export { readDiscordComponentSpec } from "../../native-plugins/discord/api.js";
+export { resolveDiscordChannelId } from "../../native-plugins/discord/api.js";
 export {
   addRoleDiscord,
   auditDiscordChannelPermissions,
@@ -148,5 +148,5 @@ export {
   unpinMessageDiscord,
   uploadEmojiDiscord,
   uploadStickerDiscord,
-} from "../../extensions/discord/runtime-api.js";
-export { discordMessageActions } from "../../extensions/discord/runtime-api.js";
+} from "../../native-plugins/discord/runtime-api.js";
+export { discordMessageActions } from "../../native-plugins/discord/runtime-api.js";

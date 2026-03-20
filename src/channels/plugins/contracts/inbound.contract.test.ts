@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { buildDiscordInboundAccessContext } from "../../../../extensions/discord/src/monitor/inbound-context.js";
-import type { ResolvedSlackAccount } from "../../../../extensions/slack/src/accounts.js";
-import type { SlackMessageEvent } from "../../../../extensions/slack/src/types.js";
+import { buildDiscordInboundAccessContext } from "../../../../native-plugins/discord/src/monitor/inbound-context.js";
+import type { ResolvedSlackAccount } from "../../../../native-plugins/slack/src/accounts.js";
+import type { SlackMessageEvent } from "../../../../native-plugins/slack/src/types.js";
 import type { MsgContext } from "../../../auto-reply/templating.js";
 import type { OpenClawConfig } from "../../../config/config.js";
 import { inboundCtxCapture } from "./inbound-testkit.js";
@@ -48,7 +48,7 @@ vi.mock("openclaw/plugin-sdk/channel-runtime", async (importOriginal) => {
   };
 });
 
-vi.mock("../../../../extensions/signal/src/send.js", () => ({
+vi.mock("../../../../native-plugins/signal/src/send.js", () => ({
   sendMessageSignal: vi.fn(),
   sendTypingSignal: vi.fn(async () => true),
   sendReadReceiptSignal: vi.fn(async () => true),
@@ -59,7 +59,7 @@ vi.mock("../../../pairing/pairing-store.js", () => ({
   upsertChannelPairingRequest: vi.fn(),
 }));
 
-vi.mock("../../../../extensions/whatsapp/src/auto-reply/monitor/last-route.js", () => ({
+vi.mock("../../../../native-plugins/whatsapp/src/auto-reply/monitor/last-route.js", () => ({
   trackBackgroundTask: (tasks: Set<Promise<unknown>>, task: Promise<unknown>) => {
     tasks.add(task);
     void task.finally(() => {
@@ -69,17 +69,17 @@ vi.mock("../../../../extensions/whatsapp/src/auto-reply/monitor/last-route.js", 
   updateLastRouteInBackground: vi.fn(),
 }));
 
-vi.mock("../../../../extensions/whatsapp/src/auto-reply/deliver-reply.js", () => ({
+vi.mock("../../../../native-plugins/whatsapp/src/auto-reply/deliver-reply.js", () => ({
   deliverWebReply: vi.fn(async () => {}),
 }));
 
 const { finalizeInboundContext } = await import("../../../auto-reply/reply/inbound-context.js");
 const { prepareSlackMessage } =
-  await import("../../../../extensions/slack/src/monitor/message-handler/prepare.js");
+  await import("../../../../native-plugins/slack/src/monitor/message-handler/prepare.js");
 const { createInboundSlackTestContext } =
-  await import("../../../../extensions/slack/src/monitor/message-handler/prepare.test-helpers.js");
+  await import("../../../../native-plugins/slack/src/monitor/message-handler/prepare.test-helpers.js");
 const { buildTelegramMessageContextForTest } =
-  await import("../../../../extensions/telegram/src/bot-message-context.test-harness.js");
+  await import("../../../../native-plugins/telegram/src/bot-message-context.test-harness.js");
 
 function createSlackAccount(config: ResolvedSlackAccount["config"] = {}): ResolvedSlackAccount {
   return {

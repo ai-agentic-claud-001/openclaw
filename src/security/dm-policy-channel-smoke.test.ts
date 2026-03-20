@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { isAllowedBlueBubblesSender } from "../../extensions/bluebubbles/src/targets.js";
-import { isMattermostSenderAllowed } from "../../extensions/mattermost/src/mattermost/monitor-auth.js";
-import { isSignalSenderAllowed, type SignalSender } from "../../extensions/signal/src/identity.js";
+import { isAllowedBlueBubblesSender } from "../../native-plugins/bluebubbles/src/targets.js";
+import { isMattermostSenderAllowed } from "../../native-plugins/mattermost/src/mattermost/monitor-auth.js";
+import {
+  isSignalSenderAllowed,
+  type SignalSender,
+} from "../../native-plugins/signal/src/identity.js";
 import { DM_GROUP_ACCESS_REASON, resolveDmGroupAccessWithLists } from "./dm-policy-shared.js";
 
 type ChannelSmokeCase = {

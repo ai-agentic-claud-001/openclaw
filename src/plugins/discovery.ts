@@ -6,12 +6,16 @@ import { detectBundleManifestFormat, loadBundleManifest } from "./bundle-manifes
 import {
   DEFAULT_PLUGIN_ENTRY_CANDIDATES,
   getPackageManifestMetadata,
-  resolvePackageExtensionEntries,
+  resolvePackagePluginEntries,
   type OpenClawPackageManifest,
   type PackageManifest,
 } from "./manifest.js";
 import { formatPosixMode, isPathInside, safeRealpathSync, safeStatSync } from "./path-safety.js";
-import { resolvePluginCacheInputs, resolvePluginSourceRoots } from "./roots.js";
+import {
+  resolvePluginCacheInputs,
+  resolvePluginSourceRootCandidates,
+  resolvePluginSourceRoots,
+} from "./roots.js";
 import type { PluginBundleFormat, PluginDiagnostic, PluginFormat, PluginOrigin } from "./types.js";
 
 const EXTENSION_EXTS = new Set([".ts", ".js", ".mts", ".cts", ".mjs", ".cjs"]);
@@ -88,8 +92,12 @@ function buildDiscoveryCacheKey(params: {
     loadPaths: params.extraPaths,
     env: params.env,
   });
-  const workspaceKey = roots.workspace ?? "";
-  const configExtensionsRoot = roots.global ?? "";
+  const autoRoots = resolvePluginSourceRootCandidates({
+    workspaceDir: params.workspaceDir,
+    env: params.env,
+  });
+  const workspaceKey = JSON.stringify(autoRoots.workspace);
+  const configExtensionsRoot = JSON.stringify(autoRoots.global);
   const bundledRoot = roots.stock ?? "";
   const ownershipUid = params.ownershipUid ?? currentUid();
   return `${workspaceKey}::${ownershipUid ?? "none"}::${configExtensionsRoot}::${bundledRoot}::${JSON.stringify(loadPaths)}`;
@@ -528,7 +536,7 @@ function discoverInDirectory(params: {
 
     const rejectHardlinks = params.origin !== "bundled";
     const manifest = readPackageManifest(fullPath, rejectHardlinks);
-    const extensionResolution = resolvePackageExtensionEntries(manifest ?? undefined);
+    const extensionResolution = resolvePackagePluginEntries(manifest ?? undefined);
     const extensions = extensionResolution.status === "ok" ? extensionResolution.entries : [];
     const setupEntryPath = getPackageManifestMetadata(manifest ?? undefined)?.setupEntry;
     const setupSource =
@@ -658,7 +666,7 @@ function discoverFromPath(params: {
   if (stat.isDirectory()) {
     const rejectHardlinks = params.origin !== "bundled";
     const manifest = readPackageManifest(resolved, rejectHardlinks);
-    const extensionResolution = resolvePackageExtensionEntries(manifest ?? undefined);
+    const extensionResolution = resolvePackagePluginEntries(manifest ?? undefined);
     const extensions = extensionResolution.status === "ok" ? extensionResolution.entries : [];
     const setupEntryPath = getPackageManifestMetadata(manifest ?? undefined)?.setupEntry;
     const setupSource =
@@ -782,6 +790,7 @@ export function discoverOpenClawPlugins(params: {
   const workspaceDir = params.workspaceDir?.trim();
   const workspaceRoot = workspaceDir ? resolveUserPath(workspaceDir, env) : undefined;
   const roots = resolvePluginSourceRoots({ workspaceDir: workspaceRoot, env });
+  const rootCandidates = resolvePluginSourceRootCandidates({ workspaceDir: workspaceRoot, env });
 
   const extra = params.extraPaths ?? [];
   for (const extraPath of extra) {
@@ -803,9 +812,9 @@ export function discoverOpenClawPlugins(params: {
       seen,
     });
   }
-  if (roots.workspace && workspaceRoot) {
+  for (const workspacePluginRoot of rootCandidates.workspace) {
     discoverInDirectory({
-      dir: roots.workspace,
+      dir: workspacePluginRoot,
       origin: "workspace",
       ownershipUid: params.ownershipUid,
       workspaceDir: workspaceRoot,
@@ -826,16 +835,18 @@ export function discoverOpenClawPlugins(params: {
     });
   }
 
-  // Keep auto-discovered global extensions behind bundled plugins.
+  // Keep auto-discovered global native plugins behind bundled plugins.
   // Users can still intentionally override via plugins.load.paths (origin=config).
-  discoverInDirectory({
-    dir: roots.global,
-    origin: "global",
-    ownershipUid: params.ownershipUid,
-    candidates,
-    diagnostics,
-    seen,
-  });
+  for (const globalPluginRoot of rootCandidates.global) {
+    discoverInDirectory({
+      dir: globalPluginRoot,
+      origin: "global",
+      ownershipUid: params.ownershipUid,
+      candidates,
+      diagnostics,
+      seen,
+    });
+  }
 
   const result = { candidates, diagnostics };
   if (cacheEnabled) {

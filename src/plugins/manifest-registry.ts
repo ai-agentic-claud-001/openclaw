@@ -6,7 +6,7 @@ import { normalizePluginsConfig, type NormalizedPluginsConfig } from "./config-s
 import { discoverOpenClawPlugins, type PluginCandidate } from "./discovery.js";
 import { loadPluginManifest, type PluginManifest } from "./manifest.js";
 import { isPathInside, safeRealpathSync } from "./path-safety.js";
-import { resolvePluginCacheInputs } from "./roots.js";
+import { resolvePluginCacheInputs, resolvePluginSourceRootCandidates } from "./roots.js";
 import type {
   PluginBundleFormat,
   PluginConfigUiHint,
@@ -106,8 +106,12 @@ function buildCacheKey(params: {
     loadPaths: params.plugins.loadPaths,
     env: params.env,
   });
-  const workspaceKey = roots.workspace ?? "";
-  const configExtensionsRoot = roots.global;
+  const autoRoots = resolvePluginSourceRootCandidates({
+    workspaceDir: params.workspaceDir,
+    env: params.env,
+  });
+  const workspaceKey = JSON.stringify(autoRoots.workspace);
+  const configExtensionsRoot = JSON.stringify(autoRoots.global);
   const bundledRoot = roots.stock ?? "";
   // The manifest registry only depends on where plugins are discovered from (workspace + load paths).
   // It does not depend on allow/deny/entries enable-state, so exclude those for higher cache hit rates.

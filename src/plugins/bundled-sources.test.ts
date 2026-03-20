@@ -33,19 +33,19 @@ describe("bundled plugin sources", () => {
         },
         {
           origin: "bundled",
-          rootDir: "/app/extensions/feishu",
+          rootDir: "/app/native-plugins/feishu",
           packageName: "@openclaw/feishu",
           packageManifest: { install: { npmSpec: "@openclaw/feishu" } },
         },
         {
           origin: "bundled",
-          rootDir: "/app/extensions/feishu-dup",
+          rootDir: "/app/native-plugins/feishu-dup",
           packageName: "@openclaw/feishu",
           packageManifest: { install: { npmSpec: "@openclaw/feishu" } },
         },
         {
           origin: "bundled",
-          rootDir: "/app/extensions/msteams",
+          rootDir: "/app/native-plugins/msteams",
           packageName: "@openclaw/msteams",
           packageManifest: { install: { npmSpec: "@openclaw/msteams" } },
         },
@@ -54,10 +54,10 @@ describe("bundled plugin sources", () => {
     });
 
     loadPluginManifestMock.mockImplementation((rootDir: string) => {
-      if (rootDir === "/app/extensions/feishu") {
+      if (rootDir === "/app/native-plugins/feishu") {
         return { ok: true, manifest: { id: "feishu" } };
       }
-      if (rootDir === "/app/extensions/msteams") {
+      if (rootDir === "/app/native-plugins/msteams") {
         return { ok: true, manifest: { id: "msteams" } };
       }
       return {
@@ -72,7 +72,7 @@ describe("bundled plugin sources", () => {
     expect(Array.from(map.keys())).toEqual(["feishu", "msteams"]);
     expect(map.get("feishu")).toEqual({
       pluginId: "feishu",
-      localPath: "/app/extensions/feishu",
+      localPath: "/app/native-plugins/feishu",
       npmSpec: "@openclaw/feishu",
     });
   });
@@ -82,7 +82,7 @@ describe("bundled plugin sources", () => {
       candidates: [
         {
           origin: "bundled",
-          rootDir: "/app/extensions/feishu",
+          rootDir: "/app/native-plugins/feishu",
           packageName: "@openclaw/feishu",
           packageManifest: { install: { npmSpec: "@openclaw/feishu" } },
         },
@@ -99,7 +99,7 @@ describe("bundled plugin sources", () => {
     });
 
     expect(resolved?.pluginId).toBe("feishu");
-    expect(resolved?.localPath).toBe("/app/extensions/feishu");
+    expect(resolved?.localPath).toBe("/app/native-plugins/feishu");
     expect(missing).toBeUndefined();
   });
 
@@ -136,7 +136,7 @@ describe("bundled plugin sources", () => {
       candidates: [
         {
           origin: "bundled",
-          rootDir: "/app/extensions/diffs",
+          rootDir: "/app/native-plugins/diffs",
           packageName: "@openclaw/diffs",
           packageManifest: { install: { npmSpec: "@openclaw/diffs" } },
         },
@@ -153,7 +153,7 @@ describe("bundled plugin sources", () => {
     });
 
     expect(resolved?.pluginId).toBe("diffs");
-    expect(resolved?.localPath).toBe("/app/extensions/diffs");
+    expect(resolved?.localPath).toBe("/app/native-plugins/diffs");
     expect(missing).toBeUndefined();
   });
 
@@ -163,7 +163,7 @@ describe("bundled plugin sources", () => {
         "feishu",
         {
           pluginId: "feishu",
-          localPath: "/app/extensions/feishu",
+          localPath: "/app/native-plugins/feishu",
           npmSpec: "@openclaw/feishu",
         },
       ],
@@ -176,7 +176,7 @@ describe("bundled plugin sources", () => {
       }),
     ).toEqual({
       pluginId: "feishu",
-      localPath: "/app/extensions/feishu",
+      localPath: "/app/native-plugins/feishu",
       npmSpec: "@openclaw/feishu",
     });
     expect(

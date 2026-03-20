@@ -1,5 +1,5 @@
 // Narrow plugin-sdk surface for the bundled bluebubbles plugin.
-// Keep this list additive and scoped to symbols used under extensions/bluebubbles.
+// Keep this list additive and scoped to symbols used under native-plugins/bluebubbles.
 
 export { resolveAckReaction } from "../agents/identity.js";
 export {
@@ -28,7 +28,7 @@ export { buildChannelConfigSchema } from "../channels/plugins/config-schema.js";
 export {
   resolveBlueBubblesGroupRequireMention,
   resolveBlueBubblesGroupToolPolicy,
-} from "../../extensions/bluebubbles/runtime-api.js";
+} from "../../native-plugins/bluebubbles/runtime-api.js";
 export { formatPairingApproveHint } from "../channels/plugins/helpers.js";
 export { resolveChannelMediaMaxBytes } from "../channels/plugins/media-limits.js";
 export {
@@ -56,13 +56,13 @@ export type { OpenClawConfig } from "../config/config.js";
 export type { DmPolicy, GroupPolicy } from "../config/types.js";
 export { ToolPolicySchema } from "../config/zod-schema.agent-runtime.js";
 export { MarkdownConfigSchema } from "../config/zod-schema.core.js";
-export type { ParsedChatTarget } from "../../extensions/imessage/api.js";
+export type { ParsedChatTarget } from "../../native-plugins/imessage/api.js";
 export {
   parseChatAllowTargetPrefixes,
   parseChatTargetPrefixesOrThrow,
   resolveServicePrefixedAllowTarget,
   resolveServicePrefixedTarget,
-} from "../../extensions/imessage/api.js";
+} from "../../native-plugins/imessage/api.js";
 export { stripMarkdown } from "../line/markdown-to-line.js";
 export { parseFiniteNumber } from "../infra/parse-finite-number.js";
 export { emptyPluginConfigSchema } from "../plugins/config-schema.js";

@@ -109,8 +109,8 @@ function applyGatewaySkipEnv() {
   process.env.OPENCLAW_SKIP_CRON = "1";
   process.env.OPENCLAW_TEST_MINIMAL_GATEWAY = "1";
   process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = tempHome
-    ? path.join(tempHome, "openclaw-test-no-bundled-extensions")
-    : "openclaw-test-no-bundled-extensions";
+    ? path.join(tempHome, "openclaw-test-no-bundled-native-plugins")
+    : "openclaw-test-no-bundled-native-plugins";
 }
 
 async function resetGatewayTestState(options: { uniqueConfigRoot: boolean }) {

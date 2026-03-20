@@ -37,35 +37,35 @@ vi.mock("../gateway/call.js", () => ({
 }));
 
 const webAuthExists = vi.hoisted(() => vi.fn(async () => false));
-vi.mock("../../extensions/whatsapp/src/session.js", () => ({
+vi.mock("../../native-plugins/whatsapp/src/session.js", () => ({
   webAuthExists,
 }));
 
 const handleDiscordAction = vi.hoisted(() =>
   vi.fn(async (..._args: unknown[]) => ({ details: { ok: true } })),
 );
-vi.mock("../../extensions/discord/src/actions/runtime.js", () => ({
+vi.mock("../../native-plugins/discord/src/actions/runtime.js", () => ({
   handleDiscordAction,
 }));
 
 const handleSlackAction = vi.hoisted(() =>
   vi.fn(async (..._args: unknown[]) => ({ details: { ok: true } })),
 );
-vi.mock("../../extensions/slack/runtime-api.js", () => ({
+vi.mock("../../native-plugins/slack/runtime-api.js", () => ({
   handleSlackAction,
 }));
 
 const handleTelegramAction = vi.hoisted(() =>
   vi.fn(async (..._args: unknown[]) => ({ details: { ok: true } })),
 );
-vi.mock("../../extensions/telegram/src/action-runtime.js", () => ({
+vi.mock("../../native-plugins/telegram/src/action-runtime.js", () => ({
   handleTelegramAction,
 }));
 
 const handleWhatsAppAction = vi.hoisted(() =>
   vi.fn(async (..._args: unknown[]) => ({ details: { ok: true } })),
 );
-vi.mock("../../extensions/whatsapp/runtime-api.js", () => ({
+vi.mock("../../native-plugins/whatsapp/runtime-api.js", () => ({
   handleWhatsAppAction,
 }));
 

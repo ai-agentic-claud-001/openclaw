@@ -64,15 +64,15 @@ function collectPluginSourceFiles(rootDir: string): string[] {
   return files;
 }
 
-function collectSharedExtensionSourceFiles(): string[] {
-  return collectPluginSourceFiles(path.join(process.cwd(), "extensions", "shared"));
+function collectSharedNativePluginSourceFiles(): string[] {
+  return collectPluginSourceFiles(path.join(process.cwd(), "native-plugins", "shared"));
 }
 
-function collectBundledExtensionSourceFiles(): string[] {
-  const extensionsDir = path.join(process.cwd(), "extensions");
+function collectBundledNativePluginSourceFiles(): string[] {
+  const nativePluginsDir = path.join(process.cwd(), "native-plugins");
   let entries: fs.Dirent[] = [];
   try {
-    entries = fs.readdirSync(extensionsDir, { withFileTypes: true });
+    entries = fs.readdirSync(nativePluginsDir, { withFileTypes: true });
   } catch {
     return [];
   }
@@ -82,7 +82,7 @@ function collectBundledExtensionSourceFiles(): string[] {
     if (!entry.isDirectory() || entry.name === "shared") {
       continue;
     }
-    for (const srcFile of collectPluginSourceFiles(path.join(extensionsDir, entry.name))) {
+    for (const srcFile of collectPluginSourceFiles(path.join(nativePluginsDir, entry.name))) {
       files.push(srcFile);
     }
   }
@@ -99,11 +99,11 @@ function main() {
       filesToCheck.add(srcFile);
     }
   }
-  for (const sharedFile of collectSharedExtensionSourceFiles()) {
+  for (const sharedFile of collectSharedNativePluginSourceFiles()) {
     filesToCheck.add(sharedFile);
   }
-  for (const extensionFile of collectBundledExtensionSourceFiles()) {
-    filesToCheck.add(extensionFile);
+  for (const nativePluginFile of collectBundledNativePluginSourceFiles()) {
+    filesToCheck.add(nativePluginFile);
   }
 
   const monolithicOffenders: string[] = [];

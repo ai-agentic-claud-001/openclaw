@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 export const DEFAULT_REPO_SCAN_SKIP_DIR_NAMES = new Set([".git", "dist", "node_modules"]);
-export const DEFAULT_RUNTIME_SOURCE_ROOTS = ["src", "extensions"] as const;
+export const DEFAULT_RUNTIME_SOURCE_ROOTS = ["src", "native-plugins"] as const;
 export const DEFAULT_RUNTIME_SOURCE_EXTENSIONS = [".ts", ".tsx"] as const;
 export const RUNTIME_SOURCE_SKIP_PATTERNS = [
   /\.test\.tsx?$/,
@@ -73,7 +73,7 @@ export async function listRepoFiles(
         pending.push({ absolutePath });
       }
     } catch {
-      // Skip missing roots. Useful when extensions/ is absent.
+      // Skip missing roots. Useful when native-plugins/ is absent.
     }
   }
 

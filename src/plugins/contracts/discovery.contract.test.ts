@@ -132,8 +132,10 @@ describe("provider discovery contract", () => {
         listProfilesForProvider: listProfilesForProviderMock,
       };
     });
-    vi.doMock("../../../extensions/github-copilot/token.js", async () => {
-      const actual = await vi.importActual<object>("../../../extensions/github-copilot/token.js");
+    vi.doMock("../../../native-plugins/github-copilot/token.js", async () => {
+      const actual = await vi.importActual<object>(
+        "../../../native-plugins/github-copilot/token.js",
+      );
       return {
         ...actual,
         resolveCopilotApiToken: resolveCopilotApiTokenMock,
@@ -177,14 +179,14 @@ describe("provider discovery contract", () => {
       { default: modelStudioPlugin },
       { default: cloudflareAiGatewayPlugin },
     ] = await Promise.all([
-      import("../../../extensions/qwen-portal-auth/index.js"),
-      import("../../../extensions/github-copilot/index.js"),
-      import("../../../extensions/ollama/index.js"),
-      import("../../../extensions/vllm/index.js"),
-      import("../../../extensions/sglang/index.js"),
-      import("../../../extensions/minimax/index.js"),
-      import("../../../extensions/modelstudio/index.js"),
-      import("../../../extensions/cloudflare-ai-gateway/index.js"),
+      import("../../../native-plugins/qwen-portal-auth/index.js"),
+      import("../../../native-plugins/github-copilot/index.js"),
+      import("../../../native-plugins/ollama/index.js"),
+      import("../../../native-plugins/vllm/index.js"),
+      import("../../../native-plugins/sglang/index.js"),
+      import("../../../native-plugins/minimax/index.js"),
+      import("../../../native-plugins/modelstudio/index.js"),
+      import("../../../native-plugins/cloudflare-ai-gateway/index.js"),
     ]);
     qwenPortalProvider = requireProvider(registerProviders(qwenPortalPlugin), "qwen-portal");
     githubCopilotProvider = requireProvider(

@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { __testing as discordTesting } from "../../../../extensions/discord/src/monitor/provider.js";
-import { __testing as imessageTesting } from "../../../../extensions/imessage/src/monitor/monitor-provider.js";
-import { __testing as slackTesting } from "../../../../extensions/slack/src/monitor/provider.js";
-import { resolveTelegramRuntimeGroupPolicy } from "../../../../extensions/telegram/src/group-access.js";
-import { __testing as whatsappTesting } from "../../../../extensions/whatsapp/src/inbound/access-control.js";
-import { __testing as zaloTesting } from "../../../../extensions/zalo/src/monitor.js";
+import { __testing as discordTesting } from "../../../../native-plugins/discord/src/monitor/provider.js";
+import { __testing as imessageTesting } from "../../../../native-plugins/imessage/src/monitor/monitor-provider.js";
+import { __testing as slackTesting } from "../../../../native-plugins/slack/src/monitor/provider.js";
+import { resolveTelegramRuntimeGroupPolicy } from "../../../../native-plugins/telegram/src/group-access.js";
+import { __testing as whatsappTesting } from "../../../../native-plugins/whatsapp/src/inbound/access-control.js";
+import { __testing as zaloTesting } from "../../../../native-plugins/zalo/src/monitor.js";
 import { installChannelRuntimeGroupPolicyFallbackSuite } from "./suites.js";
 
 describe("channel runtime group policy contract", () => {

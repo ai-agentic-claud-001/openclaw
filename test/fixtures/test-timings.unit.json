@@ -51,11 +51,11 @@
       "durationMs": 3700,
       "testCount": 110
     },
-    "extensions/telegram/src/bot.create-telegram-bot.test.ts": {
+    "native-plugins/telegram/src/bot.create-telegram-bot.test.ts": {
       "durationMs": 3600,
       "testCount": 80
     },
-    "extensions/telegram/src/bot.test.ts": {
+    "native-plugins/telegram/src/bot.test.ts": {
       "durationMs": 3400,
       "testCount": 95
     },
@@ -95,7 +95,7 @@
       "durationMs": 2500,
       "testCount": 50
     },
-    "extensions/slack/src/monitor/slash.test.ts": {
+    "native-plugins/slack/src/monitor/slash.test.ts": {
       "durationMs": 2400,
       "testCount": 55
     },
@@ -163,11 +163,11 @@
       "durationMs": 1520,
       "testCount": 16
     },
-    "extensions/whatsapp/src/media.test.ts": {
+    "native-plugins/whatsapp/src/media.test.ts": {
       "durationMs": 1510,
       "testCount": 16
     },
-    "extensions/whatsapp/src/auto-reply.web-auto-reply.falls-back-text-media-send-fails.test.ts": {
+    "native-plugins/whatsapp/src/auto-reply.web-auto-reply.falls-back-text-media-send-fails.test.ts": {
       "durationMs": 1500,
       "testCount": 10
     },
@@ -187,7 +187,7 @@
       "durationMs": 1460,
       "testCount": 15
     },
-    "extensions/acpx/src/runtime.test.ts": {
+    "native-plugins/acpx/src/runtime.test.ts": {
       "durationMs": 1450,
       "testCount": 12
     },
@@ -219,7 +219,7 @@
       "durationMs": 1380,
       "testCount": 10
     },
-    "extensions/whatsapp/src/auto-reply.web-auto-reply.compresses-common-formats-jpeg-cap.test.ts": {
+    "native-plugins/whatsapp/src/auto-reply.web-auto-reply.compresses-common-formats-jpeg-cap.test.ts": {
       "durationMs": 1370,
       "testCount": 10
     }

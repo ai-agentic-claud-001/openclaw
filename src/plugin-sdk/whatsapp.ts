@@ -1,8 +1,11 @@
 export type { ChannelMessageActionName } from "../channels/plugins/types.js";
 export type { OpenClawConfig } from "../config/config.js";
 export type { DmPolicy, GroupPolicy, WhatsAppAccountConfig } from "../config/types.js";
-export type { WebChannelStatus, WebMonitorTuning } from "../../extensions/whatsapp/api.js";
-export type { WebInboundMessage, WebListenerCloseReason } from "../../extensions/whatsapp/api.js";
+export type { WebChannelStatus, WebMonitorTuning } from "../../native-plugins/whatsapp/api.js";
+export type {
+  WebInboundMessage,
+  WebListenerCloseReason,
+} from "../../native-plugins/whatsapp/api.js";
 export type {
   ChannelMessageActionContext,
   ChannelPlugin,
@@ -33,7 +36,7 @@ export { normalizeWhatsAppAllowFromEntries } from "../channels/plugins/normalize
 export {
   listWhatsAppDirectoryGroupsFromConfig,
   listWhatsAppDirectoryPeersFromConfig,
-} from "../../extensions/whatsapp/api.js";
+} from "../../native-plugins/whatsapp/api.js";
 export {
   collectAllowlistProviderGroupPolicyWarnings,
   collectOpenGroupPolicyRouteAllowlistWarnings,
@@ -49,7 +52,7 @@ export {
 export {
   resolveWhatsAppGroupRequireMention,
   resolveWhatsAppGroupToolPolicy,
-} from "../../extensions/whatsapp/api.js";
+} from "../../native-plugins/whatsapp/api.js";
 export {
   createWhatsAppOutboundBase,
   resolveWhatsAppGroupIntroHint,
@@ -66,7 +69,7 @@ export {
   hasAnyWhatsAppAuth,
   listEnabledWhatsAppAccounts,
   resolveWhatsAppAccount,
-} from "../../extensions/whatsapp/api.js";
+} from "../../native-plugins/whatsapp/api.js";
 export {
   HEARTBEAT_PROMPT,
   HEARTBEAT_TOKEN,
@@ -96,7 +99,7 @@ export {
   startWebLoginWithQr,
   waitForWebLogin,
 } from "../plugins/runtime/runtime-whatsapp-boundary.js";
-export { DEFAULT_WEB_MEDIA_BYTES } from "../../extensions/whatsapp/api.js";
+export { DEFAULT_WEB_MEDIA_BYTES } from "../../native-plugins/whatsapp/api.js";
 export {
   getDefaultLocalRoots,
   loadWebMedia,

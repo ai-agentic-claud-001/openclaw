@@ -1,5 +1,5 @@
 // Narrow plugin-sdk surface for the bundled llm-task plugin.
-// Keep this list additive and scoped to symbols used under extensions/llm-task.
+// Keep this list additive and scoped to symbols used under native-plugins/llm-task.
 
 export { definePluginEntry } from "./core.js";
 export { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";

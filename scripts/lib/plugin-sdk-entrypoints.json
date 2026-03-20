@@ -71,6 +71,7 @@
   "device-pair",
   "diagnostics-otel",
   "diffs",
+  "native-plugin-shared",
   "extension-shared",
   "channel-config-helpers",
   "channel-config-schema",

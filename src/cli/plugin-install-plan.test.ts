@@ -10,7 +10,7 @@ describe("plugin install plan helpers", () => {
   it("prefers bundled plugin for bare plugin-id specs", () => {
     const findBundledSource = vi.fn().mockReturnValue({
       pluginId: "voice-call",
-      localPath: "/tmp/extensions/voice-call",
+      localPath: "/tmp/native-plugins/voice-call",
       npmSpec: "@openclaw/voice-call",
     });
 
@@ -42,7 +42,7 @@ describe("plugin install plan helpers", () => {
         if (kind === "pluginId" && value === "voice-call") {
           return {
             pluginId: "voice-call",
-            localPath: "/tmp/extensions/voice-call",
+            localPath: "/tmp/native-plugins/voice-call",
             npmSpec: "@openclaw/voice-call",
           };
         }
@@ -56,7 +56,7 @@ describe("plugin install plan helpers", () => {
     });
 
     expect(findBundledSource).toHaveBeenCalledWith({ kind: "pluginId", value: "voice-call" });
-    expect(result?.bundledSource.localPath).toBe("/tmp/extensions/voice-call");
+    expect(result?.bundledSource.localPath).toBe("/tmp/native-plugins/voice-call");
   });
 
   it("rejects npm-spec matches that resolve to a different plugin id", () => {
@@ -66,7 +66,7 @@ describe("plugin install plan helpers", () => {
         if (kind === "npmSpec") {
           return {
             pluginId: "not-voice-call",
-            localPath: "/tmp/extensions/not-voice-call",
+            localPath: "/tmp/native-plugins/not-voice-call",
             npmSpec: "@openclaw/voice-call",
           };
         }
@@ -85,7 +85,7 @@ describe("plugin install plan helpers", () => {
   it("uses npm-spec bundled fallback only for package-not-found", () => {
     const findBundledSource = vi.fn().mockReturnValue({
       pluginId: "voice-call",
-      localPath: "/tmp/extensions/voice-call",
+      localPath: "/tmp/native-plugins/voice-call",
       npmSpec: "@openclaw/voice-call",
     });
     const result = resolveBundledInstallPlanForNpmFailure({

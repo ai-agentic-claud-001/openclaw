@@ -165,8 +165,8 @@ function copyDeclaredPluginSkillPaths(params) {
 
 export function copyBundledPluginMetadata(params = {}) {
   const repoRoot = params.cwd ?? params.repoRoot ?? process.cwd();
-  const extensionsRoot = path.join(repoRoot, "extensions");
-  const distExtensionsRoot = path.join(repoRoot, "dist", "extensions");
+  const extensionsRoot = path.join(repoRoot, "native-plugins");
+  const distExtensionsRoot = path.join(repoRoot, "dist", "native-plugins");
   if (!fs.existsSync(extensionsRoot)) {
     return;
   }
@@ -211,10 +211,10 @@ export function copyBundledPluginMetadata(params = {}) {
     }
 
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
-    if (packageJson.openclaw && "extensions" in packageJson.openclaw) {
+    if (packageJson.openclaw && "plugins" in packageJson.openclaw) {
       packageJson.openclaw = {
         ...packageJson.openclaw,
-        extensions: rewritePackageExtensions(packageJson.openclaw.extensions),
+        plugins: rewritePackageExtensions(packageJson.openclaw.plugins),
         ...(typeof packageJson.openclaw.setupEntry === "string"
           ? { setupEntry: rewritePackageEntry(packageJson.openclaw.setupEntry) }
           : {}),

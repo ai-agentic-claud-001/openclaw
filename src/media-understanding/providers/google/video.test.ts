@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { describeGeminiVideo } from "../../../../extensions/google/media-understanding-provider.js";
+import { describeGeminiVideo } from "../../../../native-plugins/google/media-understanding-provider.js";
 import * as ssrf from "../../../infra/net/ssrf.js";
 import { withFetchPreconnect } from "../../../test-utils/fetch-mock.js";
 import { createRequestCaptureJsonFetch } from "../audio.test-helpers.js";

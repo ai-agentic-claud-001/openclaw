@@ -2,10 +2,19 @@ import path from "node:path";
 import { resolveConfigDir, resolveUserPath } from "../utils.js";
 import { resolveBundledPluginsDir } from "./bundled-dir.js";
 
+const PREFERRED_PLUGIN_STATE_DIRNAME = "plugins";
+const LEGACY_PLUGIN_STATE_DIRNAME = "extensions";
+
 export type PluginSourceRoots = {
   stock?: string;
   global: string;
   workspace?: string;
+};
+
+export type PluginSourceRootCandidates = {
+  stock?: string;
+  global: string[];
+  workspace: string[];
 };
 
 export type PluginCacheInputs = {
@@ -20,9 +29,31 @@ export function resolvePluginSourceRoots(params: {
   const env = params.env ?? process.env;
   const workspaceRoot = params.workspaceDir ? resolveUserPath(params.workspaceDir, env) : undefined;
   const stock = resolveBundledPluginsDir(env);
-  const global = path.join(resolveConfigDir(env), "extensions");
-  const workspace = workspaceRoot ? path.join(workspaceRoot, ".openclaw", "extensions") : undefined;
+  const global = path.join(resolveConfigDir(env), PREFERRED_PLUGIN_STATE_DIRNAME);
+  const workspace = workspaceRoot
+    ? path.join(workspaceRoot, ".openclaw", PREFERRED_PLUGIN_STATE_DIRNAME)
+    : undefined;
   return { stock, global, workspace };
+}
+
+export function resolvePluginSourceRootCandidates(params: {
+  workspaceDir?: string;
+  env?: NodeJS.ProcessEnv;
+}): PluginSourceRootCandidates {
+  const env = params.env ?? process.env;
+  const workspaceRoot = params.workspaceDir ? resolveUserPath(params.workspaceDir, env) : undefined;
+  const configDir = resolveConfigDir(env);
+  const global = [
+    path.join(configDir, PREFERRED_PLUGIN_STATE_DIRNAME),
+    path.join(configDir, LEGACY_PLUGIN_STATE_DIRNAME),
+  ];
+  const workspace = workspaceRoot
+    ? [
+        path.join(workspaceRoot, ".openclaw", PREFERRED_PLUGIN_STATE_DIRNAME),
+        path.join(workspaceRoot, ".openclaw", LEGACY_PLUGIN_STATE_DIRNAME),
+      ]
+    : [];
+  return { stock: resolveBundledPluginsDir(env), global, workspace };
 }
 
 // Shared env-aware cache inputs for discovery, manifest, and loader caches.

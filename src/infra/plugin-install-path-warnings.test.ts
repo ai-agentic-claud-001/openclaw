@@ -66,12 +66,12 @@ describe("plugin install path warnings", () => {
         issue: issue!,
         pluginLabel: "Matrix",
         defaultInstallCommand: "openclaw plugins install @openclaw/matrix",
-        repoInstallCommand: "openclaw plugins install ./extensions/matrix",
+        repoInstallCommand: "openclaw plugins install ./native-plugins/matrix",
       }),
     ).toEqual([
       "Matrix is installed from a custom path that no longer exists: /tmp/openclaw-matrix-missing",
       'Reinstall with "openclaw plugins install @openclaw/matrix".',
-      'If you are running from a repo checkout, you can also use "openclaw plugins install ./extensions/matrix".',
+      'If you are running from a repo checkout, you can also use "openclaw plugins install ./native-plugins/matrix".',
     ]);
   });
 
@@ -105,14 +105,14 @@ describe("plugin install path warnings", () => {
         },
         pluginLabel: "Matrix",
         defaultInstallCommand: "openclaw plugins install @openclaw/matrix",
-        repoInstallCommand: "openclaw plugins install ./extensions/matrix",
+        repoInstallCommand: "openclaw plugins install ./native-plugins/matrix",
         formatCommand: (command) => `<${command}>`,
       }),
     ).toEqual([
       "Matrix is installed from a custom path: /tmp/matrix-plugin",
       "Main updates will not automatically replace that plugin with the repo's default Matrix package.",
       'Reinstall with "<openclaw plugins install @openclaw/matrix>" when you want to return to the standard Matrix plugin.',
-      'If you are intentionally running from a repo checkout, reinstall that checkout explicitly with "<openclaw plugins install ./extensions/matrix>" after updates.',
+      'If you are intentionally running from a repo checkout, reinstall that checkout explicitly with "<openclaw plugins install ./native-plugins/matrix>" after updates.',
     ]);
   });
 });

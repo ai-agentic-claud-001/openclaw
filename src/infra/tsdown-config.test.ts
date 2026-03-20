@@ -26,7 +26,7 @@ describe("tsdown config", () => {
         keys.includes("index") ||
         keys.includes("plugins/runtime/index") ||
         keys.includes("plugin-sdk/index") ||
-        keys.includes("extensions/openai/index") ||
+        keys.includes("native-plugins/openai/index") ||
         keys.includes("bundled/boot-md/handler")
       );
     });
@@ -37,7 +37,7 @@ describe("tsdown config", () => {
         "index",
         "plugins/runtime/index",
         "plugin-sdk/index",
-        "extensions/openai/index",
+        "native-plugins/openai/index",
         "bundled/boot-md/handler",
       ]),
     );

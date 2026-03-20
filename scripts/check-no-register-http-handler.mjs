@@ -4,7 +4,7 @@ import ts from "typescript";
 import { runCallsiteGuard } from "./lib/callsite-guard.mjs";
 import { runAsScript, toLine, unwrapExpression } from "./lib/ts-guard-utils.mjs";
 
-const sourceRoots = ["src", "extensions"];
+const sourceRoots = ["src", "native-plugins"];
 
 function isDeprecatedRegisterHttpHandlerCall(expression) {
   const callee = unwrapExpression(expression);

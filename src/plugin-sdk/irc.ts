@@ -1,5 +1,5 @@
 // Narrow plugin-sdk surface for the bundled irc plugin.
-// Keep this list additive and scoped to symbols used under extensions/irc.
+// Keep this list additive and scoped to symbols used under native-plugins/irc.
 
 export { resolveControlCommandGate } from "../channels/command-gating.js";
 export { logInboundDrop } from "../channels/logging.js";
@@ -62,7 +62,7 @@ export {
   listIrcAccountIds,
   resolveDefaultIrcAccountId,
   resolveIrcAccount,
-} from "../../extensions/irc/api.js";
+} from "../../native-plugins/irc/api.js";
 export {
   readStoreAllowFromForDmPolicy,
   resolveEffectiveAllowFromLists,
@@ -71,7 +71,7 @@ export { formatDocsLink } from "../terminal/links.js";
 export type { WizardPrompter } from "../wizard/prompts.js";
 export { createChannelPairingController } from "./channel-pairing.js";
 export { dispatchInboundReplyWithBase } from "./inbound-reply-dispatch.js";
-export { ircSetupAdapter, ircSetupWizard } from "../../extensions/irc/api.js";
+export { ircSetupAdapter, ircSetupWizard } from "../../native-plugins/irc/api.js";
 export type { OutboundReplyPayload } from "./reply-payload.js";
 export {
   createNormalizedOutboundDeliverer,

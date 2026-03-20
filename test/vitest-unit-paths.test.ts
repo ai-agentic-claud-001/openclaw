@@ -10,7 +10,9 @@ describe("isUnitConfigTestFile", () => {
 
   it("rejects files excluded from the unit config", () => {
     expect(
-      isUnitConfigTestFile("extensions/imessage/src/monitor.shutdown.unhandled-rejection.test.ts"),
+      isUnitConfigTestFile(
+        "native-plugins/imessage/src/monitor.shutdown.unhandled-rejection.test.ts",
+      ),
     ).toBe(false);
     expect(isUnitConfigTestFile("src/agents/pi-embedded-runner.test.ts")).toBe(false);
     expect(isUnitConfigTestFile("src/commands/onboard.test.ts")).toBe(false);

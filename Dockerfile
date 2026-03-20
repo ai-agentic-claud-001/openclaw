@@ -6,7 +6,7 @@
 # Multi-stage build produces a minimal runtime image without build tools,
 # source code, or Bun. Works with Docker, Buildx, and Podman.
 # The ext-deps stage extracts only the package.json files we need from
-# extensions/, so the main build layer is not invalidated by unrelated
+# native-plugins/, so the main build layer is not invalidated by unrelated
 # extension source changes.
 #
 # Two runtime variants:
@@ -30,9 +30,9 @@ COPY extensions /tmp/extensions
 # Copy package.json for opted-in extensions so pnpm resolves their deps.
 RUN mkdir -p /out && \
     for ext in $OPENCLAW_EXTENSIONS; do \
-      if [ -f "/tmp/extensions/$ext/package.json" ]; then \
+      if [ -f "/tmp/native-plugins/$ext/package.json" ]; then \
         mkdir -p "/out/$ext" && \
-        cp "/tmp/extensions/$ext/package.json" "/out/$ext/package.json"; \
+        cp "/tmp/native-plugins/$ext/package.json" "/out/$ext/package.json"; \
       fi; \
     done
 
@@ -61,7 +61,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY ui/package.json ./ui/package.json
 COPY patches ./patches
 
-COPY --from=ext-deps /out/ ./extensions/
+COPY --from=ext-deps /out/ ./native-plugins/
 
 # Reduce OOM risk on low-memory hosts during dependency installation.
 # Docker builds on small VMs may otherwise fail with "Killed" (exit 137).

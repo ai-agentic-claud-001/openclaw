@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import type { OpenClawConfig } from "../config/config.js";
 import type { PluginInstallRecord } from "../config/types.plugins.js";
-import { resolvePluginInstallDir } from "./install.js";
+import { resolveExistingPluginInstallDir, resolvePluginInstallDir } from "./install.js";
 import { defaultSlotIdForKey } from "./slots.js";
 
 export type UninstallActions = {
@@ -38,24 +38,29 @@ export function resolveUninstallDirectoryTarget(params: {
     return null;
   }
 
-  let defaultPath: string;
+  let preferredPath: string;
+  let existingPath: string;
   try {
-    defaultPath = resolvePluginInstallDir(params.pluginId, params.extensionsDir);
+    preferredPath = resolvePluginInstallDir(params.pluginId, params.extensionsDir);
+    existingPath = resolveExistingPluginInstallDir(params.pluginId, params.extensionsDir);
   } catch {
     return null;
   }
 
   const configuredPath = params.installRecord?.installPath;
   if (!configuredPath) {
-    return defaultPath;
+    return existingPath;
   }
 
-  if (path.resolve(configuredPath) === path.resolve(defaultPath)) {
+  if (
+    path.resolve(configuredPath) === path.resolve(preferredPath) ||
+    path.resolve(configuredPath) === path.resolve(existingPath)
+  ) {
     return configuredPath;
   }
 
   // Never trust configured installPath blindly for recursive deletes.
-  return defaultPath;
+  return existingPath;
 }
 
 /**
